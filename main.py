@@ -6,11 +6,11 @@ def appStarted(app):
 
     app.cellSize = min(app.width//app.cols, app.height//app.rows)
 
-    app.margins = 50
+    # app.margins = 50
 
-    app.board = [["gray" for col in range(app.cols)] for row in range(app.rows)]
+    app.defColor = "white"
 
-    app.timerDelay = 1000
+    app.board = [[defColor for col in range(app.cols)] for row in range(app.rows)]
 
 def timerFired(app):
     pass
@@ -19,7 +19,14 @@ def appStopped(app):
     pass
 
 def keyPressed(app, event):
-    pass
+    x, y = event.x, event.y
+    # also probably check if clicked special edit button(s?)
+    if 0 <= x <= app.cols*app.size and 0 <= y <= app.rows:
+        row, col = inWhichCell(app, x, y)
+        app.board[row][col] = app.defColor
+
+
+    # need to implement margins at some point
 
 def keyReleased(app, event):
     pass
