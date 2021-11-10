@@ -18,15 +18,23 @@ def timerFired(app):
 def appStopped(app):
     pass
 
+def inWhichCell(app, x, y):
+    # need to implement margins at some point
+    return y//app.cellSize, x//app.cellSize
+
 def keyPressed(app, event):
     x, y = event.x, event.y
     # also probably check if clicked special edit button(s?)
-    if 0 <= x <= app.cols*app.size and 0 <= y <= app.rows:
+    if 0 <= x <= app.cols*app.cellSize and 0 <= y <= app.rows:
         row, col = inWhichCell(app, x, y)
         app.board[row][col] = app.defColor
-
-
     # need to implement margins at some point
+
+def mouseDragged(app, event):
+    pass
+
+def mouseReleased(app, event):
+    pass
 
 def keyReleased(app, event):
     pass
@@ -34,13 +42,7 @@ def keyReleased(app, event):
 def mousePressed(app, event):
     pass
 
-def mouseReleased(app, event):
-    pass
-
 def mouseMoved(app, event):
-    pass
-
-def mouseDragged(app, event):
     pass
 
 def sizeChanged(app):
