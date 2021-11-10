@@ -31,6 +31,6 @@ def sizeChanged(app):
     pass
 
 def redrawAll(app, canvas):
-    pass
+    canvas.create_rectangle(10, 10, app.width - 10, app.height - 10, fill = "orange")
 
 runApp(width=600, height=600)
