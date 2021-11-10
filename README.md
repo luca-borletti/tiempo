@@ -1,7 +1,7 @@
-15-112 Fall 2021 Term Project
+15-112 F21 Term Project by Luca Borletti
 
 # tiempo
-### a calendar and productivity app
+### calendar and productivity app 
 
 ## Built With
 
