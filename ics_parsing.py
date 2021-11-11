@@ -47,7 +47,8 @@ c = Calendar()
 # print(type(c))
 e = Event()
 e.name = "15-151"
-# e.begin = datetime(2021, 11, 11, 9)
+e.begin = datetime(2021, 11, 11, 9)
+e.duration = timedelta(0, 7200)
 # e.end = '2021-11-11 10:00:00'
 c.events.add(e)
 c.events
