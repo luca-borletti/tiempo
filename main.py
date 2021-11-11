@@ -21,7 +21,16 @@ def appStarted(app):
             app.board[row][col] = "gray"
 
     ###################################################
-    # dragging cell attributes
+    # cell selection attributes
+    ###################################################
+
+    app.isSelecting = False
+
+    app.selectedCell = None
+
+
+    ###################################################
+    # cell dragging attributes
     ###################################################
 
     app.draggingCell = None
@@ -40,6 +49,12 @@ def appStarted(app):
     # app.timerDelay = 50
 
     # app.test = None
+
+def fromRHBtoTKinter(rgb):
+    r, g, b = rgb
+    return f'#{r:02x}{g:02x}{b:02x}'
+
+print(fromRHBtoTKinter((0,0,128)))
 
 def timerFired(app):
     pass
