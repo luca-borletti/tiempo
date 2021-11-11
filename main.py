@@ -42,7 +42,8 @@ def appStarted(app):
     # app.test = None
 
 def timerFired(app):
-    app.position += 1
+    pass
+    # app.position += 1
 
 def appStopped(app):
     pass
@@ -128,10 +129,10 @@ def drawDraggingCell(app, canvas):
 def redrawAll(app, canvas):
     drawBoard(app, canvas)
     drawDraggingCell(app, canvas)
-    if app.test != None:
-        x, y = app.test
-        canvas.create_oval(x - 20, y - 20, x + 20, y + 20, fill = "black")
-    canvas.create_oval(app.width//2 - 20, app.height - 20 - app.position, \
-        app.width//2 + 20, app.height + 20 - app.position, fill = "black")
+    # if app.test != None:
+    #     x, y = app.test
+    #     canvas.create_oval(x - 20, y - 20, x + 20, y + 20, fill = "black")
+    # canvas.create_oval(app.width//2 - 20, app.height - 20 - app.position, \
+    #     app.width//2 + 20, app.height + 20 - app.position, fill = "black")
 
 runApp(width=1000, height=500)
