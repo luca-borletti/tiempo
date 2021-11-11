@@ -23,8 +23,16 @@ def appStarted(app):
 
     app.isDragging = False
 
+    ##### testing below
+
+    app.timerDelay = 50
+
+    app.test = None
+
+    app.position = 1
+
 def timerFired(app):
-    pass
+    app.position += 1
 
 def appStopped(app):
     pass
@@ -54,27 +62,22 @@ def mousePressed(app, event):
 def mouseDragged(app, event):
     x, y = event.x, event.y
     app.draggingPosition = (x, y)
-
     # darkening color?
     
-
 def mouseReleased(app, event):
     x, y = event.x, event.y
     if app.isDragging:
         app.isDragging = False
         if inBoardBounds(app, x, y): # and not another taken up cell?
             newRow, newCol = inWhichCell(app, x, y)
-        
             if app.board[newRow][newCol] == app.defColor:
                 app.board[newRow][newCol] = app.draggingColor
-
             else:
                 row, col = app.draggingCell
                 app.board[row][col] = app.draggingColor
         else:
             row, col = app.draggingCell
             app.board[row][col] = app.draggingColor
-        
         app.draggingColor = None
         app.draggingPosition = None
         app.draggingCell = None
@@ -87,7 +90,8 @@ def keyPressed(app, event):
     pass
 
 def mouseMoved(app, event):
-    pass
+    x, y = event.x, event.y
+    app.test = (x,y)
 
 def sizeChanged(app):
     pass
@@ -113,5 +117,10 @@ def drawDraggingCell(app, canvas):
 def redrawAll(app, canvas):
     drawBoard(app, canvas)
     drawDraggingCell(app, canvas)
+    if app.test != None:
+        x, y = app.test
+        canvas.create_oval(x - 20, y - 20, x + 20, y + 20, fill = "black")
+    canvas.create_oval(app.width//2 - 20, app.height - 20 - app.position, \
+        app.width//2 + 20, app.height + 20 - app.position, fill = "black")
 
 runApp(width=1000, height=500)
