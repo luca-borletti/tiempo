@@ -10,15 +10,15 @@ def appStarted(app):
 
     app.cellSize = min(app.width//app.cols, app.height//app.rows)
 
-        # app.margins = 50
+    # app.margins = 50
 
-    app.defColor = "white"
+    app.defColor = fromRHBtoTKinter((255,255,255))
 
     # TESTING SHIT
     app.board = [[app.defColor for col in range(app.cols)] for row in range(app.rows)]
     for col in range(0, app.cols, 2):
         for row in range(app.rows//3, app.rows//3*2):
-            app.board[row][col] = "gray"
+            app.board[row][col] = fromRHBtoTKinter((192,192,192))
 
     ###################################################
     # cell selection attributes
@@ -27,7 +27,6 @@ def appStarted(app):
     app.isSelecting = False
 
     app.selectedCell = None
-
 
     ###################################################
     # cell dragging attributes
@@ -50,11 +49,17 @@ def appStarted(app):
 
     # app.test = None
 
-def fromRHBtoTKinter(rgb):
-    r, g, b = rgb
-    return f'#{r:02x}{g:02x}{b:02x}'
+def fromHextoRGB(hexString):
+    hexVals = [hexString[2*i + 1: 2*(i+1)+1] for i in range(3)]
+    rgbTuple = tuple(int(hexVals[i], 16) for i in range(3))
+    return rgbTuple
 
-print(fromRHBtoTKinter((0,0,128)))
+def fromRHBtoTKinter(rgbTuple):
+    red, green, blue = rgbTuple
+    hexString = f'#{red:02x}{green:02x}{blue:02x}'
+    return hexString
+
+print(fromHextoRGB("#FF0000"))
 
 def timerFired(app):
     pass
@@ -71,17 +76,29 @@ def inBoardBounds(app, x, y):
     return (0 <= x <= app.cols*app.cellSize) and \
         (0 <= y <= app.rows*app.cellSize)
 
+def selectCell(app, row, col):
+    app.isSelecting = True
+    app.selectedCell = (row, col)
+    currentColor = app.board[row][col]
+
+
 def mousePressed(app, event):
     x, y = event.x, event.y
     # also probably check if clicked special edit button(s?)
     if inBoardBounds(app, x, y):
         row, col = inWhichCell(app, x, y)
         if app.board[row][col] != app.defColor:
+            selectCell(app, row, col)
+
             app.draggingColor = app.board[row][col]
             app.isDragging = True
             app.draggingCell = (row, col)
             app.board[row][col] = app.defColor
             app.draggingPosition = (x, y)
+        else:
+            app.isSelecting = False
+    else:
+        app.isSelecting = False
     # need to implement margins at some point
 
 
