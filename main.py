@@ -1,19 +1,28 @@
 from cmu_112_graphics import *
 
 def appStarted(app):
+    ###################################################
+    # board and cell attributes
+    ###################################################
+    
     app.rows = 10
     app.cols = 20
 
     app.cellSize = min(app.width//app.cols, app.height//app.rows)
 
-    # app.margins = 50
+        # app.margins = 50
 
     app.defColor = "white"
 
+    # TESTING SHIT
     app.board = [[app.defColor for col in range(app.cols)] for row in range(app.rows)]
     for col in range(0, app.cols, 2):
         for row in range(app.rows//3, app.rows//3*2):
             app.board[row][col] = "gray"
+
+    ###################################################
+    # dragging cell attributes
+    ###################################################
 
     app.draggingCell = None
 
@@ -23,13 +32,14 @@ def appStarted(app):
 
     app.isDragging = False
 
-    ##### testing below
 
-    app.timerDelay = 50
+    ###################################################
+    # major testing attributes
+    ###################################################
 
-    app.test = None
+    # app.timerDelay = 50
 
-    app.position = 1
+    # app.test = None
 
 def timerFired(app):
     app.position += 1
@@ -90,8 +100,9 @@ def keyPressed(app, event):
     pass
 
 def mouseMoved(app, event):
-    x, y = event.x, event.y
-    app.test = (x,y)
+    pass
+    # x, y = event.x, event.y
+    # app.test = (x,y)
 
 def sizeChanged(app):
     pass
