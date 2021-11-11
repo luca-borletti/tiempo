@@ -6,4 +6,7 @@
 ## Built With
 
 * [Python](https://www.python.org/)
-* [CMU 112 Graphics - Python](https://www.cs.cmu.edu/~112/notes/notes-graphics.html)
+* [CMU 112 Graphics library](https://www.cs.cmu.edu/~112/notes/notes-graphics.html)
+* [iCalendar library]()
+* [datetime library]()
+* …
