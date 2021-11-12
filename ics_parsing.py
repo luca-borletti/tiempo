@@ -1,5 +1,7 @@
+from time import localtime
 from ics import *
 from datetime import *
+
 
 ###############################################################################
 # notes about ics library and classes for events and calendars
@@ -43,18 +45,60 @@ from datetime import *
 #     return clone
 
 
+###############################################################################
+# code from ics website
+###############################################################################
+
 c = Calendar()
 # print(type(c))
 e = Event()
 e.name = "15-151"
 e.begin = datetime(2021, 11, 11, 9)
 e.duration = timedelta(0, 7200)
+
 # e.end = '2021-11-11 10:00:00'
+
 c.events.add(e)
-c.events
-print(c)
+
+
+
 # [<Event 'My cool event' begin:2014-01-01 00:00:00 end:2014-01-01 00:00:01>]
 with open('/Users/lucaborletti/Desktop/tiempo/ics_files/output.ics', 'w') as my_file:
     my_file.writelines(c)
 
-# and it's done !
+
+###############################################################################
+# testing on google calendar
+###############################################################################
+calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
+
+calendarInstance = Calendar(calendarFile.read())
+
+
+# ATTEMPT AT TIMELINE
+# timelineInstance = calendarInstance.timeline
+# print(timelineInstance.today())
+
+
+# ATTEMPT AT USING .DATE TO SIMPLIFY TODAY PROBLEM
+# today = datetime.today()
+# tomorrow = today.date() + timedelta(1)
+
+today = datetime(2021, 11, 11, tzinfo=timezone.utc)
+tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
+
+
+
+# for event in calendarInstance.events:
+#     start = event.begin
+#     stop = event.end
+
+#     if (start > today and stop < tomorrow):
+#         print(event)
+    
+for event in calendarInstance.events:
+    if event.begin > today:
+        print(event)
+        print("\n")
+        print(event.begin)
+        

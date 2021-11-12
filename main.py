@@ -1,9 +1,31 @@
 from cmu_112_graphics import *
 
+
+
+###############################################################################
+# OOP for calendar
+###############################################################################
+
+# class event(object):
+#     def __init__(self, …):
+#         self.
+
+#     def __repr__(self):
+#         return
+    
+
+
+
+
+
+###############################################################################
+# calendar graphics
+###############################################################################
+
 def appStarted(app):
-    ###################################################
+    ###########################################################################
     # board and cell attributes
-    ###################################################
+    ###########################################################################
     
     app.rows = 10
     app.cols = 20
@@ -12,25 +34,29 @@ def appStarted(app):
 
     # app.margins = 50
 
-    app.defColor = fromRHBtoTKinter((255,255,255))
+    app.defColor = fromRGBtoHex((255,255,255))
 
     # TESTING SHIT
     app.board = [[app.defColor for col in range(app.cols)] for row in range(app.rows)]
     for col in range(0, app.cols, 2):
         for row in range(app.rows//3, app.rows//3*2):
-            app.board[row][col] = fromRHBtoTKinter((192,192,192))
+            app.board[row][col] = fromRGBtoHex((192,192,192))
 
-    ###################################################
+    ###########################################################################
     # cell selection attributes
-    ###################################################
+    ###########################################################################
 
     app.isSelecting = False
 
     app.selectedCell = None
 
-    ###################################################
+    app.unselectedColor = None
+
+    app.selectedColor = None
+
+    ###########################################################################
     # cell dragging attributes
-    ###################################################
+    ###########################################################################
 
     app.draggingCell = None
 
@@ -41,25 +67,23 @@ def appStarted(app):
     app.isDragging = False
 
 
-    ###################################################
+    ###########################################################################
     # major testing attributes
-    ###################################################
+    ###########################################################################
 
     # app.timerDelay = 50
 
     # app.test = None
 
 def fromHextoRGB(hexString):
-    hexVals = [hexString[2*i + 1: 2*(i+1)+1] for i in range(3)]
+    hexVals = [hexString[2*i+1: 2*(i+1)+1] for i in range(3)]
     rgbTuple = tuple(int(hexVals[i], 16) for i in range(3))
     return rgbTuple
 
-def fromRHBtoTKinter(rgbTuple):
+def fromRGBtoHex(rgbTuple):
     red, green, blue = rgbTuple
     hexString = f'#{red:02x}{green:02x}{blue:02x}'
     return hexString
-
-print(fromHextoRGB("#FF0000"))
 
 def timerFired(app):
     pass
@@ -79,8 +103,17 @@ def inBoardBounds(app, x, y):
 def selectCell(app, row, col):
     app.isSelecting = True
     app.selectedCell = (row, col)
-    currentColor = app.board[row][col]
+    
+    app.unselectedColor = app.board[row][col]
+    unselectedRGB = fromHextoRGB(app.unselectedColor)
+    app.selectedColor = fromRGBtoHex(tuple([unselectedRGB[i]//4*3 for i in range(3)]))
+    app.board[row][col] = app.selectedColor
 
+def deselectCell(app):
+    if app.isSelecting == True:
+        app.isSelecting == False
+        row, col = app.selectedCell
+        app.board[row][col] = app.unselectedColor
 
 def mousePressed(app, event):
     x, y = event.x, event.y
@@ -88,17 +121,20 @@ def mousePressed(app, event):
     if inBoardBounds(app, x, y):
         row, col = inWhichCell(app, x, y)
         if app.board[row][col] != app.defColor:
-            selectCell(app, row, col)
-
+            if not app.isSelecting:
+                selectCell(app, row, col)
+            else:
+                deselectCell(app)
+                selectCell(app, row, col)
             app.draggingColor = app.board[row][col]
             app.isDragging = True
             app.draggingCell = (row, col)
             app.board[row][col] = app.defColor
             app.draggingPosition = (x, y)
         else:
-            app.isSelecting = False
+            deselectCell(app)
     else:
-        app.isSelecting = False
+        deselectCell(app)
     # need to implement margins at some point
 
 
@@ -139,7 +175,6 @@ def mouseMoved(app, event):
 
 def sizeChanged(app):
     pass
-
 
 def drawCell(app, canvas, row, col):
     cellColor = app.board[row][col]
