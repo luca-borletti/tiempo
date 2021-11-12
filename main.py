@@ -168,6 +168,9 @@ def keyReleased(app, event):
 def keyPressed(app, event):
     pass
 
+def sizeChanged(app):
+    pass
+
 def mouseMoved(app, event):
     pass
     # x, y = event.x, event.y

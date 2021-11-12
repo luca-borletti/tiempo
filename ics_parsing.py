@@ -4,18 +4,19 @@ from icalendar import *
 # from ics import *
 
 
-
-
 ###############################################################################
 # notes about icalendar library
 ###############################################################################
 def icalendarLibraryTests():
     calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
-    
 
+    calendarInstance = Calendar.from_ical(calendarFile.read())
 
+    print(calendarInstance.walk("VEVENT")[50])
 
+    print(calendarInstance.walk("VEVENT")[50]["DTSTART"].dt)
 
+    print(type(calendarInstance.walk("VEVENT")[50]["RRULE"]))
 
 
 
