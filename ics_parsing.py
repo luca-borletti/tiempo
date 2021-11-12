@@ -1,10 +1,28 @@
 from time import localtime
-from ics import *
 from datetime import *
+from icalendar import *
+# from ics import *
+
+
 
 
 ###############################################################################
-# notes about ics library and classes for events and calendars
+# notes about icalendar library
+###############################################################################
+def icalendarLibraryTests():
+    calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
+    
+
+
+
+
+
+
+
+icalendarLibraryTests()
+
+###############################################################################
+# !!!!!!DEPRECATED!!!!!! notes about ics library and classes for events and calendars
 ###############################################################################
 
 # def begin(self) -> Arrow:
@@ -46,59 +64,65 @@ from datetime import *
 
 
 ###############################################################################
-# code from ics website
+# !!!!!!DEPRECATED!!!!!! code from ics website
 ###############################################################################
 
-c = Calendar()
-# print(type(c))
-e = Event()
-e.name = "15-151"
-e.begin = datetime(2021, 11, 11, 9)
-e.duration = timedelta(0, 7200)
+def icsLibraryStartCode():
+    c = Calendar()
+    # print(type(c))
+    e = Event()
+    e.name = "15-151"
+    e.begin = datetime(2021, 11, 11, 9)
+    e.duration = timedelta(0, 7200)
 
-# e.end = '2021-11-11 10:00:00'
+    # e.end = '2021-11-11 10:00:00'
 
-c.events.add(e)
+    c.events.add(e)
 
 
-
-# [<Event 'My cool event' begin:2014-01-01 00:00:00 end:2014-01-01 00:00:01>]
-with open('/Users/lucaborletti/Desktop/tiempo/ics_files/output.ics', 'w') as my_file:
-    my_file.writelines(c)
+    # [<Event 'My cool event' begin:2014-01-01 00:00:00 end:2014-01-01 00:00:01>]
+    with open('/Users/lucaborletti/Desktop/tiempo/ics_files/output.ics', 'w') as my_file:
+        my_file.writelines(c)
 
 
 ###############################################################################
-# testing on google calendar
+# !!!!!!DEPRECATED!!!!!! testing on google calendar
 ###############################################################################
-calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
 
-calendarInstance = Calendar(calendarFile.read())
+def icsLibraryTesting():
+    calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
 
-
-# ATTEMPT AT TIMELINE
-# timelineInstance = calendarInstance.timeline
-# print(timelineInstance.today())
+    calendarInstance = Calendar(calendarFile.read())
 
 
-# ATTEMPT AT USING .DATE TO SIMPLIFY TODAY PROBLEM
-# today = datetime.today()
-# tomorrow = today.date() + timedelta(1)
-
-today = datetime(2021, 11, 11, tzinfo=timezone.utc)
-tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
+    # ATTEMPT AT TIMELINE
+    # timelineInstance = calendarInstance.timeline
+    # print(timelineInstance.today())
 
 
+    # ATTEMPT AT USING .DATE TO SIMPLIFY TODAY PROBLEM
+    # today = datetime.today()
+    # tomorrow = today.date() + timedelta(1)
 
-# for event in calendarInstance.events:
-#     start = event.begin
-#     stop = event.end
+    today = datetime(2021, 11, 11, tzinfo=timezone.utc)
+    tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
 
-#     if (start > today and stop < tomorrow):
-#         print(event)
-    
-for event in calendarInstance.events:
-    if event.begin > today:
-        print(event)
-        print("\n")
-        print(event.begin)
-        
+
+
+    # for event in calendarInstance.events:
+    #     start = event.begin
+    #     stop = event.end
+
+    #     if (start > today and stop < tomorrow):
+    #         print(event)
+
+
+    for event in calendarInstance.events:
+        if event.name == '''Introduction to Psychology 85-102''':
+            print(type(event.begin))
+            # print(event.begin)
+        # if event.begin > today:
+        #     print(event)
+        #     print("\n")
+        #     print(event.begin)
+            
