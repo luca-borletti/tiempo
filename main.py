@@ -159,7 +159,8 @@ def mousePressed(app, event):
                 deselectEvent(app)
 
 def mouseInCalendar(app, x, y):
-    return (0 <= x <= app.calendarWidth)    
+    return (app.calendarLeftMargin <= x <= app.calendarWidth) and \
+        (app.calendarTopMargin <= y <= app.height)
 
 def mouseOnButtons(app, x, y):
     return False
@@ -182,8 +183,9 @@ def selectEvent(app, event):
 def deselectEvent(app):
     event = app.selectedEvent
 
-    event.color = app.deselectedColor
-    app.eventsToday.add(event)
+    if app.selectedEvent != None:
+        event.color = app.deselectedColor
+        app.eventsToday.add(event)
     
     app.selectedEvent = None
     app.deselectedColor = None
@@ -196,8 +198,18 @@ def mouseDragged(app, event):
     if app.selectedEvent != None:
         app.selectedPosition = (x, y)
     
-def mouseReleased(app, event):
-    pass
+# def mouseReleased(app, event):
+#     x, y = event.x, event.y
+
+#     if app.selectedEvent != None:
+#         app.selectedEvent.color = app.deselectedColor
+#         height = app.selectedEvent.pixelEnd - app.selectedEvent.pixelStart
+#         if mouseInCalendar(app, x, y) and (mouseOnEvent(app, x, y) == None)\
+#             and (height//2 + app.calendarTopMargin <= y):
+#             #CHANGE actually modify datetime; make datetimeToCalendar not iterate
+            
+#             app.selectedEvent.pixelStart = y
+
 
 def keyReleased(app, event):
     pass
@@ -252,14 +264,14 @@ def drawSelectedEvent(app, canvas):
     event = app.selectedEvent
     if event != None:
         x, y = app.selectedPosition
-        eventHeight = event.pixelStart - event.pixelEnd
+        eventHeight = event.pixelEnd - event.pixelStart
         canvas.create_rectangle(x - app.eventWidth//2, y - eventHeight//2, 
-                        x + app.eventWidth//2, y + eventHeight//2, 
-                        fill = event.color,
-                        width = 0)
+                                x + app.eventWidth//2, y + eventHeight//2, 
+                                fill = event.color,
+                                width = 0)
         canvas.create_text(x - app.eventWidth//2, y - eventHeight//2, 
-                        text = event.summary, anchor = "nw",
-                        fill = "black")
+                           text = event.summary, anchor = "nw",
+                           fill = "black")
 
 
 runApp(width=750, height=750)
