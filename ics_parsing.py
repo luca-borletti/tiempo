@@ -3,21 +3,6 @@ from datetime import *
 from icalendar import *
 # from ics import *
 
-class event(object):
-    def __init__(self, summary, startTime, endTime):
-        self.summary = summary
-        self.startTime = startTime
-        self.endTime = endTime
-
-    def __repr__(self):
-        return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
-
-concepts = event("15-151 Discrete Mathematics", \
-    datetime(2021, 11, 11, 13, 25), datetime(2021, 11, 11, 14, 15))
-
-print(concepts)
-    
-
 ###############################################################################
 # notes about icalendar library
 ###############################################################################

@@ -128,10 +128,11 @@ def mousePressed(app, event):
         row, col = inWhichCell(app, x, y)
         if app.board[row][col] != app.defColor:
             if not app.isSelecting:
-                selectCell(app, row, col)
+                # selectCell(app, row, col)
+                pass
             else:
                 deselectCell(app)
-                selectCell(app, row, col)
+                # selectCell(app, row, col)
             app.draggingColor = app.board[row][col]
             app.isDragging = True
             app.draggingCell = (row, col)
@@ -211,4 +212,4 @@ def redrawAll(app, canvas):
     # canvas.create_oval(app.width//2 - 20, app.height - 20 - app.position, \
     #     app.width//2 + 20, app.height + 20 - app.position, fill = "black")
 
-# runApp(width=1000, height=500)
+runApp(width=1000, height=500)

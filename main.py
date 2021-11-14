@@ -17,10 +17,21 @@ class event(object):
 
 
 concepts = event("15-151 Discrete Mathematics", \
-    datetime(2021, 11, 11, 13, 25), datetime(2021, 11, 11, 14, 15))
+    datetime(2021, 11, 11, 13, 25, tzinfo=timezone.utc), datetime(2021, 11, 11, 14, 15, tzinfo=timezone.utc))
 
 
+events = {concepts}
 
+
+today = datetime(2021, 11, 11, tzinfo=timezone.utc)
+tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
+
+
+for event in events:
+    start = event.startTime
+    stop = event.endTime
+    if (start > today and stop < tomorrow):
+        print(event)
 
 
 
@@ -61,7 +72,7 @@ def appStarted(app):
 
     app.isDragging = False
 
-    
+
 
 def fromHextoRGB(hexString):
     hexVals = [hexString[2*i+1: 2*(i+1)+1] for i in range(3)]
