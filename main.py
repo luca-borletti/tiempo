@@ -15,10 +15,11 @@ class event(object):
         self.color = (randrange(0, 256),
                       randrange(0, 256),
                       randrange(0, 256))
-        self.pixelStart = None
-        self.pixelEnd = None
-        self.pixelWidth = None
-        self.pixelHeight = None
+        self.pixelTop = None
+        self.pixelBot = None
+        self.pixelLeft = None
+        self.pixelRight = None
+
         
     def __repr__(self):
         return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
@@ -34,28 +35,27 @@ linear_algebra = event("21-241 Linear Algebra", \
 
 
 
-# events = {concepts, linear_algebra}
+                                # events = {concepts, linear_algebra}
 
-# testEvent = datetime.now() # could be all events in one day
+                                # testEvent = datetime.now() # could be all events in one day
 
-# midnight = testEvent.replace(hour=0, minute=0, second=0, microsecond=0)
+                                # midnight = testEvent.replace(hour=0, minute=0, second=0, microsecond=0)
 
-# seconds_since_midnight = (testEvent - midnight).total_seconds()
+                                # seconds_since_midnight = (testEvent - midnight).total_seconds()
 
-# sundayBeforeTestEvent = timedelta(days=((testEvent.isoweekday()) % 7))
-
-
-# today = datetime(2021, 11, 11, tzinfo=timezone.utc)
-
-# tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
+                                # sundayBeforeTestEvent = timedelta(days=((testEvent.isoweekday()) % 7))
 
 
-# for event in events:
-#     start = event.startTime
-#     end = event.endTime
-#     if (start > today and end < tomorrow):
-#         print(event)
+                                # today = datetime(2021, 11, 11, tzinfo=timezone.utc)
 
+                                # tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
+
+
+                                # for event in events:
+                                #     start = event.startTime
+                                #     end = event.endTime
+                                #     if (start > today and end < tomorrow):
+                                #         print(event)
 
 
 ###############################################################################
@@ -85,8 +85,6 @@ def appStarted(app):
     ###########################################################################
     
     # CHANGE midnight time finder
-
-    app.eventWidth = app.calendarWidth - app.calendarLeftMargin
 
     app.today = datetime(2021, 11, 11, tzinfo=timezone.utc)
 
@@ -119,20 +117,22 @@ def appStarted(app):
 
 def datetimeToCalendar(app, event):
     '''
-    convert an event's startTime and stopTime into pixelStart and pixelEnd 
+    convert an event's startTime and stopTime into pixelTop and pixelBot 
     for use by the "view"
     '''
     dayInSeconds = 86400
-    event.pixelStart = app.calendarTopMargin + (event.startTime - \
+
+    event.pixelTop = app.calendarTopMargin + (event.startTime - \
         app.midnight).total_seconds()/dayInSeconds*app.calendarLength
-    event.pixelEnd = event.pixelStart + \
+    event.pixelBot = event.pixelTop + \
         event.duration.total_seconds()/dayInSeconds*app.calendarLength
-    event.pixelHeight = event.pixelEnd - event.pixelStart
-    event.pixelWidth = app.calendarWidth - app.calendarLeftMargin
+
+    event.pixelLeft = app.calendarLeftMargin
+    event.pixelRight = int(app.calendarWidth*.95)
 
 # def calendarToDatetime(app, event):
 #     '''
-#     convert an event's pixelStart and pixelEnd to startTime and stopTime
+#     convert an event's pixelTop and pixelBot to startTime and stopTime
 #     for use by backend
 #     '''
 #     event.startTime = 
@@ -202,8 +202,8 @@ def mouseOnEvent(app, x, y):
     return None otherwise
     '''
     for event in app.eventsToday:
-        if (app.calendarLeftMargin <= x <= app.calendarWidth) and \
-            (event.pixelStart <= y <= event.pixelEnd):
+        if (event.pixelLeft <= x <= event.pixelRight) and \
+            (event.pixelTop <= y <= event.pixelBot):
             return event
     return None
 
@@ -242,16 +242,16 @@ def fixEvent(app, event, x, y):
     changes the attributes of an event to match the given x, y coordinates
     of the mouse
     '''
-    height = event.pixelHeight
+    height = event.pixelBot - event.pixelTop
     if y - height//2 < app.calendarTopMargin:
-        event.pixelStart = app.calendarTopMargin
-        event.pixelEnd = app.calendarTopMargin + height
+        event.pixelTop = app.calendarTopMargin
+        event.pixelBot = app.calendarTopMargin + height
     elif y + height//2 > app.calendarHeight:
-        event.pixelEnd = app.calendarHeight
-        event.pixelStart = app.calendarHeight - height
+        event.pixelBot = app.calendarHeight
+        event.pixelTop = app.calendarHeight - height
     else:
-        event.pixelStart = y - height//2
-        event.pixelEnd = y + height//2
+        event.pixelTop = y - height//2
+        event.pixelBot = y + height//2
 
     # calendarToDatetime(app, event)
 
@@ -259,7 +259,8 @@ def fixEvent(app, event, x, y):
 
 def mouseDragged(app, event):
     '''
-    
+    if an event is selected, then change dragged position (where dragged event
+    will be drawn)
     '''
     x, y = event.x, event.y
 
@@ -268,7 +269,8 @@ def mouseDragged(app, event):
 
 def mouseReleased(app, event):
     '''
-    
+    if an event is selected, then the selected event is fixed at the x, y 
+    position
     '''
     x, y = event.x, event.y
 
@@ -277,7 +279,7 @@ def mouseReleased(app, event):
 
         fixEvent(app, app.selectedEvent, x, y)
 
-
+        app.draggedPosition = None
 
 def keyReleased(app, event):
     pass
@@ -301,47 +303,21 @@ def drawCalendar(app, canvas):
     drawDayBackground(app, canvas)
     drawDayEvents(app, canvas)
     drawDraggedEvent(app, canvas)
+    drawOverlapTest(app, canvas)
 
-def drawDayBackground(app, canvas):
+def drawOverlapTest(app, canvas):
     '''
-    draw background of calendar
-    '''
-    # canvas.create_rectangle(app.calendarLeftMargin,
-    #                         app.calendarTopMargin,
-    #                         app.calendarWidth,
-    #                         app.calendarHeight,
-    #                         fill = app.calendarBgColor,
-    #                         width = 0)
-    canvas.create_line(0, app.calendarTopMargin, \
-        app.calendarWidth, app.calendarTopMargin, fill = "gray", width = .5)
-    canvas.create_line(app.calendarLeftMargin, app.calendarTopMargin//2, \
-        app.calendarLeftMargin, app.calendarHeight, fill = "gray", width = .5)
-    for hour in range(1, 13):
-        hourPixel = int(app.calendarLength/12)*hour + app.calendarTopMargin
-        canvas.create_line(app.calendarLeftMargin//2, hourPixel, \
-            app.calendarWidth, hourPixel, fill = "gray", width = .5)
-        
-        if hour < 12: 
-            hourText = f"{hour} AM"
-        else:
-            hourText = f"{hour} PM"
-        canvas.create_text(app.calendarLeftMargin//2, hourPixel, \
-            text = hourText, fill = "gray", font = "Arial 11", anchor = "e")
-
-def drawDayEvents(app, canvas):
-    '''
-    draw each event using pixelStart/End values in event instances as well
-    as using pixelStart and anchoring
+    
     '''
     for event in app.eventsToday:
-        canvas.create_rectangle(app.calendarLeftMargin, event.pixelStart, 
-                                app.calendarWidth, event.pixelEnd, 
-                                fill = fromRGBtoHex(event.color),
-                                width = 0)
-
-        canvas.create_text(app.calendarLeftMargin, event.pixelStart, 
-                           text = event.summary, anchor = "nw",
-                           fill = "white", font = "Arial 15")
+        for other in app.eventsToday:
+            if event != other: #CHANGE byday?!?!?!
+                if (other.pixelTop < event.pixelTop and \
+                    event.pixelTop < other.pixelBot) or \
+                    (other.pixelTop < event.pixelBot and \
+                    event.pixelBot < other.pixelBot):
+                    canvas.create_oval(app.width//2 - 10, app.height//2 - 10, \
+                        app.width//2 + 10, app.height//2 + 10, fill = "red")
 
 def drawDraggedEvent(app, canvas):
     '''
@@ -351,7 +327,7 @@ def drawDraggedEvent(app, canvas):
     event = app.selectedEvent
     if app.draggedPosition != None:
         x, y = app.draggedPosition
-        eventHeight = event.pixelHeight
+        eventHeight = event.pixelBot - event.pixelTop #CHANGE if slow
 
         #CHANGE optimize
         if y - eventHeight//2 < app.calendarTopMargin:
@@ -367,5 +343,40 @@ def drawDraggedEvent(app, canvas):
                            text = event.summary, anchor = "nw",
                            fill = "white", font = "Arial 15")
 
+def drawDayEvents(app, canvas):
+    '''
+    draw each event using pixelTop/End values in event instances as well
+    as using pixelTop and anchoring
+    '''
+    for event in app.eventsToday:
+        canvas.create_rectangle(event.pixelLeft, event.pixelTop, 
+                                event.pixelRight, event.pixelBot, 
+                                fill = fromRGBtoHex(event.color),
+                                width = 0)
+
+        canvas.create_text(event.pixelLeft, event.pixelTop, 
+                           text = event.summary, anchor = "nw",
+                           fill = "white", font = "Arial 15")
+
+def drawDayBackground(app, canvas):
+    '''
+    draw lines across calendar side of view
+    draw hours text
+    '''
+    canvas.create_line(0, app.calendarTopMargin, \
+        app.calendarWidth, app.calendarTopMargin, fill = "gray", width = .5)
+    canvas.create_line(app.calendarLeftMargin, app.calendarTopMargin//2, \
+        app.calendarLeftMargin, app.calendarHeight, fill = "gray", width = .5)
+    for hour in range(1, 13):
+        hourPixel = int(app.calendarLength/12)*hour + app.calendarTopMargin
+        canvas.create_line(app.calendarLeftMargin//2, hourPixel, \
+            app.calendarWidth, hourPixel, fill = "gray", width = .5)
+        
+        if hour < 12: 
+            hourText = f"{hour} AM"
+        else:
+            hourText = f"{hour} PM"
+        canvas.create_text(app.calendarLeftMargin//4, hourPixel, \
+            text = hourText, fill = "gray", font = "Arial 11")
 
 runApp(width=1000, height=800)
