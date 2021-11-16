@@ -36,7 +36,6 @@ concepts = event("15-151 Discrete Mathematics", \
 
 events = {concepts}
 
-
 testEvent = datetime.now() # could be all events in one day
 
 midnight = testEvent.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -104,7 +103,7 @@ def appStarted(app):
 
     app.selectedColor = None
 
-    app.selectedPosition = None
+    app.draggedPosition = None
 
 
 def datetimeToCalendar(app):
@@ -154,7 +153,7 @@ def mousePressed(app, event):
             selectedEvent = mouseOnEvent(app, x, y)
             if selectedEvent != None:
                 selectEvent(app, selectedEvent)
-                app.selectedPosition = (x, y)
+                app.draggedPosition = (x, y)
             else:
                 deselectEvent(app)
 
@@ -190,13 +189,13 @@ def deselectEvent(app):
     app.selectedEvent = None
     app.deselectedColor = None
     app.selectedColor = None
-    app.selectedPosition = None
+    app.draggedPosition = None
 
 def mouseDragged(app, event):
     x, y = event.x, event.y
 
     if app.selectedEvent != None:
-        app.selectedPosition = (x, y)
+        app.draggedPosition = (x, y)
 
 
 # goal: get snapping to grid implemented in the daily calendar………
@@ -209,7 +208,7 @@ def mouseDragged(app, event):
 #     x, y = event.x, event.y
 
 #     if app.selectedEvent != None:
-#         app.selectedEvent.color = app.deselectedColor
+#         # app.selectedEvent.color = app.deselectedColor
 #         height = app.selectedEvent.pixelEnd - app.selectedEvent.pixelStart
 #         if mouseInCalendar(app, x, y) and (mouseOnEvent(app, x, y) == None)\
 #             and (height//2 + app.calendarTopMargin <= y):
@@ -239,7 +238,7 @@ def redrawAll(app, canvas):
 def drawCalendar(app, canvas):
     drawDayBackground(app, canvas)
     drawDayEvents(app, canvas)
-    drawSelectedEvent(app, canvas)
+    drawDraggedEvent(app, canvas)
 
 def drawDayBackground(app, canvas):
     '''
@@ -267,16 +266,16 @@ def drawDayEvents(app, canvas):
                            text = event.summary, anchor = "nw",
                            fill = "black")
 
-def drawSelectedEvent(app, canvas):
+def drawDraggedEvent(app, canvas):
     event = app.selectedEvent
     if event != None:
-        x, y = app.selectedPosition
+        x, y = app.draggedPosition
         eventHeight = event.pixelEnd - event.pixelStart
-        canvas.create_rectangle(x - app.eventWidth//2, y - eventHeight//2, 
-                                x + app.eventWidth//2, y + eventHeight//2, 
+        canvas.create_rectangle(app.calendarLeftMargin, y - eventHeight//2, 
+                                app.calendarWidth, y + eventHeight//2, 
                                 fill = event.color,
                                 width = 0)
-        canvas.create_text(x - app.eventWidth//2, y - eventHeight//2, 
+        canvas.create_text(app.calendarLeftMargin, y - eventHeight//2, 
                            text = event.summary, anchor = "nw",
                            fill = "black")
 
