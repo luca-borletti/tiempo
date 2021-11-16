@@ -72,7 +72,7 @@ def appStarted(app):
 
     app.calendarHeight = app.height
 
-    app.calendarLeftMargin = 50
+    app.calendarLeftMargin = 100
 
     app.calendarTopMargin = 100
 
@@ -100,7 +100,6 @@ def appStarted(app):
     ###########################################################################
     # calendar event selection
     ###########################################################################
-
     
     app.selectedEvent = None
     
@@ -155,7 +154,7 @@ def fromRGBtoHex(rgbTuple):
     return hexString
 
 def timerFired(app):
-    print(app.eventsToday)
+    pass
 
 def appStopped(app):
     pass
@@ -307,12 +306,27 @@ def drawDayBackground(app, canvas):
     '''
     draw background of calendar
     '''
-    canvas.create_rectangle(app.calendarLeftMargin,
-                            app.calendarTopMargin,
-                            app.calendarWidth,
-                            app.calendarHeight,
-                            fill = app.calendarBgColor,
-                            width = 0)
+    # canvas.create_rectangle(app.calendarLeftMargin,
+    #                         app.calendarTopMargin,
+    #                         app.calendarWidth,
+    #                         app.calendarHeight,
+    #                         fill = app.calendarBgColor,
+    #                         width = 0)
+    canvas.create_line(0, app.calendarTopMargin, \
+        app.calendarWidth, app.calendarTopMargin, fill = "gray", width = .5)
+    canvas.create_line(app.calendarLeftMargin, app.calendarTopMargin//2, \
+        app.calendarLeftMargin, app.calendarHeight, fill = "gray", width = .5)
+    for hour in range(1, 13):
+        hourPixel = int(app.calendarLength/12)*hour + app.calendarTopMargin
+        canvas.create_line(app.calendarLeftMargin//2, hourPixel, \
+            app.calendarWidth, hourPixel, fill = "gray", width = .5)
+        
+        if hour < 12: 
+            hourText = f"{hour} AM"
+        else:
+            hourText = f"{hour} PM"
+        canvas.create_text(app.calendarLeftMargin//2, hourPixel, \
+            text = hourText, fill = "gray", font = "Arial 11", anchor = "e")
 
 def drawDayEvents(app, canvas):
     '''
@@ -327,7 +341,7 @@ def drawDayEvents(app, canvas):
 
         canvas.create_text(app.calendarLeftMargin, event.pixelStart, 
                            text = event.summary, anchor = "nw",
-                           fill = "black")
+                           fill = "white", font = "Arial 15")
 
 def drawDraggedEvent(app, canvas):
     '''
@@ -351,7 +365,7 @@ def drawDraggedEvent(app, canvas):
                                 width = 0)
         canvas.create_text(app.calendarLeftMargin, y - eventHeight//2, 
                            text = event.summary, anchor = "nw",
-                           fill = "black")
+                           fill = "white", font = "Arial 15")
 
 
-runApp(width=750, height=750)
+runApp(width=1000, height=800)
