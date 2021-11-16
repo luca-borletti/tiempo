@@ -28,21 +28,21 @@ concepts = event("15-151 Discrete Mathematics", \
     datetime(2021, 11, 11, 13, 25, tzinfo=timezone.utc), \
         datetime(2021, 11, 11, 16, 15, tzinfo=timezone.utc))
 
-# linear_algebra = event("21-241 Linear Algebra", \
-#     datetime(2021, 11, 11, ), \
-#         )
+linear_algebra = event("21-241 Linear Algebra", \
+    datetime(2021, 11, 11, 17, 5, tzinfo=timezone.utc), \
+        datetime(2021, 11, 11, 19, 55, tzinfo=timezone.utc))
 
 
 
-events = {concepts}
+# events = {concepts, linear_algebra}
 
-testEvent = datetime.now() # could be all events in one day
+# testEvent = datetime.now() # could be all events in one day
 
-midnight = testEvent.replace(hour=0, minute=0, second=0, microsecond=0)
+# midnight = testEvent.replace(hour=0, minute=0, second=0, microsecond=0)
 
-seconds_since_midnight = (testEvent - midnight).total_seconds()
+# seconds_since_midnight = (testEvent - midnight).total_seconds()
 
-sundayBeforeTestEvent = timedelta(days=((testEvent.isoweekday()) % 7))
+# sundayBeforeTestEvent = timedelta(days=((testEvent.isoweekday()) % 7))
 
 
 # today = datetime(2021, 11, 11, tzinfo=timezone.utc)
@@ -64,8 +64,6 @@ sundayBeforeTestEvent = timedelta(days=((testEvent.isoweekday()) % 7))
 
 def appStarted(app):
     # separate into appstarted modes
-
-
     ###########################################################################
     # calendar background
     ###########################################################################
@@ -78,20 +76,27 @@ def appStarted(app):
 
     app.calendarTopMargin = 100
 
+    app.calendarLength = app.calendarHeight - app.calendarTopMargin
+
     app.calendarBgColor = fromRGBtoHex((150,150,150))
 
     ###########################################################################
     # calendar events
     ###########################################################################
     
+    # CHANGE midnight time finder
+
     app.eventWidth = app.calendarWidth - app.calendarLeftMargin
 
     app.today = datetime(2021, 11, 11, tzinfo=timezone.utc)
 
-    app.eventsToday = {concepts}
+    app.midnight = app.today.replace(hour=0, minute=0, second=0, microsecond=0)
 
-    datetimeToCalendar(app)
+    app.eventsToday = {concepts, linear_algebra}
 
+    for event in app.eventsToday:
+        datetimeToCalendar(app, event)
+ 
     ###########################################################################
     # calendar event selection
     ###########################################################################
@@ -106,21 +111,25 @@ def appStarted(app):
     app.draggedPosition = None
 
 
-def datetimeToCalendar(app):
+def datetimeToCalendar(app, event):
     '''
-    convert each event's startTime and stopTime into pixelStart and pixelEnd
-    times for use by the "view"
+    convert an event's startTime and stopTime into pixelStart and pixelEnd 
+    for use by the "view"
     '''
     dayInSeconds = 86400
-    calendarLength = app.calendarHeight - app.calendarTopMargin
-    midnight = app.today.replace(hour=0, minute=0, second=0, microsecond=0)
-    for event in app.eventsToday:
-        event.pixelStart = app.calendarTopMargin + (event.startTime - \
-            midnight).total_seconds()/dayInSeconds*calendarLength
-        event.pixelEnd = event.pixelStart + \
-            event.duration.total_seconds()/dayInSeconds*calendarLength
-        event.pixelHeight = event.pixelStart - event.pixelEnd
-        # event.pixelWidth = app.calendarWidth - app.calendarLeftMargin
+    event.pixelStart = app.calendarTopMargin + (event.startTime - \
+        app.midnight).total_seconds()/dayInSeconds*app.calendarLength
+    event.pixelEnd = event.pixelStart + \
+        event.duration.total_seconds()/dayInSeconds*app.calendarLength
+    event.pixelHeight = event.pixelEnd - event.pixelStart
+    event.pixelWidth = app.calendarWidth - app.calendarLeftMargin
+
+# def calendarToDatetime(app, event):
+#     '''
+#     convert an event's pixelStart and pixelEnd to startTime and stopTime
+#     for use by backend
+#     '''
+#     event.startTime = 
 
 def fromHextoRGB(hexString):
     '''
@@ -145,26 +154,46 @@ def appStopped(app):
     pass
 
 def mousePressed(app, event):
+    '''
+    check where mouse is on view
+        - if on event, select event
+        - if on calendar and an event is selected, deselect the event.
+    '''
     x, y = event.x, event.y
     if mouseInCalendar(app, x, y):
         if mouseOnButtons(app, x, y):
             pass
         else:
-            selectedEvent = mouseOnEvent(app, x, y)
-            if selectedEvent != None:
-                selectEvent(app, selectedEvent)
+            clickedEvent = mouseOnEvent(app, x, y)
+            if clickedEvent != None:
+                deselectEvent(app)
+                selectEvent(app, clickedEvent)
                 app.draggedPosition = (x, y)
             else:
                 deselectEvent(app)
+    else:
+        deselectEvent(app)
 
 def mouseInCalendar(app, x, y):
+    '''
+    return True if mouse is in calendar portion of the view
+    return False otherwise
+    '''
     return (app.calendarLeftMargin <= x <= app.calendarWidth) and \
         (app.calendarTopMargin <= y <= app.height)
 
 def mouseOnButtons(app, x, y):
+    '''
+    return True if mouse is on a button in view
+    return False otherwise
+    '''
     return False
 
 def mouseOnEvent(app, x, y):
+    '''
+    return the event if mouse is on an event
+    return None otherwise
+    '''
     for event in app.eventsToday:
         if (app.calendarLeftMargin <= x <= app.calendarWidth) and \
             (event.pixelStart <= y <= event.pixelEnd):
@@ -172,6 +201,11 @@ def mouseOnEvent(app, x, y):
     return None
 
 def selectEvent(app, event):
+    '''
+    - store the color of an event before selection
+    - create darker "highlighted" new selected color and make it event's color 
+    - remove from events set
+    '''
     app.deselectedColor = event.color
     app.selectedColor = fromRGBtoHex(tuple([app.deselectedColor[i]//4*3 for i in range(3)]))
     event.color = app.selectedColor
@@ -179,12 +213,34 @@ def selectEvent(app, event):
 
     app.eventsToday.remove(event)
 
+def fixEvent(app, event, x, y):
+    event.color = app.deselectedColor
+    
+    height = event.pixelHeight
+    if y - height//2 < app.calendarTopMargin:
+        event.pixelStart = app.calendarTopMargin
+        event.pixelEnd = app.calendarTopMargin + height
+    elif y + height//2 > app.calendarHeight:
+        event.pixelEnd = app.calendarHeight
+        event.pixelStart = app.calendarHeight - height
+    else:
+        event.pixelStart = y - height//2
+        event.pixelEnd = y + height//2
+
+    # calendarToDatetime(app, event)
+
+    app.eventsToday.add(app.selectedEvent)
+
 def deselectEvent(app):
+    '''
+    if there is a selected event
+        - change color back to lighter color
+    '''
     event = app.selectedEvent
 
     if app.selectedEvent != None:
-        event.color = app.deselectedColor
-        app.eventsToday.add(event)
+        x, y = app.draggedPosition
+        fixEvent(app, event, x, y)
     
     app.selectedEvent = None
     app.deselectedColor = None
@@ -202,19 +258,26 @@ def mouseDragged(app, event):
 # as well as writing new files when click export………
 # and pseudo-randomness for color generation
 
+def mouseReleased(app, event):
+    '''
+    
+    '''
+    x, y = event.x, event.y
 
+    if app.selectedEvent != None:
+        app.draggedPosition = (x, y)
+        # app.draggedPosition = None
 
-# def mouseReleased(app, event):
-#     x, y = event.x, event.y
+        # height = app.selectedEvent.pixelHeight
+        # if y - height//2 < app.calendarTopMargin:
+        #     app.selectedEvent.pixelStart = app.calendarTopMargin
+        #     app.selectedEvent.pixelEnd = app.calendarTopMargin + height
+        # elif y + height//2 > app.calendarHeight:
+        #     app.selectedEvent.pixelEnd = app.calendarHeight
+        #     app.selectedEvent.pixelStart = app.calendarHeight - height
+        
+        # calendarToDatetime(app, app.selectedEvent)
 
-#     if app.selectedEvent != None:
-#         # app.selectedEvent.color = app.deselectedColor
-#         height = app.selectedEvent.pixelEnd - app.selectedEvent.pixelStart
-#         if mouseInCalendar(app, x, y) and (mouseOnEvent(app, x, y) == None)\
-#             and (height//2 + app.calendarTopMargin <= y):
-#             #CHANGE actually modify datetime; make datetimeToCalendar not iterate
-            
-#             app.selectedEvent.pixelStart = y
 
 
 def keyReleased(app, event):
@@ -253,7 +316,7 @@ def drawDayBackground(app, canvas):
 
 def drawDayEvents(app, canvas):
     '''
-    draw each event using pixelStart/Stop values in event instances as well
+    draw each event using pixelStart/End values in event instances as well
     as using pixelStart and anchoring
     '''
     for event in app.eventsToday:
@@ -267,10 +330,21 @@ def drawDayEvents(app, canvas):
                            fill = "black")
 
 def drawDraggedEvent(app, canvas):
+    '''
+    draws the dragged event within bounds of calendar but following the
+    position of the mouse during dragging
+    '''
     event = app.selectedEvent
-    if event != None:
+    if app.draggedPosition != None:
         x, y = app.draggedPosition
-        eventHeight = event.pixelEnd - event.pixelStart
+        eventHeight = event.pixelHeight
+
+        #CHANGE optimize
+        if y - eventHeight//2 < app.calendarTopMargin:
+            y = app.calendarTopMargin + eventHeight//2
+        elif y + eventHeight//2 > app.calendarHeight:
+            y = app.calendarHeight - eventHeight//2
+        
         canvas.create_rectangle(app.calendarLeftMargin, y - eventHeight//2, 
                                 app.calendarWidth, y + eventHeight//2, 
                                 fill = event.color,
