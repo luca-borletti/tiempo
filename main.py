@@ -111,6 +111,13 @@ def appStarted(app):
     app.draggedPosition = None
 
 
+    ###########################################################################
+    # TESTING
+    ###########################################################################
+
+    app.timerDelay = 1000
+
+
 def datetimeToCalendar(app, event):
     '''
     convert an event's startTime and stopTime into pixelStart and pixelEnd 
@@ -148,7 +155,7 @@ def fromRGBtoHex(rgbTuple):
     return hexString
 
 def timerFired(app):
-    pass
+    print(app.eventsToday)
 
 def appStopped(app):
     pass
@@ -162,6 +169,7 @@ def mousePressed(app, event):
     x, y = event.x, event.y
     if mouseInCalendar(app, x, y):
         if mouseOnButtons(app, x, y):
+            deselectEvent(app)
             pass
         else:
             clickedEvent = mouseOnEvent(app, x, y)
@@ -207,15 +215,34 @@ def selectEvent(app, event):
     - remove from events set
     '''
     app.deselectedColor = event.color
-    app.selectedColor = fromRGBtoHex(tuple([app.deselectedColor[i]//4*3 for i in range(3)]))
+    app.selectedColor = tuple([app.deselectedColor[i]//4*3 for i in range(3)])
     event.color = app.selectedColor
     app.selectedEvent = event
 
     app.eventsToday.remove(event)
 
-def fixEvent(app, event, x, y):
-    event.color = app.deselectedColor
+def deselectEvent(app):
+    '''
+    if there is a selected event
+        - change color back to lighter color
+    '''
+    event = app.selectedEvent
+
+    if event != None:
+        app.eventsToday.remove(event)
+        event.color = app.deselectedColor
+        app.eventsToday.add(event)
     
+    app.selectedEvent = None
+    app.deselectedColor = None
+    app.selectedColor = None
+    app.draggedPosition = None
+
+def fixEvent(app, event, x, y):
+    '''
+    changes the attributes of an event to match the given x, y coordinates
+    of the mouse
+    '''
     height = event.pixelHeight
     if y - height//2 < app.calendarTopMargin:
         event.pixelStart = app.calendarTopMargin
@@ -229,34 +256,16 @@ def fixEvent(app, event, x, y):
 
     # calendarToDatetime(app, event)
 
-    app.eventsToday.add(app.selectedEvent)
-
-def deselectEvent(app):
-    '''
-    if there is a selected event
-        - change color back to lighter color
-    '''
-    event = app.selectedEvent
-
-    if app.selectedEvent != None:
-        x, y = app.draggedPosition
-        fixEvent(app, event, x, y)
-    
-    app.selectedEvent = None
-    app.deselectedColor = None
-    app.selectedColor = None
-    app.draggedPosition = None
+    app.eventsToday.add(event)
 
 def mouseDragged(app, event):
+    '''
+    
+    '''
     x, y = event.x, event.y
 
     if app.selectedEvent != None:
         app.draggedPosition = (x, y)
-
-
-# goal: get snapping to grid implemented in the daily calendar………
-# as well as writing new files when click export………
-# and pseudo-randomness for color generation
 
 def mouseReleased(app, event):
     '''
@@ -266,17 +275,8 @@ def mouseReleased(app, event):
 
     if app.selectedEvent != None:
         app.draggedPosition = (x, y)
-        # app.draggedPosition = None
 
-        # height = app.selectedEvent.pixelHeight
-        # if y - height//2 < app.calendarTopMargin:
-        #     app.selectedEvent.pixelStart = app.calendarTopMargin
-        #     app.selectedEvent.pixelEnd = app.calendarTopMargin + height
-        # elif y + height//2 > app.calendarHeight:
-        #     app.selectedEvent.pixelEnd = app.calendarHeight
-        #     app.selectedEvent.pixelStart = app.calendarHeight - height
-        
-        # calendarToDatetime(app, app.selectedEvent)
+        fixEvent(app, app.selectedEvent, x, y)
 
 
 
@@ -347,7 +347,7 @@ def drawDraggedEvent(app, canvas):
         
         canvas.create_rectangle(app.calendarLeftMargin, y - eventHeight//2, 
                                 app.calendarWidth, y + eventHeight//2, 
-                                fill = event.color,
+                                fill = fromRGBtoHex(event.color),
                                 width = 0)
         canvas.create_text(app.calendarLeftMargin, y - eventHeight//2, 
                            text = event.summary, anchor = "nw",
