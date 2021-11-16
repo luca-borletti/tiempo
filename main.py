@@ -197,7 +197,14 @@ def mouseDragged(app, event):
 
     if app.selectedEvent != None:
         app.selectedPosition = (x, y)
-    
+
+
+# goal: get snapping to grid implemented in the daily calendar………
+# as well as writing new files when click export………
+# and pseudo-randomness for color generation
+
+
+
 # def mouseReleased(app, event):
 #     x, y = event.x, event.y
 
