@@ -1,6 +1,6 @@
 from cmu_112_graphics import *
 from datetime import *
-
+print(__name__)
 
 ###############################################################################
 # OOP for calendar

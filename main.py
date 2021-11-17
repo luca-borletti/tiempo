@@ -2,6 +2,14 @@ from cmu_112_graphics import *
 from datetime import *
 from random import * 
 
+
+###############################################################################
+# ics parsing
+###############################################################################
+
+
+
+
 ###############################################################################
 # OOP for calendar
 ###############################################################################
@@ -83,7 +91,7 @@ def appStarted(app):
     ###########################################################################
     # calendar events
     ###########################################################################
-    
+
     # CHANGE midnight time finder
 
     app.today = datetime(2021, 11, 11, tzinfo=timezone.utc)
@@ -379,4 +387,7 @@ def drawDayBackground(app, canvas):
         canvas.create_text(app.calendarLeftMargin//4, hourPixel, \
             text = hourText, fill = "gray", font = "Arial 11")
 
-runApp(width=1000, height=800)
+
+if __name__ == "__main__":
+    print(__name__)
+    runApp(width=1000, height=800)
