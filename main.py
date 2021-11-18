@@ -6,6 +6,7 @@ from ics_parsing import icalendarLibraryTests2
 ###############################################################################
 # OOP for calendar
 ###############################################################################
+seed(15)
 
 class event(object):
     def __init__(self, summary, startTime, endTime):
@@ -31,7 +32,7 @@ index = 0
 for day in _week:
         _day = _week[day]
         index += 1
-        if index > 2:
+        if index > 3:
             break
 
 concepts = event("15-151 Discrete Mathematics", \
@@ -41,31 +42,6 @@ concepts = event("15-151 Discrete Mathematics", \
 linear_algebra = event("21-241 Linear Algebra", \
     datetime(2021, 11, 11, 17, 5, tzinfo=timezone.utc), \
         datetime(2021, 11, 11, 19, 55, tzinfo=timezone.utc))
-
-
-
-                                # events = {concepts, linear_algebra}
-
-                                # testEvent = datetime.now() # could be all events in one day
-
-                                # midnight = testEvent.replace(hour=0, minute=0, second=0, microsecond=0)
-
-                                # seconds_since_midnight = (testEvent - midnight).total_seconds()
-
-                                # sundayBeforeTestEvent = timedelta(days=((testEvent.isoweekday()) % 7))
-
-
-                                # today = datetime(2021, 11, 11, tzinfo=timezone.utc)
-
-                                # tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
-
-
-                                # for event in events:
-                                #     start = event.startTime
-                                #     end = event.endTime
-                                #     if (start > today and end < tomorrow):
-                                #         print(event)
-
 
 ###############################################################################
 # calendar graphics
@@ -77,9 +53,11 @@ def appStarted(app):
     # calendar background
     ###########################################################################
 
-    app.calendarWidth = app.width//2
+    app.calendarWidth = app.width
 
     app.calendarHeight = app.height
+
+    app.calendarDayWidth = 100
 
     app.calendarLeftMargin = 100
 
@@ -95,7 +73,7 @@ def appStarted(app):
 
     # CHANGE midnight time finder
 
-    app.today = datetime(2021, 11, 16, tzinfo=timezone.utc)
+    app.today = datetime(2021, 11, 17, tzinfo=timezone.utc)
 
     app.midnight = app.today.replace(hour=4, minute=0, second=0, microsecond=0)
 
