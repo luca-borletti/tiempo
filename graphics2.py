@@ -1,11 +1,10 @@
-from cmu_112_graphics import *
-from datetime import *
-from random import *
-from ics_parsing import icalendarLibraryTests2
+from random import * 
+
 
 ###############################################################################
-# OOP for calendar
+# event class
 ###############################################################################
+
 
 class event(object):
     def __init__(self, summary, startTime, endTime):
@@ -25,46 +24,6 @@ class event(object):
     def __repr__(self):
         return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
 
-_week = icalendarLibraryTests2()
-
-index = 0 
-for day in _week:
-        _day = _week[day]
-        index += 1
-        if index > 2:
-            break
-
-concepts = event("15-151 Discrete Mathematics", \
-    datetime(2021, 11, 11, 13, 25, tzinfo=timezone.utc), \
-        datetime(2021, 11, 11, 16, 15, tzinfo=timezone.utc))
-
-linear_algebra = event("21-241 Linear Algebra", \
-    datetime(2021, 11, 11, 17, 5, tzinfo=timezone.utc), \
-        datetime(2021, 11, 11, 19, 55, tzinfo=timezone.utc))
-
-
-
-                                # events = {concepts, linear_algebra}
-
-                                # testEvent = datetime.now() # could be all events in one day
-
-                                # midnight = testEvent.replace(hour=0, minute=0, second=0, microsecond=0)
-
-                                # seconds_since_midnight = (testEvent - midnight).total_seconds()
-
-                                # sundayBeforeTestEvent = timedelta(days=((testEvent.isoweekday()) % 7))
-
-
-                                # today = datetime(2021, 11, 11, tzinfo=timezone.utc)
-
-                                # tomorrow = datetime(2021, 11, 12, tzinfo=timezone.utc)
-
-
-                                # for event in events:
-                                #     start = event.startTime
-                                #     end = event.endTime
-                                #     if (start > today and end < tomorrow):
-                                #         print(event)
 
 
 ###############################################################################
@@ -95,13 +54,11 @@ def appStarted(app):
 
     # CHANGE midnight time finder
 
-    app.today = datetime(2021, 11, 16, tzinfo=timezone.utc)
+    app.today = datetime(2021, 11, 11, tzinfo=timezone.utc)
 
-    app.midnight = app.today.replace(hour=4, minute=0, second=0, microsecond=0)
+    app.midnight = app.today.replace(hour=0, minute=0, second=0, microsecond=0)
 
     app.eventsToday = {concepts, linear_algebra}
-
-    app.eventsToday = _day
 
     for event in app.eventsToday:
         datetimeToCalendar(app, event)
@@ -383,13 +340,10 @@ def drawDayBackground(app, canvas):
         canvas.create_line(app.calendarLeftMargin//2, hourPixel, \
             app.calendarWidth, hourPixel, fill = "gray", width = .5)
         
-        if hour < 6: 
-            hourText = f"{2*hour} AM"
+        if hour < 12: 
+            hourText = f"{hour} AM"
         else:
-            hourText = f"{2*hour} PM"
+            hourText = f"{hour} PM"
         canvas.create_text(app.calendarLeftMargin//4, hourPixel, \
             text = hourText, fill = "gray", font = "Arial 11")
 
-
-if __name__ == "__main__":
-    runApp(width=1000, height=800)

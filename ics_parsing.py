@@ -1,7 +1,8 @@
 from time import localtime
 from datetime import *
 from icalendar import *
-# from ics import *
+from pytz import *
+from random import *
 
 ###############################################################################
 # notes about icalendar library
@@ -11,15 +12,176 @@ def icalendarLibraryTests():
 
     calendarInstance = Calendar.from_ical(calendarFile.read())
 
-    print(calendarInstance.walk("VEVENT")[50])
 
-    print(calendarInstance.walk("VEVENT")[50]["DTSTART"].dt)
+    eventIndex = 20
 
-    print(type(calendarInstance.walk("VEVENT")[50]["RRULE"]))
+    vEvent = calendarInstance.walk("VEVENT")[eventIndex]
+    # print(vEvent)
+    # print("VEVENT" in vEvent)
+
+    # print(.date())
+    for i in vEvent:
+        print(i)
+
+    # print(calendarInstance.walk("VEVENT")[50]["DTSTART"].dt)
+
+    # vRecur = calendarInstance.walk("VEVENT")[eventIndex]["RRULE"]
+
+    # for i in (vRecur):
+    #     print(i)
+    #     print(vRecur[i])
+    #     print("\n")
 
 
+def icalendarLibraryTests2():
+    class calendarEvent(object):
+        def __init__(self, summary, startTime, endTime):
+            self.summary = summary
+            self.startTime = startTime
+            self.endTime = endTime
+            self.duration = endTime - startTime
+            self.color = (randrange(0, 256),
+                        randrange(0, 256),
+                        randrange(0, 256))
+            self.pixelTop = None
+            self.pixelBot = None
+            self.pixelLeft = None
+            self.pixelRight = None
 
-icalendarLibraryTests()
+            
+        def __repr__(self):
+            return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
+
+
+    '''
+    MONTH APPROACH
+    '''
+
+    # dateToday = date.today()
+    # dateFirstDayOfMonth = dateToday - timedelta(days = dateToday.day - 1)
+    # month = {}
+
+    # numDays = 30
+    # for i in range(numDays):
+    #     currDate = dateFirstDayOfMonth + timedelta(days = i)
+    #     month[currDate] = set()
+
+    '''
+    WEEK APPROACH (temporary)
+    '''
+
+    tz = timezone("America/New_York")
+    dateToday = datetime.now(tz = tz)
+
+    numDay = dateToday.isoweekday()
+    lastSunday = dateToday - timedelta(days = (numDay))
+    nextSunday = lastSunday + timedelta(days = 7)
+
+    week = {}
+    for weekDay in range(7):
+        currDate = lastSunday + timedelta(days = weekDay)
+        week[currDate] = set()
+
+    calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
+    calendarInstance = Calendar.from_ical(calendarFile.read())
+    
+    
+    events = {}
+    eventIndex = 40
+    vEvent = calendarInstance.walk("VEVENT")[eventIndex]
+    startTime = vEvent["DTSTART"].dt.replace(tzinfo=None)
+    endTime =  vEvent["DTEND"].dt.replace(tzinfo=None)
+    time = startTime.time()
+    # print(datetime.now(tz = None).replace(hour = time.hour, minute = time.minute, second = time.second, microsecond=0))
+    # print(endTime)
+    # print(repr(str(vEvent["SUMMARY"])))
+
+    # print(vEvent["SUMMARY"])
+    # dtstart = vEvent["DTSTART"].dt
+    # print(dtstart.tzinfo)
+    # print(dtstart)
+    # print(datetime(2021, 8, 24, 12, 20, tzinfo = dateToday.tzinfo))
+    # print(dtstart < datetime(2021, 8, 24, 12, 20, tzinfo = dateToday.tzinfo))
+
+    # print(dateToday.tzinfo)
+    # print(vEvent["DTEND"].dt)
+
+
+    # print(vEvent["RRULE"]["UNTIL"][0])
+    
+    # for i in vEvent:
+    #     print(i)
+
+    # for event in calendarInstance.walk("VEVENT"):
+    #     description = event["SUMMARY"]
+    #     events[description] = event
+    
+    daysToNums = vWeekday.week_days
+
+    for event in calendarInstance.walk("VEVENT"):
+        if "RRULE" in event and "BYDAY" in event["RRULE"]:
+            recurrenceList = event["RRULE"]
+            if not "UNTIL" in recurrenceList or \
+                recurrenceList["UNTIL"][0] > lastSunday:
+                repeatingDays = set()
+                for byDay in recurrenceList["BYDAY"]:
+                    repeatingDays.add(daysToNums[byDay])
+                for day in week:
+                    if day.isoweekday()%7 in repeatingDays:
+                        startTime = event["DTSTART"].dt
+                        endTime =  event["DTEND"].dt
+                        startTime = startTime.replace(day = day.day, month = day.month, year = day.year)
+                        endTime = endTime.replace(day = day.day, month = day.month, year = day.year)
+                        eventObject = calendarEvent(str(event["SUMMARY"]), startTime, endTime)
+                        week[day].add(eventObject)
+
+    # for i in week:
+    #     print(week[i])
+    #     print('\n')
+
+
+    return week
+                
+
+            # print(event["SUMMARY"])
+            # for item in event["RRULE"]:
+            #     print(item)
+            # if "UNTIL" in event["RRULE"]:
+            #     print(event["RRULE"]["UNTIL"])
+            # print("\n")
+
+# icalendarLibraryTests()
+# icalendarLibraryTests2()
+'''
+
+
+establish current date (for use in month/day)
+
+create a dictionary with keys as string of each day in the month (taken from
+date objects) assigned to sets containing events in that day (*)
+
+most recent sunday, etc. (do so by DAY -> NUM and then …
+    DATE minus NUM)
+
+
+(*) create a set with all of our events
+    for event in our list of events
+        if there is an rrule
+            remove it from set and add it to rrule set (**)
+        else
+            check if it is in the month
+
+(**) now with rrules
+    if until < 'beginning of month':
+        remove from set
+    now check frequency:
+        if weekly
+            check byday number
+            if byday number of first day
+        else (check daily… for now remove from set)
+
+
+'''
 
 ###############################################################################
 # !!!!!!DEPRECATED!!!!!! notes about ics library and classes for events and calendars
