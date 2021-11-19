@@ -40,6 +40,7 @@ def icalendarLibraryTests2():
             self.startTime = startTime
             self.endTime = endTime
             self.duration = endTime - startTime
+            self.day = None
             self.color = (randrange(0, 256),
                         randrange(0, 256),
                         randrange(0, 256))
@@ -80,11 +81,11 @@ def icalendarLibraryTests2():
     week = {}
     for weekDay in range(7):
         currDate = lastSunday + timedelta(days = weekDay)
+        currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
         week[currDate] = set()
 
     calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
     calendarInstance = Calendar.from_ical(calendarFile.read())
-    
     
     events = {}
     eventIndex = 40
@@ -92,6 +93,7 @@ def icalendarLibraryTests2():
     startTime = vEvent["DTSTART"].dt.replace(tzinfo=None)
     endTime =  vEvent["DTEND"].dt.replace(tzinfo=None)
     time = startTime.time()
+
     # print(datetime.now(tz = None).replace(hour = time.hour, minute = time.minute, second = time.second, microsecond=0))
     # print(endTime)
     # print(repr(str(vEvent["SUMMARY"])))
