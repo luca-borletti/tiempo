@@ -130,8 +130,8 @@ def icalendarLibraryTests2():
                     if day.isoweekday()%7 in repeatingDays:
                         startTime = event["DTSTART"].dt
                         endTime =  event["DTEND"].dt
-                        startTime = startTime.replace(day = day.day, month = day.month, year = day.year, tzinfo = None)
-                        endTime = endTime.replace(day = day.day, month = day.month, year = day.year, tzinfo = None)
+                        startTime = startTime.replace(day = day.day, month = day.month, year = day.year)
+                        endTime = endTime.replace(day = day.day, month = day.month, year = day.year)
                         eventObject = calendarEvent(str(event["SUMMARY"]), startTime, endTime)
                         week[day].add(eventObject)
 

@@ -8,23 +8,23 @@ from ics_parsing import icalendarLibraryTests2
 ###############################################################################
 seed(15)
 
-# class event(object):
-#     def __init__(self, summary, startTime, endTime):
-#         self.summary = summary
-#         self.startTime = startTime
-#         self.endTime = endTime
-#         self.duration = endTime - startTime
-#         self.color = (randrange(0, 256),
-#                       randrange(0, 256),
-#                       randrange(0, 256))
-#         self.pixelTop = None
-#         self.pixelBot = None
-#         self.pixelLeft = None
-#         self.pixelRight = None
+class event(object):
+    def __init__(self, summary, startTime, endTime):
+        self.summary = summary
+        self.startTime = startTime
+        self.endTime = endTime
+        self.duration = endTime - startTime
+        self.color = (randrange(0, 256),
+                      randrange(0, 256),
+                      randrange(0, 256))
+        self.pixelTop = None
+        self.pixelBot = None
+        self.pixelLeft = None
+        self.pixelRight = None
 
         
-#     def __repr__(self):
-#         return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
+    def __repr__(self):
+        return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
 
 _week = icalendarLibraryTests2()
 
@@ -35,13 +35,13 @@ for day in _week:
         if index > 3:
             break
 
-# concepts = event("15-151 Discrete Mathematics", \
-#     datetime(2021, 11, 11, 13, 25, tzinfo=timezone.utc), \
-#         datetime(2021, 11, 11, 16, 15, tzinfo=timezone.utc))
+concepts = event("15-151 Discrete Mathematics", \
+    datetime(2021, 11, 11, 13, 25, tzinfo=timezone.utc), \
+        datetime(2021, 11, 11, 16, 15, tzinfo=timezone.utc))
 
-# linear_algebra = event("21-241 Linear Algebra", \
-#     datetime(2021, 11, 11, 17, 5, tzinfo=timezone.utc), \
-#         datetime(2021, 11, 11, 19, 55, tzinfo=timezone.utc))
+linear_algebra = event("21-241 Linear Algebra", \
+    datetime(2021, 11, 11, 17, 5, tzinfo=timezone.utc), \
+        datetime(2021, 11, 11, 19, 55, tzinfo=timezone.utc))
 
 ###############################################################################
 # calendar graphics
@@ -75,9 +75,9 @@ def appStarted(app):
 
     app.today = datetime(2021, 11, 17, tzinfo=timezone.utc)
 
-    app.midnight = app.today.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
+    app.midnight = app.today.replace(hour=4, minute=0, second=0, microsecond=0)
 
-    # app.eventsToday = {concepts, linear_algebra}
+    app.eventsToday = {concepts, linear_algebra}
 
     app.eventsToday = _day
 
