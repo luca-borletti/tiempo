@@ -32,7 +32,7 @@ index = 0
 for day in _week:
         _day = _week[day]
         index += 1
-        if index > 3:
+        if index > 4:
             break
 
 # concepts = event("15-151 Discrete Mathematics", \
@@ -73,7 +73,7 @@ def appStarted(app):
 
     # CHANGE midnight time finder
 
-    app.today = datetime(2021, 11, 17, tzinfo=timezone.utc)
+    app.today = datetime(2021, 11, 18, tzinfo=timezone.utc)
 
     app.midnight = app.today.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
 
