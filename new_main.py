@@ -51,6 +51,7 @@ def appStarted(app):
     ###########################################################################
     
     app.selectedEvent = None
+    app.selectedProportion = None
     app.deselectedColor = None
     app.selectedColor = None
     app.draggedPosition = None
@@ -114,7 +115,7 @@ def mousePressed(app, event):
             clickedEvent = mouseOnEvent(app, x, y)
             if clickedEvent != None:
                 deselectEvent(app)
-                selectEvent(app, clickedEvent, dayClicked)
+                selectEvent(app, clickedEvent, dayClicked, y)
                 app.draggedPosition = (x, y)
             else:
                 deselectEvent(app)
@@ -158,7 +159,7 @@ def mouseOnEvent(app, x, y): ##########
                 return event
     return None
 
-def selectEvent(app, event, day):
+def selectEvent(app, event, day, y):
     '''
     - store the color of an event before selection
     - create darker "highlighted" new selected color and make it event's color 
@@ -168,6 +169,9 @@ def selectEvent(app, event, day):
     app.selectedColor = tuple([app.deselectedColor[i]//4*3 for i in range(3)])
     event.color = app.selectedColor
     app.selectedEvent = event
+
+    # app.selectedProportion = (event.pixelBot - event.pixelTop) / (y - event.pixelTop)
+    app.selectedProportion = y - event.pixelTop
 
     app.weekEvents[day].remove(event)
 
@@ -187,6 +191,7 @@ def deselectEvent(app):
     app.deselectedColor = None
     app.selectedColor = None
     app.draggedPosition = None
+    app.selectedProportion = None
 
 
 def fixEvent(app, event, x, y):
@@ -195,15 +200,15 @@ def fixEvent(app, event, x, y):
     of the mouse
     '''
     height = event.pixelBot - event.pixelTop
-    if y - height//2 < app.calendarTopMargin:
+    if y - app.selectedProportion < app.calendarTopMargin:
         event.pixelTop = app.calendarTopMargin
         event.pixelBot = app.calendarTopMargin + height
-    elif y + height//2 > app.calendarHeight:
+    elif y + (height - app.selectedProportion) > app.calendarHeight:
         event.pixelBot = app.calendarHeight
         event.pixelTop = app.calendarHeight - height
     else:
-        event.pixelTop = y - height//2
-        event.pixelBot = y + height//2
+        event.pixelTop = y - app.selectedProportion
+        event.pixelBot = y + (height - app.selectedProportion)
 
     if x + (app.calendarPixelWidth/7)/2 > app.calendarWidth:
         dayIndex = 6
@@ -270,6 +275,53 @@ def redrawAll(app, canvas):
 def drawCalendar(app, canvas):
     drawWeekBackground(app, canvas)
     drawWeekEvents(app, canvas)
+    drawDraggedEvent(app, canvas)
+
+def drawDraggedEvent(app, canvas):
+    event = app.selectedEvent
+
+    if app.draggedPosition != None:
+        x, y = app.draggedPosition
+        eventHeight = event.pixelBot - event.pixelTop
+
+        if y - app.selectedProportion < app.calendarTopMargin:
+            dragPixelTop = app.calendarTopMargin
+            dragPixelBot = app.calendarTopMargin + eventHeight
+        elif y + (eventHeight - app.selectedProportion) > app.calendarHeight:
+            dragPixelTop = app.calendarHeight - eventHeight
+            dragPixelBot = app.calendarHeight
+        else:
+            dragPixelTop = y - app.selectedProportion
+            dragPixelBot = y + (eventHeight - app.selectedProportion)
+
+        if x + (app.calendarPixelWidth/7)/2 > app.calendarWidth:
+            dayIndex = 6
+            dragPixelLeft = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7)
+            dragPixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
+            + app.calendarPixelWidth*.95/7)
+        elif x - (app.calendarPixelWidth/7)/2 < app.calendarLeftMargin:
+            dayIndex = 0
+            dragPixelLeft = int(app.calendarLeftMargin)
+            dragPixelRight = int(app.calendarLeftMargin + app.calendarPixelWidth*.95/7)
+        else:
+            dayIndex = int((x - app.calendarLeftMargin)/(app.calendarPixelWidth/7))
+            dragPixelLeft = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7)
+            dragPixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
+                + app.calendarPixelWidth*.95/7)
+            
+        canvas.create_rectangle(dragPixelLeft, dragPixelTop, 
+                                dragPixelRight, dragPixelBot, 
+                                fill = fromRGBtoHex(event.color),
+                                width = 0)
+        if len(event.summary) >= 19:
+            eventText = event.summary[:18] + "…"
+        else:
+            eventText = event.summary
+            
+        canvas.create_text(dragPixelLeft + 2, dragPixelTop, 
+                        text = eventText, anchor = "nw",
+                        fill = "white", font = "Arial 12")
+
 
 def drawWeekEvents(app, canvas):
     for index in range(7):
