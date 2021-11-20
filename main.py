@@ -31,6 +31,7 @@ def appStarted(app):
     ###########################################################################
 
     dateToday = datetime.now(tz = None) #NOT NEEDED
+    app.today = dateToday.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
     numDay = dateToday.isoweekday()
     lastSunday = dateToday - timedelta(days = (numDay))
 
@@ -155,7 +156,6 @@ def mouseOnEvent(app, x, y): ##########
         for event in app.weekEvents[day]:
             if (event.pixelLeft <= x <= event.pixelRight) and \
                 (event.pixelTop <= y <= event.pixelBot):
-                print(event)
                 return event
     return None
 
@@ -350,17 +350,22 @@ def drawWeekBackground(app, canvas):
     draw hours text
     '''
     canvas.create_line(0, app.calendarTopMargin, \
-        app.calendarWidth, app.calendarTopMargin, fill = "gray", width = .5)
-    
+        app.calendarWidth, app.calendarTopMargin, fill = "gray", width = 2)
+
     for day in range(7):
         dayPixel = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(day + 1/2))
-        dayText = ""
+        dayText = app.weekDays[day].strftime('%A').upper()[:3]
+        canvas.create_text(dayPixel, app.calendarTopMargin*2//9, text = dayText,
+                           fill = "gray", font = "Arial 14")
 
         canvas.create_line(int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
-            app.calendarTopMargin//2, int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
+            app.calendarTopMargin*7//9, int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
             app.calendarHeight, fill = "gray", width = .5)
-    # for hour in range(1, 13):
-    for hour in range(1, 25):
+
+    # if app.today in app.weekEvents:
+
+
+    for hour in range(1, 25, 2):
         hourPixel = int(app.calendarPixelHeight/24*hour + app.calendarTopMargin)
         canvas.create_line(app.calendarLeftMargin//2, hourPixel, \
             app.calendarWidth, hourPixel, fill = "gray", width = .5)
@@ -371,13 +376,6 @@ def drawWeekBackground(app, canvas):
             hourText = f"{hour} PM"
         else:
             hourText = f"{hour%12} PM"
-
-        # if hour < 6: 
-        #     hourText = f"{2*hour} AM"
-        # elif hour == 6:
-        #     hourText = f"{2*hour} PM"
-        # else:
-        #     hourText = f"{2*hour%12} PM"
 
         canvas.create_text(app.calendarLeftMargin//4, hourPixel, \
             text = hourText, fill = "gray", font = "Arial 11")
