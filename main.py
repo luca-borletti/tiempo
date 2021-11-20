@@ -24,7 +24,8 @@ def appStarted(app):
 
     app.calendarPixelHeight = app.calendarHeight - app.calendarTopMargin
     app.calendarPixelWidth = app.calendarWidth - app.calendarLeftMargin
-    app.calendarBgColor = fromRGBtoHex((150,150,150))
+    app.colorModeBg = "gray"
+    app.colorModeFg = "white"
 
     ###########################################################################
     # 
@@ -309,7 +310,7 @@ def drawDraggedEvent(app, canvas):
             dragPixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
                 + app.calendarPixelWidth*.95/7)
             
-        canvas.create_rectangle(dragPixelLeft, dragPixelTop, 
+        canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
                                 dragPixelRight, dragPixelBot, 
                                 fill = fromRGBtoHex(event.color),
                                 width = 0)
@@ -327,7 +328,7 @@ def drawWeekEvents(app, canvas):
     for index in range(7):
         weekDay = app.weekDays[index]
         for event in app.weekEvents[weekDay]:
-            canvas.create_rectangle(event.pixelLeft, event.pixelTop, 
+            canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
                                 event.pixelRight, event.pixelBot, 
                                 fill = fromRGBtoHex(event.color),
                                 width = 0)
@@ -349,18 +350,20 @@ def drawWeekBackground(app, canvas):
     draw lines across calendar side of view
     draw hours text
     '''
+    canvas.create_rectangle(0, 0, app.width, app.height, fill = app.colorModeBg, )
+
     canvas.create_line(0, app.calendarTopMargin, \
-        app.calendarWidth, app.calendarTopMargin, fill = "gray", width = 2)
+        app.calendarWidth, app.calendarTopMargin, fill = app.colorModeFg, width = 2)
 
     for day in range(7):
         dayPixel = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(day + 1/2))
         dayText = app.weekDays[day].strftime('%A').upper()[:3]
         canvas.create_text(dayPixel, app.calendarTopMargin*2//9, text = dayText,
-                           fill = "gray", font = "Arial 14")
+                           fill = app.colorModeFg, font = "Arial 14")
 
         canvas.create_line(int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
             app.calendarTopMargin*7//9, int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
-            app.calendarHeight, fill = "gray", width = .5)
+            app.calendarHeight, fill = app.colorModeFg, width = .5)
 
     # if app.today in app.weekEvents:
 
@@ -368,7 +371,7 @@ def drawWeekBackground(app, canvas):
     for hour in range(1, 25, 2):
         hourPixel = int(app.calendarPixelHeight/24*hour + app.calendarTopMargin)
         canvas.create_line(app.calendarLeftMargin//2, hourPixel, \
-            app.calendarWidth, hourPixel, fill = "gray", width = .5)
+            app.calendarWidth, hourPixel, fill = app.colorModeFg, width = .5)
         
         if hour < 12: 
             hourText = f"{hour} AM"
@@ -378,7 +381,7 @@ def drawWeekBackground(app, canvas):
             hourText = f"{hour%12} PM"
 
         canvas.create_text(app.calendarLeftMargin//4, hourPixel, \
-            text = hourText, fill = "gray", font = "Arial 11")
+            text = hourText, fill = app.colorModeFg, font = "Arial 11")
 
 
 
