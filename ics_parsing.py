@@ -153,7 +153,7 @@ def icalendarLibraryTests2():
             # print("\n")
 
 # icalendarLibraryTests()
-# icalendarLibraryTests2()
+icalendarLibraryTests2()
 '''
 
 
