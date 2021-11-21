@@ -256,8 +256,11 @@ class App(object):
     def keyReleased(app, event): pass   # use event.key
     def mousePressed(app, event): pass  # use event.x and event.y
     def mouseReleased(app, event): pass # use event.x and event.y
+    def rightPressed(app, event): pass  # use event.x and event.y
+    def rightReleased(app, event): pass # use event.x and event.y
     def mouseMoved(app, event): pass    # use event.x and event.y
     def mouseDragged(app, event): pass  # use event.x and event.y
+    def rightDragged(app, event): pass  # use event.x and event.y
     def timerFired(app): pass           # respond to timer events
     def sizeChanged(app): pass          # respond to window size changes
 
@@ -274,6 +277,7 @@ class App(object):
         app._logDrawingCalls = logDrawingCalls
         app._running = app._paused = False
         app._mousePressedOutsideWindow = False
+        app._rightPressedOutsideWindow = False
         if autorun: app.run()
 
     def __repr__(app):
@@ -540,6 +544,35 @@ class App(object):
                 app._redrawAllWrapper()
 
     @_safeMethod
+    def _rightPressedWrapper(app, event):
+        if (not app._running) or app._paused: return
+        if ((event.x < 0) or (event.x > app.width) or
+            (event.y < 0) or (event.y > app.height)):
+            app._rightPressedOutsideWindow = True
+        else:
+            app._rightPressedOutsideWindow = False
+            app._rightIsPressed = True
+            app._lastMousePosn = (event.x, event.y)
+            if (app._methodIsOverridden('rightPressed')):
+                event = App.MouseEventWrapper(event)
+                app.rightPressed(event)
+                app._redrawAllWrapper()
+
+    @_safeMethod
+    def _rightReleasedWrapper(app, event):
+        if (not app._running) or app._paused: return
+        app._rightIsPressed = False
+        if app._rightPressedOutsideWindow:
+            app._rightPressedOutsideWindow = False
+            app._sizeChangedWrapper()
+        else:
+            app._lastMousePosn = (event.x, event.y)
+            if (app._methodIsOverridden('rightReleased')):
+                event = App.MouseEventWrapper(event)
+                app.rightReleased(event)
+                app._redrawAllWrapper()
+
+    @_safeMethod
     def _timerFiredWrapper(app):
         if (not app._running) or (not app._methodIsOverridden('timerFired')): return
         if (not app._paused):
@@ -552,6 +585,7 @@ class App(object):
         if (not app._running): return
         if (event and ((event.width < 2) or (event.height < 2))): return
         if (app._mousePressedOutsideWindow): return
+        if (app._rightPressedOutsideWindow): return
         app.width,app.height,app.winx,app.winy = [int(v) for v in app._root.winfo_geometry().replace('x','+').split('+')]
         if (app._lastWindowDims is None):
             app._lastWindowDims = (app.width, app.height, app.winx, app.winy)
@@ -568,10 +602,13 @@ class App(object):
         if (not app._running): return
         mouseMovedExists = app._methodIsOverridden('mouseMoved')
         mouseDraggedExists = app._methodIsOverridden('mouseDragged')
+        rightDraggedExists = app._methodIsOverridden('rightDragged')
         if ((not app._paused) and
-            (not app._mousePressedOutsideWindow) and
+            (not app._mousePressedOutsideWindow) and 
+            (not app._rightPressedOutsideWindow) and
             (((not app._mouseIsPressed) and mouseMovedExists) or
-             (app._mouseIsPressed and mouseDraggedExists))):
+             (app._mouseIsPressed and mouseDraggedExists) or 
+             (app._mouseIsPressed and rightDraggedExists))):
             class MouseMotionEvent(object): pass
             event = MouseMotionEvent()
             root = app._root
@@ -582,10 +619,11 @@ class App(object):
                 (event.x >= 0) and (event.x <= app.width) and
                 (event.y >= 0) and (event.y <= app.height)):
                 if (app._mouseIsPressed): app.mouseDragged(event)
+                elif (app._rightIsPressed): app.rightDragged(event)
                 else: app.mouseMoved(event)
                 app._lastMousePosn = (event.x, event.y)
                 app._redrawAllWrapper()
-        if (mouseMovedExists or mouseDraggedExists):
+        if (mouseMovedExists or mouseDraggedExists or rightDraggedExists):
             app._deferredMethodCall(afterId='mouseMotionWrapper', afterDelay=app.mouseMovedDelay, afterFn=app._mouseMotionWrapper)
 
     def updateTitle(app):
@@ -612,6 +650,7 @@ class App(object):
     @_safeMethod
     def run(app):
         app._mouseIsPressed = False
+        app._rightIsPressed = False
         app._lastMousePosn = (-1, -1)
         app._lastWindowDims= None # set in sizeChangedWrapper
         app._afterIdMap = dict()
@@ -622,6 +661,8 @@ class App(object):
             App._theRoot.protocol('WM_DELETE_WINDOW', lambda: App._theRoot.app.quit()) # when user presses 'x' in title bar
             App._theRoot.bind("<Button-1>", lambda event: App._theRoot.app._mousePressedWrapper(event))
             App._theRoot.bind("<B1-ButtonRelease>", lambda event: App._theRoot.app._mouseReleasedWrapper(event))
+            App._theRoot.bind("<Button-2>", lambda event: App._theRoot.app._rightPressedWrapper(event))
+            App._theRoot.bind("<B2-ButtonRelease>", lambda event: App._theRoot.app._rightReleasedWrapper(event))
             App._theRoot.bind("<KeyPress>", lambda event: App._theRoot.app._keyPressedWrapper(event))
             App._theRoot.bind("<KeyRelease>", lambda event: App._theRoot.app._keyReleasedWrapper(event))
             App._theRoot.bind("<Configure>", lambda event: App._theRoot.app._sizeChangedWrapper(event))
@@ -683,8 +724,11 @@ class TopLevelApp(App):
     def keyReleased(app, event): app._callFn('keyReleased', app, event)
     def mousePressed(app, event): app._callFn('mousePressed', app, event)
     def mouseReleased(app, event): app._callFn('mouseReleased', app, event)
+    def rightPressed(app, event): app._callFn('rightPressed', app, event)
+    def rightReleased(app, event): app._callFn('rightReleased', app, event)
     def mouseMoved(app, event): app._callFn('mouseMoved', app, event)
     def mouseDragged(app, event): app._callFn('mouseDragged', app, event)
+    def rightDragged(app, event): app._callFn('rightDragged', app, event)
     def timerFired(app): app._callFn('timerFired', app)
     def sizeChanged(app): app._callFn('sizeChanged', app)
 
@@ -723,8 +767,11 @@ class ModalApp(App):
     def keyReleased(app, event): app._callFn('keyReleased', app, event)
     def mousePressed(app, event): app._callFn('mousePressed', app, event)
     def mouseReleased(app, event): app._callFn('mouseReleased', app, event)
+    def rightPressed(app, event): app._callFn('rightPressed', app, event)
+    def rightReleased(app, event): app._callFn('rightReleased', app, event)
     def mouseMoved(app, event): app._callFn('mouseMoved', app, event)
     def mouseDragged(app, event): app._callFn('mouseDragged', app, event)
+    def rightDragged(app, event): app._callFn('rightDragged', app, event)
     def timerFired(app): app._callFn('timerFired', app)
     def sizeChanged(app): app._callFn('sizeChanged', app)
 '''

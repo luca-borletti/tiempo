@@ -41,9 +41,7 @@ def icalendarLibraryTests2():
             self.endTime = endTime
             self.duration = endTime - startTime
             self.day = None
-            self.color = (randrange(0, 256),
-                        randrange(0, 256),
-                        randrange(0, 256))
+            self.color = None
             self.pixelTop = None
             self.pixelBot = None
             self.pixelLeft = None
@@ -119,15 +117,26 @@ def icalendarLibraryTests2():
     #     events[description] = event
     
     daysToNums = vWeekday.week_days
+    colorIndex = 0
+    colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207)]
 
     for event in calendarInstance.walk("VEVENT"):
         if "RRULE" in event and "BYDAY" in event["RRULE"]:
             recurrenceList = event["RRULE"]
             if not "UNTIL" in recurrenceList or \
                 recurrenceList["UNTIL"][0] > lastSunday:
+                colorIndex += 1
+
                 repeatingDays = set()
                 for byDay in recurrenceList["BYDAY"]:
                     repeatingDays.add(daysToNums[byDay])
+                # color = (min(randrange(0, 256) + 50, 255),
+                #          min(randrange(0, 256) + 50, 255),
+                #          min(randrange(0, 256) + 50, 255))
+                # color = (randrange(0, 256)*7//8,
+                #          randrange(0, 256)*7//8,
+                #          randrange(0, 256)*7//8)
+                color = colorList[colorIndex%len(colorList)]
                 for day in week:
                     if day.isoweekday()%7 in repeatingDays:
                         startTime = event["DTSTART"].dt
@@ -135,6 +144,7 @@ def icalendarLibraryTests2():
                         startTime = startTime.replace(day = day.day, month = day.month, year = day.year, tzinfo = None)
                         endTime = endTime.replace(day = day.day, month = day.month, year = day.year, tzinfo = None)
                         eventObject = calendarEvent(str(event["SUMMARY"]), startTime, endTime)
+                        eventObject.color = color
                         week[day].add(eventObject)
 
     # for i in week:

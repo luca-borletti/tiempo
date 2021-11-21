@@ -3,6 +3,18 @@ from datetime import *
 from random import *
 from ics_parsing import *
 
+'''
+implement…
+
+event creation
+
+event description pop-up
+
+interleaving algorithm plan
+
+scrolling
+'''
+
 def main():
     pass
 
@@ -11,6 +23,14 @@ def appStarted(app):
     '''
     for week mode
     '''
+
+
+    # openingMode, calendarMode, eventCreationMode, taskCreationMode, pomodoroMode
+
+    app.mode = "calendarMode"
+    # url = "https://lh3.googleusercontent.com/proxy/XFVcPr1-SZFLA58dSI5X3dSQhZLELv9CtgkU6Xo3ufSy4CVXu8vd2mY5sZphzvjhkoV4wguChnjWj2DADDcytPesoWkUl6vQk7uRZm_nzUp7I25qhtC_s338fdjB4LYCdntsRDM6zjY5PU-GiV0kcliZ8Y2nhSR3TwYJFEi_zlEbH2TRs7xnjaLNeOIEcbJqQqq1xkU"
+    # app.openingModeImage = app.loadImage(url)
+
 
     ###########################################################################
     # calendar background
@@ -24,8 +44,14 @@ def appStarted(app):
 
     app.calendarPixelHeight = app.calendarHeight - app.calendarTopMargin
     app.calendarPixelWidth = app.calendarWidth - app.calendarLeftMargin
-    app.colorModeBg = "gray"
-    app.colorModeFg = "white"
+
+    app.calendarBgColor = fromRGBtoHex((30,32,35))
+    app.calendarFgColor = fromRGBtoHex((70,70,70))
+    app.calendarWkndColor = fromRGBtoHex((39,40,42))
+    app.todayCircleColor = fromRGBtoHex((235,85,69))
+
+    app.calendarOuterFont = fromRGBtoHex((110,110,110))
+    app.calendarInnerFont = fromRGBtoHex((255,255,255))
 
     ###########################################################################
     # 
@@ -47,6 +73,7 @@ def appStarted(app):
         for event in app.weekEvents[currDate]:
             datetimeToCalendar(app, event, day)
             
+    app.colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207)]
     
     ###########################################################################
     # calendar event selection
@@ -57,6 +84,13 @@ def appStarted(app):
     app.deselectedColor = None
     app.selectedColor = None
     app.draggedPosition = None
+
+def openingMode_redrawAll(app, canvas):
+    canvas.create_image(app.width//2, app.height//2, \
+        image=ImageTk.PhotoImage(app.openingModeImage))
+
+def openingMode_keyPressed(app, event):
+    app.mode = "calendarMode"
 
 def datetimeToCalendar(app, event, day):
     '''
@@ -95,13 +129,39 @@ def fromRGBtoHex(rgbTuple):
     hexString = f'#{red:02x}{green:02x}{blue:02x}' #CHANGE!!!!
     return hexString
 
-def timerFired(app):
+def calendarMode_timerFired(app):
     pass
 
-def appStopped(app):
+def calendarMode_appStopped(app):
     pass
 
-def mousePressed(app, event):
+# def calendarMode_rightPressed(app, event):
+#     '''
+#     check where mouse is on view
+#         - if on event, select event
+#         - if on calendar and an event is selected, deselect the event.
+#     '''
+#     x, y = event.x, event.y
+#     if mouseInCalendar(app, x, y):
+#         if mouseOnButtons(app, x, y):
+#             deselectEvent(app)
+#             pass
+#         else:
+#             dayClicked = mouseOnDay(app, x, y)
+#             clickedEvent = mouseOnEvent(app, x, y)
+#             if clickedEvent != None:
+#                 deselectEvent(app)
+#                 selectEvent(app, clickedEvent, dayClicked, y)
+#                 app.draggedPosition = (x, y)
+#             else:
+#                 # createEvent(app, x, y)
+#                 deselectEvent(app)
+#     else:
+#         deselectEvent(app)
+
+
+
+def calendarMode_mousePressed(app, event):
     '''
     check where mouse is on view
         - if on event, select event
@@ -120,9 +180,18 @@ def mousePressed(app, event):
                 selectEvent(app, clickedEvent, dayClicked, y)
                 app.draggedPosition = (x, y)
             else:
+                # createEvent(app, x, y)
                 deselectEvent(app)
     else:
         deselectEvent(app)
+
+# def createEvent(app, x, y):
+#     if app.selectedEvent == None:
+#         dayClicked = mouseOnDay(app, x, y)
+#         dayDt = app.weekDays[dayClicked]
+#         createdEvent = 
+#         selectEvent(app, createdEvent, dayClicked, y)
+#         app.weekEvents[dayDt].add(createdEvent)
 
 def mouseOnDay(app, x, y):
     '''
@@ -194,7 +263,6 @@ def deselectEvent(app):
     app.draggedPosition = None
     app.selectedProportion = None
 
-
 def fixEvent(app, event, x, y):
     '''
     changes the attributes of an event to match the given x, y coordinates
@@ -230,8 +298,17 @@ def fixEvent(app, event, x, y):
     
     app.weekEvents[event.day].add(event)
 
+# def calendarMode_rightDragged(app, event):
+#     '''
+#     if an event is selected, then change dragged position (where dragged event
+#     will be drawn)
+#     '''
+#     x, y = event.x, event.y
 
-def mouseDragged(app, event):
+#     if app.selectedEvent != None:
+#         app.draggedPosition = (x, y)
+
+def calendarMode_mouseDragged(app, event):
     '''
     if an event is selected, then change dragged position (where dragged event
     will be drawn)
@@ -241,7 +318,21 @@ def mouseDragged(app, event):
     if app.selectedEvent != None:
         app.draggedPosition = (x, y)
 
-def mouseReleased(app, event):
+# def calendarMode_rightReleased(app, event):
+#     '''
+#     if an event is selected, then the selected event is fixed at the x, y 
+#     position
+#     '''
+#     x, y = event.x, event.y
+
+#     if app.selectedEvent != None:
+#         app.draggedPosition = (x, y)
+
+#         fixEvent(app, app.selectedEvent, x, y)
+
+#         app.draggedPosition = None
+
+def calendarMode_mouseReleased(app, event):
     '''
     if an event is selected, then the selected event is fixed at the x, y 
     position
@@ -255,22 +346,39 @@ def mouseReleased(app, event):
 
         app.draggedPosition = None
 
-def keyReleased(app, event):
+def calendarMode_keyReleased(app, event):
+    if app.selectedEvent != None:
+        if event.key == "Delete":
+            deleteEvent(app)
+        if event.key == "Space":
+            pass
+
+def deleteEvent(app):
+    '''
+    if there is a selected event
+        - change color back to lighter color
+    '''
+    event = app.selectedEvent
+
+    if event != None:
+        app.weekEvents[event.day].remove(event)
+    
+    app.selectedEvent = None
+    app.deselectedColor = None
+    app.selectedColor = None
+    app.draggedPosition = None
+    app.selectedProportion = None
+
+def calendarMode_keyPressed(app, event):
     pass
 
-def keyPressed(app, event):
+def calendarMode_sizeChanged(app):
     pass
 
-def sizeChanged(app):
+def calendarMode_mouseMoved(app, event):
     pass
 
-def mouseMoved(app, event):
-    pass
-
-def sizeChanged(app):
-    pass
-
-def redrawAll(app, canvas):
+def calendarMode_redrawAll(app, canvas):
     drawCalendar(app, canvas)
 
 def drawCalendar(app, canvas):
@@ -321,7 +429,7 @@ def drawDraggedEvent(app, canvas):
             
         canvas.create_text(dragPixelLeft + 2, dragPixelTop, 
                         text = eventText, anchor = "nw",
-                        fill = "white", font = "Arial 12")
+                        fill = app.calendarInnerFont, font = "Arial 12")
 
 
 def drawWeekEvents(app, canvas):
@@ -340,30 +448,49 @@ def drawWeekEvents(app, canvas):
                 
             canvas.create_text(event.pixelLeft + 2, event.pixelTop, 
                             text = eventText, anchor = "nw",
-                            fill = "white", font = "Arial 12")
-
-
-
+                            fill = app.calendarInnerFont, font = "Arial 12")
 
 def drawWeekBackground(app, canvas):
     '''
     draw lines across calendar side of view
     draw hours text
     '''
-    canvas.create_rectangle(0, 0, app.width, app.height, fill = app.colorModeBg, )
+    canvas.create_rectangle(0, 0, app.width, app.height, fill = app.calendarBgColor)
+
+    canvas.create_rectangle(app.calendarLeftMargin, app.calendarTopMargin, \
+        app.calendarLeftMargin + app.calendarPixelWidth//7, app.height, \
+            fill = app.calendarWkndColor, width = 0)
+    
+    canvas.create_rectangle(app.calendarLeftMargin + app.calendarPixelWidth*6//7, \
+        app.calendarTopMargin, app.calendarWidth, app.height, fill = app.calendarWkndColor, width = 0)
 
     canvas.create_line(0, app.calendarTopMargin, \
-        app.calendarWidth, app.calendarTopMargin, fill = app.colorModeFg, width = 2)
+        app.calendarWidth, app.calendarTopMargin, fill = app.calendarFgColor, width = 2)
 
     for day in range(7):
+        dayDt = app.weekDays[day]
+
         dayPixel = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(day + 1/2))
-        dayText = app.weekDays[day].strftime('%A').upper()[:3]
-        canvas.create_text(dayPixel, app.calendarTopMargin*2//9, text = dayText,
-                           fill = app.colorModeFg, font = "Arial 14")
+        textWeekDay = dayDt.strftime('%A').upper()[:3]
+        textMonthDay = dayDt.strftime('%d')
+        
+        monthDayColor = app.calendarOuterFont
+
+        if dayDt == app.today:
+            canvas.create_oval(dayPixel - 22, app.calendarTopMargin*2//3 - 22,
+                               dayPixel + 22, app.calendarTopMargin*2//3 + 22,
+                               fill = app.todayCircleColor, width = 0)
+            monthDayColor = app.calendarBgColor
+
+        canvas.create_text(dayPixel, app.calendarTopMargin*3//10, text = textWeekDay,
+                           fill = app.calendarOuterFont, font = "Arial 14")
+
+        canvas.create_text(dayPixel, app.calendarTopMargin*2//3, text = textMonthDay,
+                           fill = monthDayColor, font = "Arial 28")
 
         canvas.create_line(int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
             app.calendarTopMargin*7//9, int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
-            app.calendarHeight, fill = app.colorModeFg, width = .5)
+            app.calendarHeight, fill = app.calendarFgColor, width = .5)
 
     # if app.today in app.weekEvents:
 
@@ -371,7 +498,7 @@ def drawWeekBackground(app, canvas):
     for hour in range(1, 25, 2):
         hourPixel = int(app.calendarPixelHeight/24*hour + app.calendarTopMargin)
         canvas.create_line(app.calendarLeftMargin//2, hourPixel, \
-            app.calendarWidth, hourPixel, fill = app.colorModeFg, width = .5)
+            app.calendarWidth, hourPixel, fill = app.calendarFgColor, width = .5)
         
         if hour < 12: 
             hourText = f"{hour} AM"
@@ -381,7 +508,7 @@ def drawWeekBackground(app, canvas):
             hourText = f"{hour%12} PM"
 
         canvas.create_text(app.calendarLeftMargin//4, hourPixel, \
-            text = hourText, fill = app.colorModeFg, font = "Arial 11")
+            text = hourText, fill = app.calendarOuterFont, font = "Arial 11")
 
 
 
