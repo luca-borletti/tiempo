@@ -15,6 +15,22 @@ interleaving algorithm plan
 scrolling
 '''
 
+class calendarEvent(object):
+    def __init__(self, summary, startTime, endTime):
+        self.summary = summary
+        self.startTime = startTime
+        self.endTime = endTime
+        self.duration = endTime - startTime
+        self.day = None
+        self.color = None
+        self.pixelTop = None
+        self.pixelBot = None
+        self.pixelLeft = None
+        self.pixelRight = None
+        
+    def __repr__(self):
+        return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
+
 def main():
     pass
 
@@ -39,6 +55,8 @@ def appStarted(app):
     app.calendarLeftMargin = 100
     app.calendarTopMargin = 100
     
+    app.calendarEditMargin = 10
+
     app.calendarWidth = app.width
     app.calendarHeight = app.height
 
@@ -64,6 +82,8 @@ def appStarted(app):
 
     # app.midnight = app.today.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
 
+    app.dayInSeconds = 86400
+
     app.weekDays = []
     app.weekEvents = icalendarLibraryTests2()
     for day in range(7):
@@ -85,6 +105,8 @@ def appStarted(app):
     app.selectedColor = None
     app.draggedPosition = None
 
+    app.eventEditing = False
+
 def openingMode_redrawAll(app, canvas):
     canvas.create_image(app.width//2, app.height//2, \
         image=ImageTk.PhotoImage(app.openingModeImage))
@@ -101,12 +123,10 @@ def datetimeToCalendar(app, event, day):
 
     midnight = app.weekDays[day]
 
-    dayInSeconds = 86400
-
     event.pixelTop = int(app.calendarTopMargin + (event.startTime - \
-        midnight).total_seconds()/dayInSeconds*app.calendarPixelHeight)
+        midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight)
     event.pixelBot = int(event.pixelTop + \
-        event.duration.total_seconds()/dayInSeconds*app.calendarPixelHeight)
+        event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight)
 
     event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
     event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
@@ -134,6 +154,13 @@ def calendarMode_timerFired(app):
 
 def calendarMode_appStopped(app):
     pass
+
+def calendarMode_rightPressed(app, event):
+    x, y = event.x, event.y
+
+    if mouseInCalendar(app, x, y):
+        if mouseOnEvent(app, x, y) == None:
+            createEvent(app, x, y)
 
 # def calendarMode_rightPressed(app, event):
 #     '''
@@ -180,18 +207,43 @@ def calendarMode_mousePressed(app, event):
                 selectEvent(app, clickedEvent, dayClicked, y)
                 app.draggedPosition = (x, y)
             else:
-                # createEvent(app, x, y)
                 deselectEvent(app)
     else:
         deselectEvent(app)
 
-# def createEvent(app, x, y):
-#     if app.selectedEvent == None:
-#         dayClicked = mouseOnDay(app, x, y)
-#         dayDt = app.weekDays[dayClicked]
-#         createdEvent = 
-#         selectEvent(app, createdEvent, dayClicked, y)
-#         app.weekEvents[dayDt].add(createdEvent)
+def createEvent(app, x, y):
+    if app.selectedEvent == None:
+        dayIndex = int((x - app.calendarLeftMargin) / (app.calendarPixelWidth/7))
+        dayClicked = app.weekDays[dayIndex]
+        
+        proportionCalendar = (y - app.calendarTopMargin) / (app.calendarPixelHeight)
+        startInSeconds = app.dayInSeconds*proportionCalendar
+        
+
+        startTime = dayClicked + timedelta(seconds = startInSeconds)
+        endTime = startTime + timedelta(seconds = 60*60)
+
+        
+        # datetime(dayDt.year, dayDt.month, dayDt.day, y stuff hour, y stuff, tzinfo=None)
+        # endTime = datetime(dayDt.year, dayDt.month, dayDt.day, y stuff hour + 1, y stuff, tzinfo=None)
+
+        createdEvent = calendarEvent("(no title)", startTime, endTime) # placeholders
+        
+        datetimeToCalendar(app, createdEvent, dayIndex)
+
+        createdEvent.day = dayClicked
+        # createdEvent.pixelTop = y # placeholder for datetimeToCalendar
+        # createdEvent.pixelBot = y + app.calendarPixelHeight//24
+        # createdEvent.pixelLeft = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7)
+        # createdEvent.pixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
+        # + app.calendarPixelWidth*.95/7)
+        createdEvent.color = choice(app.colorList)
+
+        app.deselectedColor = createdEvent.color
+        app.selectedColor = tuple([app.deselectedColor[i]//4*3 for i in range(3)])
+        createdEvent.color = app.selectedColor
+        app.selectedEvent = createdEvent
+        app.weekEvents[dayClicked].add(createdEvent)
 
 def mouseOnDay(app, x, y):
     '''
@@ -262,6 +314,7 @@ def deselectEvent(app):
     app.selectedColor = None
     app.draggedPosition = None
     app.selectedProportion = None
+    app.eventEditing = False
 
 def fixEvent(app, event, x, y):
     '''
@@ -347,11 +400,12 @@ def calendarMode_mouseReleased(app, event):
         app.draggedPosition = None
 
 def calendarMode_keyReleased(app, event):
-    if app.selectedEvent != None:
-        if event.key == "Delete":
-            deleteEvent(app)
-        if event.key == "Space":
-            pass
+    # if app.selectedEvent != None:
+    #     if event.key == "Delete":
+    #         deleteEvent(app)
+    #     if event.key == "Space":
+    #         pass
+    pass
 
 def deleteEvent(app):
     '''
@@ -368,9 +422,27 @@ def deleteEvent(app):
     app.selectedColor = None
     app.draggedPosition = None
     app.selectedProportion = None
+    app.eventEditing = False
 
 def calendarMode_keyPressed(app, event):
-    pass
+    if app.selectedEvent != None:
+        if event.key == "Delete":
+            deleteEvent(app)
+        if event.key == "Space":
+            app.eventEditing = True
+    if app.eventEditing == True:
+        if event.key == "Enter":
+            app.eventEditing = False
+
+'''
+press space,
+cause new mode to happen where mouse is disabled
+make Delete map to app.selectedEvent.summary = app.selectedEvent.summary[:-1]
+make event.key 's that are in ASCII map to app.selectedEvent.summary += event.key
+make Enter map to closing new mode
+obviously make a screen that shows the startTime and endTime
+obviously case on numbers for startTime endTime
+'''
 
 def calendarMode_sizeChanged(app):
     pass
@@ -385,6 +457,68 @@ def drawCalendar(app, canvas):
     drawWeekBackground(app, canvas)
     drawWeekEvents(app, canvas)
     drawDraggedEvent(app, canvas)
+    drawEventDescription(app, canvas)
+
+def drawEventDescription(app, canvas):
+    event = app.selectedEvent
+
+    if app.selectedEvent != None and app.eventEditing:
+        dayDt = event.day
+        dayNum = app.weekDays.index(dayDt)
+
+        eventMiddlePixel = (event.pixelBot - event.pixelTop)//2 + event.pixelTop
+
+        panelHeight = 200
+        
+        if dayNum >= 3:
+            x1 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*dayNum)\
+                 - app.calendarEditMargin
+            # y1 = app.calendarHeight - app.calendarEditMargin
+            x0 = x1 - int(app.calendarPixelWidth/7*2) + 2*app.calendarEditMargin
+            # x0 = app.calendarLeftMargin + app.calendarEditMargin
+            # y0 = app.calendarTopMargin + app.calendarEditMargin
+            y0 = max(app.calendarTopMargin, \
+                eventMiddlePixel - panelHeight//2)
+            y1 = min(app.calendarHeight - app.calendarEditMargin, y0 + panelHeight)
+            y0 = y1 - panelHeight
+        else:
+            x0 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(dayNum+1)\
+                + app.calendarEditMargin)
+            # y0 = app.calendarTopMargin + app.calendarEditMargin
+            x1 = x0 + int(app.calendarPixelWidth/7*2) - 2*app.calendarEditMargin
+            # x1 = app.calendarWidth - app.calendarEditMargin
+            # y1 = app.calendarHeight - app.calendarEditMargin
+            y0 = max(app.calendarTopMargin, \
+                eventMiddlePixel - panelHeight//2)
+            y1 = min(app.calendarHeight - app.calendarEditMargin, y0 + panelHeight)
+            y0 = y1 - panelHeight
+
+        canvas.create_rectangle(x0, y0, x1, y1, fill = app.calendarBgColor,
+                                outline = app.calendarBgColor)
+
+# credit to https://stackoverflow.com/a/44100075
+def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=10, **kwargs):
+    points = [x1+radius, y1,
+              x1+radius, y1,
+              x2-radius, y1,
+              x2-radius, y1,
+              x2, y1,
+              x2, y1+radius,
+              x2, y1+radius,
+              x2, y2-radius,
+              x2, y2-radius,
+              x2, y2,
+              x2-radius, y2,
+              x2-radius, y2,
+              x1+radius, y2,
+              x1+radius, y2,
+              x1, y2,
+              x1, y2-radius,
+              x1, y2-radius,
+              x1, y1+radius,
+              x1, y1+radius,
+              x1, y1]
+    return canvas.create_polygon(points, **kwargs, smooth=True)
 
 def drawDraggedEvent(app, canvas):
     event = app.selectedEvent
