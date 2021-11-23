@@ -8,7 +8,7 @@ from random import *
 # notes about icalendar library
 ###############################################################################
 def icalendarLibraryTests():
-    calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
+    calendarFile = open("lgborletti@gmail.com.ics", "r")
 
     calendarInstance = Calendar.from_ical(calendarFile.read())
 

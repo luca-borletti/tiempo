@@ -1,0 +1,2264 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:lgborletti@gmail.com
+X-WR-TIMEZONE:America/New_York
+BEGIN:VTIMEZONE
+TZID:America/Mexico_City
+X-LIC-LOCATION:America/Mexico_City
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+DTSTART:19700405T020000
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:19701025T020000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VTIMEZONE
+TZID:America/New_York
+X-LIC-LOCATION:America/New_York
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+TZNAME:EDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+TZNAME:EST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART:20191207T130000Z
+DTEND:20191207T193000Z
+DTSTAMP:20211111T034546Z
+UID:2gff6r7jusiu1era9ckgqgmqo4@google.com
+CREATED:20191119T173318Z
+DESCRIPTION:First attempt at the SAT (Math sections\, English section\, and
+  Essay portion)… good luck!
+LAST-MODIFIED:20191119T173318Z
+LOCATION:American School Foundation of Monterrey\, Av. Dr. Ignacio Morones 
+ Prieto 1500\, San Isidro\, 66190 Santa Catarina\, N.L.\, Mexico
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:SAT – attempt #1
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191126
+DTEND;VALUE=DATE:20191127
+DTSTAMP:20211111T034546Z
+UID:43ej95vmbb91m585rlhv0d9pbv@google.com
+CREATED:20191119T173448Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T173458Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:IWA – draft #1 – AP Seminar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191125
+DTEND;VALUE=DATE:20191126
+DTSTAMP:20211111T034546Z
+UID:689s2fgpav3soja18cjgj6ntph@google.com
+CREATED:20191119T173622Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T173626Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:No Red Ink – English 11
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20191123T030000Z
+DTSTAMP:20211111T034546Z
+UID:0e640lhensi3r98vhcvr9fi2j3@google.com
+CREATED:20191119T173648Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T173732Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Photos & Cold Emails – Brand Free
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191121
+DTEND;VALUE=DATE:20191122
+DTSTAMP:20211111T034546Z
+UID:50pkkbel01dm5elou46oh9nuv4@google.com
+CREATED:20191119T173810Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T173831Z
+LOCATION:
+SEQUENCE:4
+STATUS:CONFIRMED
+SUMMARY:Introductory ¶ – AP Seminar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191121
+DTEND;VALUE=DATE:20191122
+DTSTAMP:20211111T034546Z
+UID:0qd59njbgeaeae8rn0aqqt71lc@google.com
+CREATED:20191119T173558Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T173832Z
+LOCATION:
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:Mental Health Speech – Public Speaking
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191212
+DTEND;VALUE=DATE:20191213
+DTSTAMP:20211111T034546Z
+UID:3aq3bq30hep7pmf42ocfrp4ks2@google.com
+CREATED:20191119T173958Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T174116Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:FINALS – Calculus\, Physics\, Chemistry
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191212
+DTEND;VALUE=DATE:20191213
+DTSTAMP:20211111T034546Z
+UID:1vp2bt7b1ni470csc96j4j16nf@google.com
+CREATED:20191119T174111Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T174118Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:PROJECTS – English 11\, AP Seminar\, Public Speaking\, Spanish
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191204
+DTEND;VALUE=DATE:20191205
+DTSTAMP:20211111T034546Z
+UID:3nbimlna0cuaukof7tf1ilo1vt@google.com
+CREATED:20191119T180551Z
+DESCRIPTION:
+LAST-MODIFIED:20191119T180553Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:IWA – final draft – AP Seminar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20191211T200000Z
+DTEND:20191211T211500Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=jim.burns@asfm.edu.mx:mailto:jim.burns@asfm.edu.mx
+UID:57cvqud31knkk1mco5640acoio@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21viej
+ o8671@asfm.mx;X-NUM-GUESTS=0:mailto:21viejo8671@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21trev
+ ino5615@asfm.mx;X-NUM-GUESTS=0:mailto:21trevino5615@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21mele
+ ndez8673@asfm.mx;X-NUM-GUESTS=0:mailto:21melendez8673@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ horowitz5651@asfm.mx;X-NUM-GUESTS=0:mailto:21horowitz5651@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21bort
+ olossi7699@asfm.mx;X-NUM-GUESTS=0:mailto:21bortolossi7699@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21borl
+ etti8825@asfm.mx;X-NUM-GUESTS=0:mailto:21borletti8825@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=21mart
+ inez8854@asfm.mx;X-NUM-GUESTS=0:mailto:21martinez8854@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21vedo
+ ya6254@asfm.mx;X-NUM-GUESTS=0:mailto:21vedoya6254@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ acosta8850@asfm.mx;X-NUM-GUESTS=0:mailto:21acosta8850@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21stri
+ jp8842@asfm.mx;X-NUM-GUESTS=0:mailto:21strijp8842@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21dela
+ garza5541@asfm.mx;X-NUM-GUESTS=0:mailto:21delagarza5541@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21ruiz
+ 7867@asfm.mx;X-NUM-GUESTS=0:mailto:21ruiz7867@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ kim8428@asfm.mx;X-NUM-GUESTS=0:mailto:21kim8428@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21vega
+ 5652@asfm.mx;X-NUM-GUESTS=0:mailto:21vega5652@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=jim.bu
+ rns@asfm.edu.mx;X-NUM-GUESTS=0:mailto:jim.burns@asfm.edu.mx
+CREATED:20191209T174816Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the description.\n\nT
+ his event has a video call.\nJoin: https://meet.google.com/xva-qryp-oqa\n(U
+ S) +1 929-266-1977 PIN: 896394531#\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20200208T014903Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Session 3 APS
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200416T200000Z
+DTEND:20200416T220000Z
+DTSTAMP:20211111T034546Z
+UID:e7of7k12he52qd1n68f414vma4@google.com
+CREATED:20200416T175633Z
+DESCRIPTION:Luca Borletti is inviting you to a scheduled Zoom meeting.\n\nJ
+ oin Zoom Meeting\nhttps://us04web.zoom.us/j/77036799064\n\nMeeting ID: 770 
+ 3679 9064\n
+LAST-MODIFIED:20200416T175633Z
+LOCATION:https://us04web.zoom.us/j/77036799064
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Luca Borletti's Zoom Meeting
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200601T180000Z
+DTEND:20200601T182000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=gabriela.sanchez@asfm.edu.mx:mailto:gabriela.sanchez@asfm.edu.
+ mx
+UID:7klnqpetntrl9u581d5ga382t8@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=gabrie
+ la.sanchez@asfm.edu.mx;X-NUM-GUESTS=0:mailto:gabriela.sanchez@asfm.edu.mx
+CREATED:20200525T210010Z
+DESCRIPTION:──────────\n\nGabriela Sanchez is inviting you to a scheduled Z
+ oom meeting.\n\nJoin Zoom Meeting\nhttps://zoom.us/j/9386247153\n\nMeeting 
+ ID: 938 624 7153\nOne tap mobile\n+13462487799\,\,9386247153# US (Houston)\
+ n+16699006833\,\,9386247153# US (San Jose)\n\nDial by your location\n      
+   +1 346 248 7799 US (Houston)\n        +1 669 900 6833 US (San Jose)\n    
+     +1 929 205 6099 US (New York)\n        +1 253 215 8782 US (Tacoma)\n   
+      +1 301 715 8592 US (Germantown)\n        +1 312 626 6799 US (Chicago)\
+ nMeeting ID: 938 624 7153\nFind your local number: https://zoom.us/u/abkjrE
+ O0Bx\n\n\n──────────
+LAST-MODIFIED:20200601T175942Z
+LOCATION:https://zoom.us/j/9386247153
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:P1 - P7 Open Slots (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200817T180000Z
+DTEND:20200817T181500Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=silvia.venegas@asfm.edu.mx:mailto:silvia.venegas@asfm.edu.mx
+UID:4ouq1qbnv6bjdaactsm19k33dk@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=silvia
+ .venegas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:silvia.venegas@asfm.edu.mx
+CREATED:20200814T214909Z
+DESCRIPTION:<p><a href="https://zoom.us/my/silvia.venegas.asfm">https://zoo
+ m.us/my/silvia.venegas.asfm</a></p>
+LAST-MODIFIED:20200817T174647Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Counseling w/ Ms. Venegas (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200831T163500Z
+DTEND:20200831T172000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=silvia.venegas@asfm.edu.mx:mailto:silvia.venegas@asfm.edu.mx
+UID:u3qc8sjfha5f7lvu1rmk54vo94@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=silvia
+ .venegas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:silvia.venegas@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21borl
+ etti8825@asfm.mx;X-NUM-GUESTS=0:mailto:21borletti8825@asfm.mx
+CREATED:20200814T015241Z
+DESCRIPTION:<p><a href="https://zoom.us/my/silvia.venegas.asfm">https://zoo
+ m.us/my/silvia.venegas.asfm</a></p><p>&nbsp\;</p><p>Appointment available f
+ or seniors college planning.&nbsp\;</p><p>·&nbsp\;&nbsp\;&nbsp\;&nbsp\;&nbs
+ p\;Summer assignment MUST be completed first.&nbsp\; </p><p>·&nbsp\;&nbsp\;
+ &nbsp\;&nbsp\;&nbsp\;Students&nbsp\;<b>applying Early Decision/EarlyAction<
+ /b> must book your meeting prior to September 18\, 2020.</p><p>·&nbsp\;&nbs
+ p\;&nbsp\;&nbsp\;&nbsp\;You will only have <b>ONE</b> opportunity tobook yo
+ ur counselor during class time. Any additional follow up meetings willneed 
+ to be during office hours or independent work time.&nbsp\;</p><p>·&nbsp\;&n
+ bsp\;&nbsp\;&nbsp\;&nbsp\;Please forward the confirmation email to theteach
+ er whose class you will miss.</p>\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section
+  of the description.\n\nThis event has a video call.\nJoin: https://meet.go
+ ogle.com/tjz-eoin-ixw\n(US) +1 319-820-2425 PIN: 449014516#\n-::~:~::~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20200831T163949Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Senior College Planning Meeting (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20201006T200000Z
+DTEND:20201006T201500Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=silvia.venegas@asfm.edu.mx:mailto:silvia.venegas@asfm.edu.mx
+UID:dgsi7qoo56ogp34rfa0n1nh6ps@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=silvia
+ .venegas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:silvia.venegas@asfm.edu.mx
+CREATED:20201004T230235Z
+DESCRIPTION:<a href="https://zoom.us/my/silvia.venegas.asfm" id="ow11439" _
+ _is_owner="true">https://zoom.us/my/<strong>silvia.venegas.asfm</strong>&nb
+ sp\;</a>\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the description.\n\nT
+ his event has a video call.\nJoin: https://meet.google.com/zow-suck-vru\n(U
+ S) +1 401-542-3271 PIN: 693296955#\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20201004T230236Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Counseling w/ Ms. Venegas (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20201012T194500Z
+DTEND:20201012T200000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=silvia.venegas@asfm.edu.mx:mailto:silvia.venegas@asfm.edu.mx
+UID:7o42b5i69m0vgesnpfonp2rves@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=silvia
+ .venegas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:silvia.venegas@asfm.edu.mx
+CREATED:20201006T202254Z
+DESCRIPTION:<a href="https://zoom.us/my/silvia.venegas.asfm" id="ow7675" __
+ is_owner="true">https://zoom.us/my/silvia.venegas.asfm</a>\n\n-::~:~::~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\
+ nDo not edit this section of the description.\n\nThis event has a video cal
+ l.\nJoin: https://meet.google.com/drg-ekns-npr\n(US) +1 347-201-7725 PIN: 1
+ 57571956#\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20201012T190836Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Counseling w/ Ms. Venegas (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20201020T220000Z
+DTEND:20201020T221500Z
+DTSTAMP:20211111T034546Z
+UID:2vfqs9b7rqm50910ujklag0fon@google.com
+CREATED:20201020T034518Z
+DESCRIPTION:
+LAST-MODIFIED:20201020T034518Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Mr Burns MeetingYour Booking
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20201022T180000Z
+DTEND:20201022T181500Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=silvia.venegas@asfm.edu.mx:mailto:silvia.venegas@asfm.edu.mx
+UID:ip49m03mkm8aibnv2u6901futs@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=silvia
+ .venegas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:silvia.venegas@asfm.edu.mx
+CREATED:20201020T153957Z
+DESCRIPTION:<a href="https://zoom.us/my/silvia.venegas.asfm" id="ow7675" __
+ is_owner="true">https://zoom.us/my/silvia.venegas.asfm</a>\n\n-::~:~::~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\
+ nDo not edit this section of the description.\n\nThis event has a video cal
+ l.\nJoin: https://meet.google.com/ndb-atxt-rzz\n(US) +1 484-326-2218 PIN: 9
+ 25738519#\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20201020T153957Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Counseling w/ Ms. Venegas (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20201029T193000Z
+DTEND:20201029T200000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=Blanca Avelina Trevino de Vega:mailto:btrevino@softtek.com
+UID:040000008200E00074C5B7101A82E00800000000353E29C01FAED601000000000000000
+ 010000000BE826C43AE6D014FB473D027FB8D7AAA
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;X-NUM
+ -GUESTS=0:mailto:fernando.nava@softtek.com
+CREATED:20201029T181727Z
+DESCRIPTION:\n_____________________________________________________________
+ ___________________\nMicrosoft Teams meeting\nJoin on your computer or mobi
+ le app\nClick here to join the meeting<https://teams.microsoft.com/l/meetup
+ -join/19%3ameeting_OTdiYWNmOTUtMjI0MS00ZTQxLTlkYmYtMGFmZWI3YjFkZWYy%40threa
+ d.v2/0?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c
+ %22Oid%22%3a%22221046b0-445f-41c4-8331-494d09b3a397%22%7d>\nOr call in (aud
+ io only)\n+52 55 8874 4904\,\,187032351#<tel:+525588744904\,\,187032351#>  
+  Mexico\, Mexico City\nPhone Conference ID: 187 032 351#\nFind a local numb
+ er<https://dialin.teams.microsoft.com/29418ac0-66ad-41b3-96a6-def810896ff4?
+ id=187032351> | Reset PIN<https://mysettings.lync.com/pstnconferencing>\n[h
+ ttp://www.softtek.com/download/softtek_name.png]\nLearn More<https://aka.ms
+ /JoinTeamsMeeting> | Meeting options<https://teams.microsoft.com/meetingOpt
+ ions/?organizerId=221046b0-445f-41c4-8331-494d09b3a397&tenantId=864ee999-c5
+ 38-44a0-bddd-0449de62df6d&threadId=19_meeting_OTdiYWNmOTUtMjI0MS00ZTQxLTlkY
+ mYtMGFmZWI3YjFkZWYy@thread.v2&messageId=0&language=en-US>\n________________
+ ________________________________________________________________\n
+LAST-MODIFIED:20201029T181744Z
+LOCATION:Microsoft Teams Meeting
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Codellege Aplicación
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:2118839093
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONDISPLAYNAME:Microsoft Teams Meeting
+X-MICROSOFT-LOCATIONS:[{"DisplayName":"Microsoft Teams Meeting"\,"LocationA
+ nnotation":""\,"LocationUri":""\,"LocationStreet":""\,"LocationCity":""\,"L
+ ocationState":""\,"LocationCountry":""\,"LocationPostalCode":""\,"LocationF
+ ullAddress":""}]
+X-MICROSOFT-LOCATIONSOURCE:None
+X-MICROSOFT-ONLINEMEETINGCONFLINK:conf:sip:btrevino@softtek.com\;gruu\;opaq
+ ue=app:conf:focus:id:teams:2:0!19:meeting_OTdiYWNmOTUtMjI0MS00ZTQxLTlkYmYtM
+ GFmZWI3YjFkZWYy-thread.v2!221046b0445f41c48331494d09b3a397!864ee999c53844a0
+ bddd0449de62df6d
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingChannelId":null\,"Onlin
+ eMeetingProvider":3}
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://scheduler.teams.microsoft.co
+ m/teams/864ee999-c538-44a0-bddd-0449de62df6d/221046b0-445f-41c4-8331-494d09
+ b3a397/19_meeting_OTdiYWNmOTUtMjI0MS00ZTQxLTlkYmYtMGFmZWI3YjFkZWYy@thread.v
+ 2/0
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_OTdiYWNmOTUtMjI0MS00ZTQxLTlkYmYtMGFmZWI3YjFkZWYy%40thread.v2/0
+ ?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c%22Oid
+ %22%3a%22221046b0-445f-41c4-8331-494d09b3a397%22%7d
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_OTdiYWNmOTUtMjI0MS00ZTQ
+ xLTlkYmYtMGFmZWI3YjFkZWYy@thread.v2"\,"rid":0\,"mid":0\,"uid":null\,"privat
+ e":true\,"type":0}
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20201216T184500Z
+DTEND:20201216T190000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=silvia.venegas@asfm.edu.mx:mailto:silvia.venegas@asfm.edu.mx
+UID:09uodi441p9m3rtfjeskp3n4dk@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=silvia
+ .venegas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:silvia.venegas@asfm.edu.mx
+CREATED:20201215T045756Z
+DESCRIPTION:<a href="https://zoom.us/my/silvia.venegas.asfm" id="ow7675" __
+ is_owner="true">https://zoom.us/my/silvia.venegas.asfm</a>\n\n-::~:~::~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\
+ nDo not edit this section of the description.\n\nThis event has a video cal
+ l.\nJoin: https://meet.google.com/eak-uwob-tkh\n(US) +1 650-449-9404 PIN: 7
+ 82528743#\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20201215T045757Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Counseling w/ Ms. Venegas (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210305T173000Z
+DTEND:20210305T183000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=Samuel Alfonso Casanova Arteaga:mailto:samuel.casanova@softtek
+ .com
+UID:040000008200E00074C5B7101A82E00800000000F0148D04A00ED701000000000000000
+ 0100000007FF20596B782F449837CFABB66996EAE
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;X-NUM
+ -GUESTS=0:mailto:noelia.flores@softtek.com
+CREATED:20210301T204054Z
+DESCRIPTION:\n_____________________________________________________________
+ ___________________\nMicrosoft Teams meeting\nJoin on your computer or mobi
+ le app\nClick here to join the meeting<https://teams.microsoft.com/l/meetup
+ -join/19%3ameeting_YTFjNGJkZTQtMzYxMC00MGEwLWJlODEtODg1NmZkYzEzZGFl%40threa
+ d.v2/0?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c
+ %22Oid%22%3a%22e3e9c779-533e-4a38-874b-58aaba80f457%22%7d>\nOr call in (aud
+ io only)\n+52 55 8874 4904\,\,297162726#<tel:+525588744904\,\,297162726#>  
+  Mexico\, Mexico City\nPhone Conference ID: 297 162 726#\nFind a local numb
+ er<https://dialin.teams.microsoft.com/29418ac0-66ad-41b3-96a6-def810896ff4?
+ id=297162726> | Reset PIN<https://mysettings.lync.com/pstnconferencing>\n[h
+ ttp://www.softtek.com/download/softtek_name.png]\nLearn More<https://aka.ms
+ /JoinTeamsMeeting> | Meeting options<https://teams.microsoft.com/meetingOpt
+ ions/?organizerId=e3e9c779-533e-4a38-874b-58aaba80f457&tenantId=864ee999-c5
+ 38-44a0-bddd-0449de62df6d&threadId=19_meeting_YTFjNGJkZTQtMzYxMC00MGEwLWJlO
+ DEtODg1NmZkYzEzZGFl@thread.v2&messageId=0&language=en-US>\n________________
+ ________________________________________________________________\n\n
+LAST-MODIFIED:20210301T204123Z
+LOCATION:Microsoft Teams Meeting
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:English for coding Codellege START 
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:2
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:-1440663579
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONS:[ { "DisplayName" : "Microsoft Teams Meeting"\, "Loca
+ tionAnnotation" : ""\, "LocationSource" : 0\, "Unresolved" : false\, "Locat
+ ionUri" : "" } ]
+X-MICROSOFT-ONLINEMEETINGCONFLINK:conf:sip:samuel.casanova@softtek.com\;gru
+ u\;opaque=app:conf:focus:id:teams:2:0!19:meeting_YTFjNGJkZTQtMzYxMC00MGEwLW
+ JlODEtODg1NmZkYzEzZGFl-thread.v2!e3e9c779533e4a38874b58aaba80f457!864ee999c
+ 53844a0bddd0449de62df6d
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingChannelId":null\,"Onlin
+ eMeetingProvider":3}
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.microsof
+ t.com/teams/864ee999-c538-44a0-bddd-0449de62df6d/e3e9c779-533e-4a38-874b-58
+ aaba80f457/19_meeting_YTFjNGJkZTQtMzYxMC00MGEwLWJlODEtODg1NmZkYzEzZGFl@thre
+ ad.v2/0
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_YTFjNGJkZTQtMzYxMC00MGEwLWJlODEtODg1NmZkYzEzZGFl%40thread.v2/0
+ ?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c%22Oid
+ %22%3a%22e3e9c779-533e-4a38-874b-58aaba80f457%22%7d
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_YTFjNGJkZTQtMzYxMC00MGE
+ wLWJlODEtODg1NmZkYzEzZGFl@thread.v2"\,"private":true\,"type":0\,"mid":0\,"r
+ id":0\,"uid":null}
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210310T223000Z
+DTEND:20210310T233000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=Samuel Alfonso Casanova Arteaga:mailto:samuel.casanova@softtek
+ .com
+UID:040000008200E00074C5B7101A82E00800000000004EFBC0DA14D701000000000000000
+ 010000000041B843C946DD94AA44369B9EF45F9BE
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;X-NUM
+ -GUESTS=0:mailto:noelia.flores@softtek.com
+CREATED:20210310T164620Z
+DESCRIPTION:\n_____________________________________________________________
+ ___________________\nMicrosoft Teams meeting\nJoin on your computer or mobi
+ le app\nClick here to join the meeting<https://teams.microsoft.com/l/meetup
+ -join/19%3ameeting_MjEzMDk3MGItZWM2OS00YTExLWEzNTctYTE0NDBjMGU4NDQ0%40threa
+ d.v2/0?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c
+ %22Oid%22%3a%22e3e9c779-533e-4a38-874b-58aaba80f457%22%7d>\nOr call in (aud
+ io only)\n+52 55 8874 4904\,\,151409553#<tel:+525588744904\,\,151409553#>  
+  Mexico\, Mexico City\nPhone Conference ID: 151 409 553#\nFind a local numb
+ er<https://dialin.teams.microsoft.com/29418ac0-66ad-41b3-96a6-def810896ff4?
+ id=151409553> | Reset PIN<https://mysettings.lync.com/pstnconferencing>\n[h
+ ttp://www.softtek.com/download/softtek_name.png]\nLearn More<https://aka.ms
+ /JoinTeamsMeeting> | Meeting options<https://teams.microsoft.com/meetingOpt
+ ions/?organizerId=e3e9c779-533e-4a38-874b-58aaba80f457&tenantId=864ee999-c5
+ 38-44a0-bddd-0449de62df6d&threadId=19_meeting_MjEzMDk3MGItZWM2OS00YTExLWEzN
+ TctYTE0NDBjMGU4NDQ0@thread.v2&messageId=0&language=en-US>\n________________
+ ________________________________________________________________\n\n
+LAST-MODIFIED:20210310T164627Z
+LOCATION:Microsoft Teams Meeting
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:English for Coding Noelia-Luca
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:2
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:1026111461
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONS:[ { "DisplayName" : "Microsoft Teams Meeting"\, "Loca
+ tionAnnotation" : ""\, "LocationSource" : 0\, "Unresolved" : false\, "Locat
+ ionUri" : "" } ]
+X-MICROSOFT-ONLINEMEETINGCONFLINK:conf:sip:samuel.casanova@softtek.com\;gru
+ u\;opaque=app:conf:focus:id:teams:2:0!19:meeting_MjEzMDk3MGItZWM2OS00YTExLW
+ EzNTctYTE0NDBjMGU4NDQ0-thread.v2!e3e9c779533e4a38874b58aaba80f457!864ee999c
+ 53844a0bddd0449de62df6d
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingChannelId":null\,"Onlin
+ eMeetingProvider":3}
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.microsof
+ t.com/teams/864ee999-c538-44a0-bddd-0449de62df6d/e3e9c779-533e-4a38-874b-58
+ aaba80f457/19_meeting_MjEzMDk3MGItZWM2OS00YTExLWEzNTctYTE0NDBjMGU4NDQ0@thre
+ ad.v2/0
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_MjEzMDk3MGItZWM2OS00YTExLWEzNTctYTE0NDBjMGU4NDQ0%40thread.v2/0
+ ?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c%22Oid
+ %22%3a%22e3e9c779-533e-4a38-874b-58aaba80f457%22%7d
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_MjEzMDk3MGItZWM2OS00YTE
+ xLWEzNTctYTE0NDBjMGU4NDQ0@thread.v2"\,"private":true\,"type":0\,"mid":0\,"r
+ id":0\,"uid":null}
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Mexico_City:20210312T153000
+DTEND;TZID=America/Mexico_City:20210312T183000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210429T203000Z;INTERVAL=1;BYDAY=FR
+EXDATE;TZID=America/Mexico_City:20210319T153000
+DTSTAMP:20211111T034546Z
+ORGANIZER:mailto:noelia.flores@softtek.com
+UID:040000008200E00074C5B7101A82E008000000006B238BB20516D701000000000000000
+ 010000000E702D28CBCE66A4C8B8C007349167F75
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=AD
+ AL YAHIR CARDONA MARTINEZ;X-NUM-GUESTS=0:mailto:acardona3718@ppsc.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=AL
+ EXIS EMMANUEL FIGUEROA VALDEZ;X-NUM-GUESTS=0:mailto:afigueroa3750@ppsc.edu.
+ mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ER
+ ICK ALEXIS LERMA MENDOZA;X-NUM-GUESTS=0:mailto:elerma3816@ppsc.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ED
+ UARDO MENDOZA CADENA;X-NUM-GUESTS=0:mailto:emendoza3843@ppsc.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=fg
+ onzalez3776@ppsc.edu.mx;X-NUM-GUESTS=0:mailto:fgonzalez3776@ppsc.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=HU
+ MBERTO RUBEN RASGADO ARIZPE;X-NUM-GUESTS=0:mailto:hrasgado3892@ppsc.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=jh
+ ernandez3801@ppsc.edu.mx;X-NUM-GUESTS=0:mailto:jhernandez3801@ppsc.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=mm
+ elendez100404@ppsc.edu.mx;X-NUM-GUESTS=0:mailto:mmelendez100404@ppsc.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=OPT-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Sa
+ muel Alfonso Casanova Arteaga;X-NUM-GUESTS=0:mailto:samuel.casanova@softtek
+ .com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=vr
+ amirez100443@ppsc.edu.mx;X-NUM-GUESTS=0:mailto:vramirez100443@ppsc.edu.mx
+CREATED:20210310T233258Z
+DESCRIPTION:¡Hola Coders!\n\nEn este nuevo espacio\, nuestro maestro Luca B
+ orletti nos encaminará a ser expertos en la programación para Arduino\n[GIF
+  animado]\nConoce más aquí ---> https://www.fundacionaquae.org/sabes-arduin
+ o-sirve/  y trae preparadas tus dudas\n\nQuedo al pendiente\n\nSaludos\n\n\
+ n__________________________________________________________________________
+ ______\nMicrosoft Teams meeting\nJoin on your computer or mobile app\nClick
+  here to join the meeting<https://teams.microsoft.com/l/meetup-join/19%3ame
+ eting_Y2UxMTBkZjQtYTk0OC00ZjVlLTgwOTYtNWNlZWYwMWU4MjNm%40thread.v2/0?contex
+ t=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c%22Oid%22%3a%
+ 2230fb39ac-351b-46e1-8323-34995f2e1e52%22%7d>\n[http://www.softtek.com/down
+ load/softtek_name.png]\nInfórmese<https://aka.ms/JoinTeamsMeeting> | Opcion
+ es de reunión<https://teams.microsoft.com/meetingOptions/?organizerId=30fb3
+ 9ac-351b-46e1-8323-34995f2e1e52&tenantId=864ee999-c538-44a0-bddd-0449de62df
+ 6d&threadId=19_meeting_Y2UxMTBkZjQtYTk0OC00ZjVlLTgwOTYtNWNlZWYwMWU4MjNm@thr
+ ead.v2&messageId=0&language=es-MX>\n_______________________________________
+ _________________________________________\n
+LAST-MODIFIED:20210326T195047Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Arduino Class - Codellege
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:1
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:2119389291
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONS:[]
+X-MICROSOFT-ONLINEMEETINGCONFLINK:conf:sip:noelia.flores@softtek.com\;gruu\
+ ;opaque=app:conf:focus:id:teams:2:0!19:meeting_Y2UxMTBkZjQtYTk0OC00ZjVlLTgw
+ OTYtNWNlZWYwMWU4MjNm-thread.v2!30fb39ac351b46e1832334995f2e1e52!864ee999c53
+ 844a0bddd0449de62df6d
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingChannelId":null\,"Onlin
+ eMeetingProvider":3}
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.microsof
+ t.com/teams/864ee999-c538-44a0-bddd-0449de62df6d/30fb39ac-351b-46e1-8323-34
+ 995f2e1e52/19_meeting_Y2UxMTBkZjQtYTk0OC00ZjVlLTgwOTYtNWNlZWYwMWU4MjNm@thre
+ ad.v2/0
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_Y2UxMTBkZjQtYTk0OC00ZjVlLTgwOTYtNWNlZWYwMWU4MjNm%40thread.v2/0
+ ?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c%22Oid
+ %22%3a%2230fb39ac-351b-46e1-8323-34995f2e1e52%22%7d
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_Y2UxMTBkZjQtYTk0OC00ZjV
+ lLTgwOTYtNWNlZWYwMWU4MjNm@thread.v2"\,"rid":0\,"mid":0\,"uid":null\,"privat
+ e":true\,"type":0}
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210409T161500Z
+DTEND:20210409T171500Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=lgborletti@gmail.com:mailto:lgborletti@gmail.com
+UID:h07hmjuqrmka78rfphll6qea5c@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=rb
+ orletti@gmail.com;X-NUM-GUESTS=0:mailto:rborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=sk
+ heradp@pacbell.net;X-NUM-GUESTS=0:mailto:skheradp@pacbell.net
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+CREATED:20210409T040136Z
+DESCRIPTION:Sorry! I messed up on the last invite's timing. This one should
+  work.<br><br>Join Zoom Meeting<br><a href="https://us04web.zoom.us/j/75933
+ 366217?pwd=V2ZoRmVJQU1hMDVKMTlEMjNlVWNYQT09">https://us04web.zoom.us/j/7593
+ 3366217?pwd=V2ZoRmVJQU1hMDVKMTlEMjNlVWNYQT09</a><br><br>Meeting ID: 759 333
+ 6 6217<br>Passcode: shervin\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of th
+ e description.\n\nThis event has a video call.\nJoin: https://meet.google.c
+ om/phe-eofy-icp\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20210409T040549Z
+LOCATION:https://us04web.zoom.us/j/75933366217?pwd=V2ZoRmVJQU1hMDVKMTlEMjNl
+ VWNYQT09
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Luca Borletti's Zoom Meeting
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210415T220000Z
+DTEND:20210415T230000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=lgborletti@gmail.com:mailto:lgborletti@gmail.com
+UID:c9mjdqv8g5mtl9o9836121egm8@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=et
+ han_polley@brown.edu;X-NUM-GUESTS=0:mailto:ethan_polley@brown.edu
+CREATED:20210415T195708Z
+DESCRIPTION:Luca Borletti is inviting you to a scheduled Zoom meeting.<br><
+ br>Join Zoom Meeting<br><a href="https://us04web.zoom.us/j/76396286799?pwd=
+ OUg1R0VMZ2ZWak5GUzQrNHphUUMxZz09" id="ow270" __is_owner="true">https://us04
+ web.zoom.us/j/76396286799?pwd=OUg1R0VMZ2ZWak5GUzQrNHphUUMxZz09</a><br><br>M
+ eeting ID: 763 9628 6799<br>Passcode: g0yAie\n\n-::~:~::~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nDo not edit t
+ his section of the description.\n\nThis event has a video call.\nJoin: http
+ s://meet.google.com/ejs-gyrf-sjj\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20210415T200027Z
+LOCATION:https://us04web.zoom.us/j/76396286799?pwd=OUg1R0VMZ2ZWak5GUzQrNHph
+ UUMxZz09
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Luca & Ethan's Meeting
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210420T211500Z
+DTEND:20210420T221500Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=lgborletti@gmail.com:mailto:lgborletti@gmail.com
+UID:89f9ok5isvomth24fk05p4butk@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=rborle
+ tti@gmail.com;X-NUM-GUESTS=0:mailto:rborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=nichol
+ as_cole@brown.edu;X-NUM-GUESTS=0:mailto:nicholas_cole@brown.edu
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=fe
+ rnandaborletti@gmail.com;X-NUM-GUESTS=0:mailto:fernandaborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+CREATED:20210420T013643Z
+DESCRIPTION:Luca Borletti is inviting you to a scheduled Zoom meeting.<br><
+ br>Join Zoom Meeting<br><a href="https://us04web.zoom.us/j/74273023595?pwd=
+ ZjU2SU5ZUytMNCtHNUczTlJyY1pnUT09">https://us04web.zoom.us/j/74273023595?pwd
+ =ZjU2SU5ZUytMNCtHNUczTlJyY1pnUT09</a><br><br>Meeting ID: 742 7302 3595<br>P
+ asscode: Kt0sXX\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the descriptio
+ n.\n\nThis event has a video call.\nJoin: https://meet.google.com/wde-jhpi-
+ pdv\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~::~:~::-
+LAST-MODIFIED:20210420T154514Z
+LOCATION:https://us04web.zoom.us/j/74273023595?pwd=ZjU2SU5ZUytMNCtHNUczTlJy
+ Y1pnUT09
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Luca & Nick's Meeting
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210518T220000Z
+DTEND:20210518T230000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=Samuel Alfonso Casanova Arteaga:mailto:samuel.casanova@softtek
+ .com
+UID:040000008200E00074C5B7101A82E00800000000608CBA4C064BD701000000000000000
+ 01000000045B3F48FE66E0140B8E0833C35FC43C0
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+CREATED:20210517T152053Z
+DESCRIPTION:\n_____________________________________________________________
+ ___________________\nMicrosoft Teams meeting\nJoin on your computer or mobi
+ le app\nClick here to join the meeting<https://teams.microsoft.com/l/meetup
+ -join/19%3ameeting_NDljODNkMTktZDc4My00MTE2LTg1YzMtMWIwZTg0ODFmMTg5%40threa
+ d.v2/0?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c
+ %22Oid%22%3a%22e3e9c779-533e-4a38-874b-58aaba80f457%22%7d>\nOr call in (aud
+ io only)\n+52 55 8874 4904\,\,907711970#<tel:+525588744904\,\,907711970#>  
+  Mexico\, Mexico City\nPhone Conference ID: 907 711 970#\nFind a local numb
+ er<https://dialin.teams.microsoft.com/29418ac0-66ad-41b3-96a6-def810896ff4?
+ id=907711970> | Reset PIN<https://mysettings.lync.com/pstnconferencing>\n[h
+ ttp://www.softtek.com/download/softtek_name.png]\nLearn More<https://aka.ms
+ /JoinTeamsMeeting> | Meeting options<https://teams.microsoft.com/meetingOpt
+ ions/?organizerId=e3e9c779-533e-4a38-874b-58aaba80f457&tenantId=864ee999-c5
+ 38-44a0-bddd-0449de62df6d&threadId=19_meeting_NDljODNkMTktZDc4My00MTE2LTg1Y
+ zMtMWIwZTg0ODFmMTg5@thread.v2&messageId=0&language=en-US>\n________________
+ ________________________________________________________________\n\n
+LAST-MODIFIED:20210517T152101Z
+LOCATION:Microsoft Teams Meeting
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Feedback Codellege 
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:-1248765979
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONS:[ { "DisplayName" : "Microsoft Teams Meeting"\, "Loca
+ tionAnnotation" : ""\, "LocationSource" : 0\, "Unresolved" : false\, "Locat
+ ionUri" : "" } ]
+X-MICROSOFT-ONLINEMEETINGCONFLINK:conf:sip:samuel.casanova@softtek.com\;gru
+ u\;opaque=app:conf:focus:id:teams:2:0!19:meeting_NDljODNkMTktZDc4My00MTE2LT
+ g1YzMtMWIwZTg0ODFmMTg5-thread.v2!e3e9c779533e4a38874b58aaba80f457!864ee999c
+ 53844a0bddd0449de62df6d
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.microsof
+ t.com/teams/864ee999-c538-44a0-bddd-0449de62df6d/e3e9c779-533e-4a38-874b-58
+ aaba80f457/19_meeting_NDljODNkMTktZDc4My00MTE2LTg1YzMtMWIwZTg0ODFmMTg5@thre
+ ad.v2/0
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_NDljODNkMTktZDc4My00MTE2LTg1YzMtMWIwZTg0ODFmMTg5%40thread.v2/0
+ ?context=%7b%22Tid%22%3a%22864ee999-c538-44a0-bddd-0449de62df6d%22%2c%22Oid
+ %22%3a%22e3e9c779-533e-4a38-874b-58aaba80f457%22%7d
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_NDljODNkMTktZDc4My00MTE
+ 2LTg1YzMtMWIwZTg0ODFmMTg5@thread.v2"\,"private":true\,"type":0\,"mid":0\,"r
+ id":0\,"uid":null}
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210520T210000Z
+DTEND:20210520T220000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=21borletti8825@asfm.mx:mailto:21borletti8825@asfm.mx
+UID:69dd9u8silsmk09vd5utgg21h0@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21borl
+ etti8825@asfm.mx;X-NUM-GUESTS=0:mailto:21borletti8825@asfm.mx
+CREATED:20210520T152547Z
+DESCRIPTION:──────────\n\nLuca Borletti is inviting you to a scheduled Zoom
+  meeting.\n\nJoin Zoom Meeting\nhttps://us04web.zoom.us/j/77236222187?pwd=Z
+ lg2QncyVzJ4dkZGYWpMMTB3YVJPUT09\n\nMeeting ID: 772 3622 2187\nPasscode: X55
+ 824\n\n\n──────────\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the descri
+ ption.\n\nThis event has a video call.\nJoin: https://meet.google.com/awx-c
+ eie-nww\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20210520T153142Z
+LOCATION:https://us04web.zoom.us/j/77236222187?pwd=Zlg2QncyVzJ4dkZGYWpMMTB3
+ YVJPUT09
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:CMU - Alejandro & Luca meeting
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210824T164000Z
+DTEND:20210824T170000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=vpeet@andrew.cmu.edu:mailto:vpeet@andrew.cmu.edu
+UID:2dvbjs1tms05jj0msaarm4khis@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=vpeet@
+ andrew.cmu.edu;X-NUM-GUESTS=0:mailto:vpeet@andrew.cmu.edu
+CREATED:20210824T034820Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the description.\n\nT
+ his event has a video call.\nJoin: https://meet.google.com/smj-ohwx-mps\n(U
+ S) +1 513-760-0929 PIN: 267518979#\nView more phone numbers: https://tel.me
+ et/smj-ohwx-mps?pin=1152589410377&hs=7\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20210824T034821Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:First year schedule problem appointments (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210427T210000Z
+DTEND:20210427T213000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=daniela.sedas@asfm.edu.mx:mailto:daniela.sedas@asfm.edu.mx
+UID:18o6vbo27vmr6rvtdj358g5888@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+CREATED:20210415T160901Z
+DESCRIPTION:\nDear Students\nAs we prepare for AP exams there are a few thi
+ ngs you need to know before your administration window. \n\nI would like to
+  have this session with you in order to share basic information about testi
+ ng\, protocols\, security\, downloading the app (for digital exams) ....\nI
+  would also be available to answer any of your questions during this time. 
+LAST-MODIFIED:20210827T140629Z
+LOCATION:zoom.us/my/daniela.sedas.asfm
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Pre Admin session (option 1)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210426T210000Z
+DTEND:20210426T213000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=daniela.sedas@asfm.edu.mx:mailto:daniela.sedas@asfm.edu.mx
+UID:7ca3jrkm2ms32dhruag6a45lfs@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+CREATED:20210415T160212Z
+DESCRIPTION:Dear Students\nAs we prepare for AP exams there are a few thing
+ s you need to know before your administration window. \n\nI would like to h
+ ave this session with you in order to share basic information about testing
+ \, protocols\, security\, downloading the app (for digital exams) ....\nI w
+ ould also be available to answer any of your questions during this time. 
+LAST-MODIFIED:20210827T140629Z
+LOCATION:zoom.us/my/daniela.sedas.asfm
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Pre Admin session (option 1)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210824T101000
+DTEND;TZID=America/New_York:20210824T113000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210826T035959Z;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:5h15g7agvda09e43g7l7v7idsk@google.com
+CREATED:20210828T170959Z
+DESCRIPTION:McConomy Auditorium\nTaylor & Kosbie
+LAST-MODIFIED:20210828T171502Z
+LOCATION:Jared L. Cohon University Center\, 5032 Forbes Ave\, Pittsburgh\, 
+ PA 15213\, USA
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Fundamentals of Programming and Computer Science 15112
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210823T140000Z
+DTEND:20210823T150000Z
+DTSTAMP:20211111T034546Z
+UID:6gmqvs82su4aejamckl4p78orp@google.com
+CREATED:20210828T175443Z
+DESCRIPTION:4005\nMackey
+LAST-MODIFIED:20210828T175443Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Office Hours 15151
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210824T150500
+DTEND;TZID=America/New_York:20210824T162500
+RRULE:FREQ=WEEKLY;UNTIL=20210831T035959Z;BYDAY=TU
+DTSTAMP:20211111T034546Z
+UID:5tk370pqt1129lps096eijde3o@google.com
+CREATED:20210828T171838Z
+DESCRIPTION:
+LAST-MODIFIED:20210830T010529Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:First Year Immigration Course 07-128
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210823T090500
+DTEND;TZID=America/New_York:20210823T095500
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210830T035959Z;BYDAY=FR,MO,WE
+DTSTAMP:20211111T034546Z
+UID:07an2067id8suer5i026mt367j@google.com
+CREATED:20210828T170223Z
+DESCRIPTION:7500\nOffner
+LAST-MODIFIED:20210830T011237Z
+LOCATION:Wean Hall\, Hamerschlag Dr\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Matrices and Linear Transformations 21-241
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210830T090500
+DTEND;TZID=America/New_York:20210830T095500
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=FR,MO,WE
+DTSTAMP:20211111T034546Z
+UID:07an2067id8suer5i026mt367j_R20210830T130500@google.com
+CREATED:20210828T170223Z
+DESCRIPTION:7500\nOffner
+LAST-MODIFIED:20210830T011237Z
+LOCATION:Wean Hall\, Hamerschlag Dr\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:21-241 :: Matrices and Linear Transformations
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210826T164000
+DTEND;TZID=America/New_York:20210826T173000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210902T035959Z;BYDAY=TH
+DTSTAMP:20211111T034546Z
+UID:27no50rbdesf43h1mj7bthae1v@google.com
+CREATED:20210828T171254Z
+DESCRIPTION:4625\nWang
+LAST-MODIFIED:20210830T011250Z
+LOCATION:Wean Hall\, Hamerschlag Dr\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Matrices and Linear Transformations 21-241
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210902T164000
+DTEND;TZID=America/New_York:20210902T173000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH
+DTSTAMP:20211111T034546Z
+UID:27no50rbdesf43h1mj7bthae1v_R20210902T204000@google.com
+CREATED:20210828T171254Z
+DESCRIPTION:4625\nWang
+LAST-MODIFIED:20210830T011250Z
+LOCATION:Wean Hall\, Hamerschlag Dr\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:21-241 :: Matrices and Linear Transformations
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210823T132500
+DTEND;TZID=America/New_York:20210823T141500
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210830T035959Z;BYDAY=FR,MO,WE
+DTSTAMP:20211111T034546Z
+UID:74q8pfpp38u5jkh6btlqbqallj@google.com
+CREATED:20210828T174206Z
+DESCRIPTION:4401\nMackey
+LAST-MODIFIED:20210830T011312Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Mathematical Foundations for Computer Science 15151
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210830T132500
+DTEND;TZID=America/New_York:20210830T141500
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=FR,MO,WE
+DTSTAMP:20211111T034546Z
+UID:74q8pfpp38u5jkh6btlqbqallj_R20210830T172500@google.com
+CREATED:20210828T174206Z
+DESCRIPTION:4401\nMackey
+LAST-MODIFIED:20210830T011312Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15151 :: Mathematical Foundations for Computer Science
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210824T122000
+DTEND;TZID=America/New_York:20210824T131000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210831T035959Z;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:428pn3kil6f3b50dlfggcas1si@google.com
+CREATED:20210828T174259Z
+DESCRIPTION:235A\nMackey
+LAST-MODIFIED:20210830T011322Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Mathematical Foundations for Computer Science 15151
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210831T122000
+DTEND;TZID=America/New_York:20210831T131000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:428pn3kil6f3b50dlfggcas1si_R20210831T162000@google.com
+CREATED:20210828T174259Z
+DESCRIPTION:235A\nMackey
+LAST-MODIFIED:20210830T011322Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15151 :: Mathematical Foundations for Computer Science
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210824T132500
+DTEND;TZID=America/New_York:20210824T141500
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210831T035959Z;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:37gf346g8q731d66ikes3dj743@google.com
+CREATED:20210828T174430Z
+DESCRIPTION:2210\nOppenheimer
+LAST-MODIFIED:20210830T011332Z
+LOCATION:Doherty Hall\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Introduction to Psychology 85-102
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210831T132500
+DTEND;TZID=America/New_York:20210831T141500
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:37gf346g8q731d66ikes3dj743_R20210831T172500@google.com
+CREATED:20210828T174430Z
+DESCRIPTION:2210\nOppenheimer
+LAST-MODIFIED:20210830T011332Z
+LOCATION:Doherty Hall\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:85-102 :: Introduction to Psychology
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210826T101000
+DTEND;TZID=America/New_York:20210826T113000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210831T035959Z;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:5h15g7agvda09e43g7l7v7idsk_R20210826T141000@google.com
+CREATED:20210828T170959Z
+DESCRIPTION:Taylor & Kosbie
+LAST-MODIFIED:20210830T011341Z
+LOCATION:McConomy Auditorium\, 5000 Forbes Ave\, Pittsburgh\, PA 15213\, US
+ A
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Fundamentals of Programming and Computer Science 15112
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210831T101000
+DTEND;TZID=America/New_York:20210831T113000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:5h15g7agvda09e43g7l7v7idsk_R20210831T141000@google.com
+CREATED:20210828T170959Z
+DESCRIPTION:Taylor & Kosbie
+LAST-MODIFIED:20210830T011341Z
+LOCATION:McConomy Auditorium\, 5000 Forbes Ave\, Pittsburgh\, PA 15213\, US
+ A
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:15112 :: Fundamentals of Programming and Computer Science
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210831T150500
+DTEND;TZID=America/New_York:20210831T162500
+RRULE:FREQ=WEEKLY;BYDAY=TU
+DTSTAMP:20211111T034546Z
+UID:5tk370pqt1129lps096eijde3o_R20210831T190500@google.com
+CREATED:20210828T171838Z
+DESCRIPTION:Peet & Cortina
+LAST-MODIFIED:20210830T011358Z
+LOCATION:McConomy Auditorium\, 5000 Forbes Ave\, Pittsburgh\, PA 15213\, US
+ A
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:07-128 :: First Year Immigration Course
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210902T150500
+DTEND;TZID=America/New_York:20210902T162500
+DTSTAMP:20211111T034546Z
+UID:1c3p6patoiq20d95k4sekt5qf1@google.com
+RECURRENCE-ID;TZID=America/New_York:20210902T150500
+CREATED:20210828T171440Z
+DESCRIPTION:Peet & Cortina
+LAST-MODIFIED:20210830T011409Z
+LOCATION:McConomy Auditorium\, 5000 Forbes Ave\, Pittsburgh\, PA 15213\, US
+ A
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:07-131 :: Great Practical Ideas for Computer Scientists
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210825T101000
+DTEND;TZID=America/New_York:20210825T110000
+RRULE:FREQ=WEEKLY;UNTIL=20210901T035959Z;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:0pacfc5u5n673ke0migsnnpbsd@google.com
+CREATED:20210828T173813Z
+DESCRIPTION:140A\nRupp
+LAST-MODIFIED:20210830T011432Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Computing@Carnegie Mellon 99-101
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210901T101000
+DTEND;TZID=America/New_York:20210901T110000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:0pacfc5u5n673ke0migsnnpbsd_R20210901T141000@google.com
+CREATED:20210828T173813Z
+DESCRIPTION:140A\nRupp
+LAST-MODIFIED:20210830T011432Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:99-101 :: Computing@Carnegie Mellon
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210826T150500
+DTEND;TZID=America/New_York:20210826T162500
+RRULE:FREQ=WEEKLY;UNTIL=20210909T035959Z;BYDAY=TH
+DTSTAMP:20211111T034546Z
+UID:1c3p6patoiq20d95k4sekt5qf1@google.com
+CREATED:20210828T171440Z
+DESCRIPTION:Peet & Cortina
+LAST-MODIFIED:20210830T011448Z
+LOCATION:McConomy Auditorium\, 5000 Forbes Ave\, Pittsburgh\, PA 15213\, US
+ A
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Great Practical Ideas for Computer Scientists 07-131
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210909T150500
+DTEND;TZID=America/New_York:20210909T162500
+RRULE:FREQ=WEEKLY;BYDAY=TH
+DTSTAMP:20211111T034546Z
+UID:1c3p6patoiq20d95k4sekt5qf1_R20210909T190500@google.com
+CREATED:20210828T171440Z
+DESCRIPTION:Peet & Cortina
+LAST-MODIFIED:20210830T011448Z
+LOCATION:McConomy Auditorium\, 5000 Forbes Ave\, Pittsburgh\, PA 15213\, US
+ A
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:07-131 :: Great Practical Ideas for Computer Scientists
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210824T200000
+DTEND;TZID=America/New_York:20210824T215000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210907T035959Z;BYDAY=TU
+EXDATE;TZID=America/New_York:20210831T200000
+DTSTAMP:20211111T034546Z
+UID:1ml9puqsa04hctsrqho7c12mkm@google.com
+CREATED:20210828T174510Z
+DESCRIPTION:332P\nOppenheimer
+LAST-MODIFIED:20210830T011459Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Introduction to Psychology 85-102
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210907T200000
+DTEND;TZID=America/New_York:20210907T215000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TU
+DTSTAMP:20211111T034546Z
+UID:1ml9puqsa04hctsrqho7c12mkm_R20210908T000000@google.com
+CREATED:20210828T174510Z
+DESCRIPTION:332P\nOppenheimer
+LAST-MODIFIED:20210830T011459Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:85-102 :: Introduction to Psychology
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210901T220000Z
+DTEND:20210901T230000Z
+DTSTAMP:20211111T034546Z
+UID:1uk9snsjmg9fkhs4lrpdllqfcq@google.com
+CREATED:20210830T173740Z
+DESCRIPTION:
+LAST-MODIFIED:20210830T173847Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Aurora talk (zoom)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210910T122000
+DTEND;TZID=America/New_York:20210910T131000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=FR
+DTSTAMP:20211111T034546Z
+UID:39934h8apbgpgs3qsmcscrgi8p@google.com
+CREATED:20210828T174015Z
+DESCRIPTION:5th floor clusters\nTaylor & Kosbie
+LAST-MODIFIED:20210831T015729Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:15112 :: Fundamentals of Programming and Computer Science
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210825T122000
+DTEND;TZID=America/New_York:20210825T131000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210901T035959Z;BYDAY=FR,WE
+DTSTAMP:20211111T034546Z
+UID:3i2ta7h91fdebsomp0rq774vfo@google.com
+CREATED:20210828T174015Z
+DESCRIPTION:6115\nTaylor & Kosbie
+LAST-MODIFIED:20210831T015751Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Fundamentals of Programming and Computer Science 15112
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210901T122000
+DTEND;TZID=America/New_York:20210901T131000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:5th1ijce89fs4s9mrv2gq5b0bh@google.com
+CREATED:20210831T015823Z
+DESCRIPTION:6115\nTaylor & Kosbie
+LAST-MODIFIED:20210831T015854Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:15112 :: Fundamentals of Programming and Computer Science
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210903T162000Z
+DTEND:20210903T171000Z
+DTSTAMP:20211111T034546Z
+UID:6tk8u5b6c8a013qs9i38as35si@google.com
+CREATED:20210831T015948Z
+DESCRIPTION:5th floor clusters\nTaylor & Kosbie
+LAST-MODIFIED:20210831T015959Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15112 :: Fundamentals of Programming and Computer Science
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20211012
+DTEND;VALUE=DATE:20211013
+DTSTAMP:20211111T034546Z
+UID:54nno1stk13fq5fr4fjsp25io9@google.com
+CREATED:20210831T025404Z
+DESCRIPTION:
+LAST-MODIFIED:20210831T025412Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15112 :: Midterm
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20211008
+DTEND;VALUE=DATE:20211009
+DTSTAMP:20211111T034546Z
+UID:6ma28qe33l271a9lvlj6kqcch8@google.com
+CREATED:20210830T184845Z
+DESCRIPTION:
+LAST-MODIFIED:20210831T025417Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:21-241 :: Midterm
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20211119
+DTEND;VALUE=DATE:20211120
+DTSTAMP:20211111T034546Z
+UID:0dam4jk3qvjrqj23pmmdf6r744@google.com
+CREATED:20210830T184930Z
+DESCRIPTION:
+LAST-MODIFIED:20210831T025425Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:21-241 :: Midterm
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210908T180000Z
+DTEND:20210908T190000Z
+DTSTAMP:20211111T034546Z
+UID:6e6hmb81rsd6nhfksjptar544j@google.com
+CREATED:20210901T154932Z
+DESCRIPTION:456716
+LAST-MODIFIED:20210901T154932Z
+LOCATION:https://cmu.zoom.us/w/94263777096?tk=3QB2-F4j2ED9X__UJJzZMIPy8OahJ
+ NlM-hUICxI5Rs8.DQMAAAAV8o8XSBZqRkhFMG8zUFQwaUhzcTI4M3JHRU5RAAAAAAAAAAAAAAAA
+ AAAAAAAAAAAAAA&pwd=OVhOenJDZ0R4a3ptTFJCUk9xdUgwQT09&uuid=WN_zNmO5DyHSJ-v6T9
+ WAQdm8w
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:The Future of AI in Robotics
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210904T180000Z
+DTEND:20210904T211500Z
+DTSTAMP:20211111T034546Z
+UID:73mt3ucefvc0nqhj2e32528flj@google.com
+CREATED:20210830T173821Z
+DESCRIPTION:2210
+LAST-MODIFIED:20210902T161708Z
+LOCATION:Doherty Hall\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15151 :: Office Hours
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20211007
+DTEND;VALUE=DATE:20211008
+DTSTAMP:20211111T034546Z
+UID:2okhsrmj01dni2ilgcrcmjseld@google.com
+CREATED:20210902T191905Z
+DESCRIPTION:
+LAST-MODIFIED:20210902T191905Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:07-131 :: Midterm
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210909T203000Z
+DTEND:20210909T213000Z
+DTSTAMP:20211111T034546Z
+UID:6c4j1u8u6n9cebuhb8vgo6rj3e@google.com
+CREATED:20210902T223908Z
+DESCRIPTION:
+LAST-MODIFIED:20210902T223908Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Robotics Major | Minor | Concentration - InfoSession
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210903T150000Z
+DTEND:20210903T160000Z
+DTSTAMP:20211111T034546Z
+UID:3n6mkm2s44v230cr5qhom8g2sr@google.com
+CREATED:20210902T235249Z
+DESCRIPTION:
+LAST-MODIFIED:20210902T235249Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Meetup with Nithya
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210915T193000Z
+DTEND:20210915T200000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=vpeet@andrew.cmu.edu:mailto:vpeet@andrew.cmu.edu
+UID:k65sdrejgu73t25q2qpetkv86k@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=vpeet@
+ andrew.cmu.edu;X-NUM-GUESTS=0:mailto:vpeet@andrew.cmu.edu
+CREATED:20210907T190444Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the description.\n\nT
+ his event has a video call.\nJoin: https://meet.google.com/byb-bfjn-wfn\n(U
+ S) +1 419-901-8750 PIN: 782498494#\nView more phone numbers: https://tel.me
+ et/byb-bfjn-wfn?pin=7424622829284&hs=7\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20210907T190445Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Intro Advising Meetings (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210914T163000
+DTEND;TZID=America/New_York:20210914T183000
+RRULE:FREQ=DAILY;COUNT=2;INTERVAL=1
+EXDATE;TZID=America/New_York:20210915T163000
+DTSTAMP:20211111T034546Z
+UID:edtsgket1q5vn57flartc94e60@google.com
+CREATED:20210913T113958Z
+DESCRIPTION:
+LAST-MODIFIED:20210913T113958Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Club fair
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210916T220000Z
+DTEND:20210916T230000Z
+DTSTAMP:20211111T034546Z
+UID:23t6tvmrrb4vp46ueh031tuo13@google.com
+CREATED:20210915T014752Z
+DESCRIPTION:UC LL
+LAST-MODIFIED:20210915T014811Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Roboclub 
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210920T080000
+DTEND;TZID=America/New_York:20210920T090000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=FR,MO,WE
+DTSTAMP:20211111T034546Z
+UID:1og3onisq763oqo184jn0lsi8c@google.com
+CREATED:20210919T212534Z
+DESCRIPTION:
+LAST-MODIFIED:20210919T212534Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Breakfast :: La Prima
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210830T100000
+DTEND;TZID=America/New_York:20210830T110000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=MO
+DTSTAMP:20211111T034546Z
+UID:4lue94uota40kfhnt117ts7kcl@google.com
+CREATED:20210830T151805Z
+DESCRIPTION:4005\nMackey
+LAST-MODIFIED:20210927T212152Z
+LOCATION:Gates and Hillman Centers\, 4902 Forbes Ave\, Pittsburgh\, PA 1521
+ 3\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15151 :: OH – Mackey
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210929T180000
+DTEND;TZID=America/New_York:20210929T190000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:5oi9aalque73dnc978t9vkvcd4@google.com
+CREATED:20210927T212131Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T212159Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15151 :: OH - Advait
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210919T110000
+DTEND;TZID=America/New_York:20210919T120000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+DTSTAMP:20211111T034546Z
+UID:3u9sglflpclpru6u5hvs12lono@google.com
+CREATED:20210908T172802Z
+DESCRIPTION:136A
+LAST-MODIFIED:20210927T212208Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15151 :: SI
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210919T150000
+DTEND;TZID=America/New_York:20210919T160000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+DTSTAMP:20211111T034546Z
+UID:1iqcflo47u3j9mibtl7hif3c5o@google.com
+CREATED:20210908T172821Z
+DESCRIPTION:136A
+LAST-MODIFIED:20210927T212214Z
+LOCATION:Baker Hall\, 4909 Frew St\, Pittsburgh\, PA 15213\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:15151 :: SI
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210927T143000
+DTEND;TZID=America/New_York:20210927T153000
+RRULE:FREQ=WEEKLY;BYDAY=MO
+DTSTAMP:20211111T034546Z
+UID:4ujgr88ucoj8r2e89l0cg7lhrl@google.com
+CREATED:20210927T212315Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T212322Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Lunch :: Hunan Express
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210929T143000
+DTEND;TZID=America/New_York:20210929T153000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:70m5t0gulu92gf9k6c8pdm9aun@google.com
+CREATED:20210927T212426Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T212426Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Lunch :: Wild Blue Sushi
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210928T143000
+DTEND;TZID=America/New_York:20210928T150000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:7f2i95753cfp4nsb37km3fpf50@google.com
+CREATED:20210927T212548Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T212602Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Lunch :: Beefsteak
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20211001T143000
+DTEND;TZID=America/New_York:20211001T153000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+DTSTAMP:20211111T034546Z
+UID:3v5qf5afu3akg31n2ljhd5mtop@google.com
+CREATED:20210927T212641Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T212641Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Lunch :: Rohr Commons
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210928T184500
+DTEND;TZID=America/New_York:20210928T194500
+RRULE:FREQ=WEEKLY;BYDAY=TU
+DTSTAMP:20211111T034546Z
+UID:5g8p0nvb31kl7mrglpvomfq3dc@google.com
+CREATED:20210927T212721Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T212730Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Dinner :: Taste of India
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210929T233000Z
+DTEND:20210930T003000Z
+DTSTAMP:20211111T034546Z
+UID:0r94tha43e3d16tui5m0a6elju@google.com
+CREATED:20210927T201713Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T212923Z
+LOCATION:
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:Green Hills Software (virtual)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210927T160000
+DTEND;TZID=America/New_York:20210927T183000
+RRULE:FREQ=WEEKLY;BYDAY=MO
+DTSTAMP:20211111T034546Z
+UID:6d44utf7deoatlmoiav41afkuk@google.com
+CREATED:20210927T213444Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T213444Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Study :: 112 Quiz\, 151 PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210929T154500
+DTEND;TZID=America/New_York:20210929T174500
+RRULE:FREQ=WEEKLY;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:7aiimo5l4q5chb3qi41ll5gbks@google.com
+CREATED:20210927T213645Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T213646Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Study :: 112 PSET\, 241\, PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210928T164500
+DTEND;TZID=America/New_York:20210928T183000
+RRULE:FREQ=WEEKLY;BYDAY=TU
+DTSTAMP:20211111T034546Z
+UID:27d7aqab6p4390hdg9sq9h320f@google.com
+CREATED:20210927T213544Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T213651Z
+LOCATION:
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:Study :: 151 PSET\, FIC Quiz
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210929T111500
+DTEND;TZID=America/New_York:20210929T121500
+RRULE:FREQ=WEEKLY;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:5g7tv1ttubo0bcvb2sl4s0vv4i@google.com
+CREATED:20210927T213754Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T213822Z
+LOCATION:
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:Study :: 112 PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210927T110000
+DTEND;TZID=America/New_York:20210927T131500
+RRULE:FREQ=WEEKLY;BYDAY=MO
+DTSTAMP:20211111T034546Z
+UID:68if8o74l78j6dl47lbmjab0ii@google.com
+CREATED:20210927T213852Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T213857Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Study :: 151 PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210929T191500
+DTEND;TZID=America/New_York:20210929T204500
+RRULE:FREQ=WEEKLY;BYDAY=WE
+DTSTAMP:20211111T034546Z
+UID:5qg84eq5of1sih8npsb5nk0sul@google.com
+CREATED:20210927T213934Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T213954Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Study :: 112 PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210929T210000
+DTEND;TZID=America/New_York:20210929T220000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=MO,WE
+DTSTAMP:20211111T034546Z
+UID:02ppriotqfoo6eak8j5jjqcc16@google.com
+CREATED:20210927T212824Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T213958Z
+LOCATION:
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:Dinner :: Underground
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210927T184500
+DTEND;TZID=America/New_York:20210927T194500
+RRULE:FREQ=WEEKLY;BYDAY=MO
+DTSTAMP:20211111T034546Z
+UID:1qifg5rajb1fpd9dao5ub32ed4@google.com
+CREATED:20210927T213027Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T214021Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Dinner :: Schatz 
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210930T184500
+DTEND;TZID=America/New_York:20210930T194500
+RRULE:FREQ=WEEKLY;BYDAY=TH
+DTSTAMP:20211111T034546Z
+UID:1nuogq7v9j8fb27p4fjl6kfh22@google.com
+CREATED:20210927T213117Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T214026Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Dinner :: Back Bar Grill
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210930T174500
+DTEND;TZID=America/New_York:20210930T183000
+RRULE:FREQ=WEEKLY;BYDAY=TH
+DTSTAMP:20211111T034546Z
+UID:4h7cmd6tcl2ra678qnrgnt6l0u@google.com
+CREATED:20210927T214044Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T214055Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Study :: 112 PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20211001T101500
+DTEND;TZID=America/New_York:20211001T121500
+RRULE:FREQ=WEEKLY;BYDAY=FR
+DTSTAMP:20211111T034546Z
+UID:018f9hvsb4tqs0hvntd2ukd3gk@google.com
+CREATED:20210927T214127Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T214147Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Study :: 241 PSET\, 112 PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20211002T100000
+DTEND;TZID=America/New_York:20211002T120000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+DTSTAMP:20211111T034546Z
+UID:7i8p6bfjg33ftoudnrinl52lqu@google.com
+CREATED:20210927T214221Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T214230Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Study :: 112 PSET
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210928T080000
+DTEND;TZID=America/New_York:20210928T084500
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:7aemakpomsp15jpck4e4s871et@google.com
+CREATED:20210927T211841Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T214329Z
+LOCATION:
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:Breakfast :: ABP
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20210928T084500
+DTEND;TZID=America/New_York:20210928T100000
+RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH,TU
+DTSTAMP:20211111T034546Z
+UID:0i67upfthd1cevb1gk7c109vnc@google.com
+CREATED:20210927T214415Z
+DESCRIPTION:
+LAST-MODIFIED:20210927T214415Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Gym
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20211007T000000Z
+DTEND:20211007T020000Z
+DTSTAMP:20211111T034546Z
+UID:6c6e4raqhjo4rocat3q2mqijvd@google.com
+CREATED:20211005T184456Z
+DESCRIPTION:PGH 100
+LAST-MODIFIED:20211005T184456Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:21-241 :: Midterm 1 Review
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20210428T210000Z
+DTEND:20210428T213000Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=daniela.sedas@asfm.edu.mx:mailto:daniela.sedas@asfm.edu.mx
+UID:3gu2ef9pu0nfs4kt25349vdgob@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ lozano6067@asfm.mx;X-NUM-GUESTS=0:mailto:23lozano6067@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ rivero5607@asfm.mx;X-NUM-GUESTS=0:mailto:21rivero5607@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ trevino5907@asfm.mx;X-NUM-GUESTS=0:mailto:22trevino5907@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22marg
+ ain5783@asfm.mx;X-NUM-GUESTS=0:mailto:22margain5783@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ raigosa5834@asfm.mx;X-NUM-GUESTS=0:mailto:22raigosa5834@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21stri
+ jp8842@asfm.mx;X-NUM-GUESTS=0:mailto:21strijp8842@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ad
+ rianelizon8@gmail.com;X-NUM-GUESTS=0:mailto:adrianelizon8@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ llaguno5773@asfm.mx;X-NUM-GUESTS=0:mailto:22llaguno5773@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22caba
+ nas6162@asfm.mx;X-NUM-GUESTS=0:mailto:22cabanas6162@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=el
+ izabeth.salinas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:elizabeth.salinas@asfm.ed
+ u.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ji
+ m.gerber@asfm.edu.mx;X-NUM-GUESTS=0:mailto:jim.gerber@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=bertha
+ .cannon@asfm.edu.mx;X-NUM-GUESTS=0:mailto:bertha.cannon@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ garcia7401@asfm.mx;X-NUM-GUESTS=0:mailto:23garcia7401@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ guardado5647@asfm.mx;X-NUM-GUESTS=0:mailto:21guardado5647@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ garzat5774@asfm.mx;X-NUM-GUESTS=0:mailto:22garzat5774@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22sald
+ ana5894@asfm.mx;X-NUM-GUESTS=0:mailto:22saldana5894@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22eliz
+ ondo5788@asfm.mx;X-NUM-GUESTS=0:mailto:22elizondo5788@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ assad6063@asfm.mx;X-NUM-GUESTS=0:mailto:23assad6063@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ cantu5845@asfm.mx;X-NUM-GUESTS=0:mailto:22cantu5845@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ cavazos8679@asfm.mx;X-NUM-GUESTS=0:mailto:21cavazos8679@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ blando7863@asfm.mx;X-NUM-GUESTS=0:mailto:22blando7863@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=lg
+ borletti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ delossantos6046@asfm.mx;X-NUM-GUESTS=0:mailto:23delossantos6046@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=aishsu
+ dh@gmail.com;X-NUM-GUESTS=0:mailto:aishsudh@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ teran6585@asfm.mx;X-NUM-GUESTS=0:mailto:22teran6585@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ basu8630@asfm.mx;X-NUM-GUESTS=0:mailto:22basu8630@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ gonzalez7659@asfm.mx;X-NUM-GUESTS=0:mailto:23gonzalez7659@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ vedoya6254@asfm.mx;X-NUM-GUESTS=0:mailto:21vedoya6254@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ canales6076@asfm.mx;X-NUM-GUESTS=0:mailto:23canales6076@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ alonso6511@asfm.mx;X-NUM-GUESTS=0:mailto:23alonso6511@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ lauria6249@asfm.mx;X-NUM-GUESTS=0:mailto:22lauria6249@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=fr
+ eda.christie-frey@asfm.edu.mx;X-NUM-GUESTS=0:mailto:freda.christie-frey@asf
+ m.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ja
+ vizp08@gmail.com;X-NUM-GUESTS=0:mailto:javizp08@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ arce5885@asfm.mx;X-NUM-GUESTS=0:mailto:22arce5885@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=alejan
+ dro.morales@asfm.edu.mx;X-NUM-GUESTS=0:mailto:alejandro.morales@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=joelle
+ .hernandez@asfm.edu.mx;X-NUM-GUESTS=0:mailto:joelle.hernandez@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=emmalo
+ ria2004@gmail.com;X-NUM-GUESTS=0:mailto:emmaloria2004@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=yo
+ ana.villarreal@asfm.edu.mx;X-NUM-GUESTS=0:mailto:yoana.villarreal@asfm.edu.
+ mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22garz
+ at.5810@asfm.mx;X-NUM-GUESTS=0:mailto:22garzat.5810@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ espinosa9027@asfm.mx;X-NUM-GUESTS=0:mailto:22espinosa9027@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ delagarza6469@asfm.mx;X-NUM-GUESTS=0:mailto:21delagarza6469@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ elizondo6078@asfm.mx;X-NUM-GUESTS=0:mailto:23elizondo6078@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ cueva8653@asfm.mx;X-NUM-GUESTS=0:mailto:21cueva8653@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=23turn
+ er7871@asfm.mx;X-NUM-GUESTS=0:mailto:23turner7871@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ gonzalez7193@asfm.mx;X-NUM-GUESTS=0:mailto:22gonzalez7193@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ abdo7678@asfm.mx;X-NUM-GUESTS=0:mailto:23abdo7678@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ medina5793@asfm.mx;X-NUM-GUESTS=0:mailto:22medina5793@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=daniel
+ a.sedas@asfm.edu.mx;X-NUM-GUESTS=0:mailto:daniela.sedas@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ cruz7434@asfm.mx;X-NUM-GUESTS=0:mailto:23cruz7434@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=23lee9
+ 264@asfm.mx;X-NUM-GUESTS=0:mailto:23lee9264@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22herr
+ era5787@asfm.mx;X-NUM-GUESTS=0:mailto:22herrera5787@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ doddoli6923@asfm.mx;X-NUM-GUESTS=0:mailto:22doddoli6923@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=joe.ha
+ rt@asfm.edu.mx;X-NUM-GUESTS=0:mailto:joe.hart@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ park9265@asfm.mx;X-NUM-GUESTS=0:mailto:23park9265@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22zamb
+ rano5835@asfm.mx;X-NUM-GUESTS=0:mailto:22zambrano5835@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=heidi.
+ orloff@asfm.edu.mx;X-NUM-GUESTS=0:mailto:heidi.orloff@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=mo
+ nica.gracida@asfm.edu.mx;X-NUM-GUESTS=0:mailto:monica.gracida@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22sand
+ oval8631@asfm.mx;X-NUM-GUESTS=0:mailto:22sandoval8631@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=er
+ icjung422@gmail.com;X-NUM-GUESTS=0:mailto:ericjung422@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ minarro7403@asfm.mx;X-NUM-GUESTS=0:mailto:23minarro7403@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ montemayor5875@asfm.mx;X-NUM-GUESTS=0:mailto:22montemayor5875@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ acosta8850@asfm.mx;X-NUM-GUESTS=0:mailto:21acosta8850@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=sc
+ ottmauricio10@gmail.com;X-NUM-GUESTS=0:mailto:scottmauricio10@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ ruiz5887@asfm.mx;X-NUM-GUESTS=0:mailto:22ruiz5887@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=23vill
+ alvazo7182@asfm.mx;X-NUM-GUESTS=0:mailto:23villalvazo7182@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ saldana6480@asfm.mx;X-NUM-GUESTS=0:mailto:21saldana6480@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=sh
+ eldon.guenther@asfm.edu.mx;X-NUM-GUESTS=0:mailto:sheldon.guenther@asfm.edu.
+ mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=23dela
+ garza6065@asfm.mx;X-NUM-GUESTS=0:mailto:23delagarza6065@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=21
+ cardenas5536@asfm.mx;X-NUM-GUESTS=0:mailto:21cardenas5536@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21kim8
+ 428@asfm.mx;X-NUM-GUESTS=0:mailto:21kim8428@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ zegarra7666@asfm.mx;X-NUM-GUESTS=0:mailto:22zegarra7666@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ ruiz6545@asfm.mx;X-NUM-GUESTS=0:mailto:22ruiz6545@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=jo
+ e0de0mx@gmail.com;X-NUM-GUESTS=0:mailto:joe0de0mx@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ turner7870@asfm.mx;X-NUM-GUESTS=0:mailto:22turner7870@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ deleon7657@asfm.mx;X-NUM-GUESTS=0:mailto:22deleon7657@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ guzman5905@asfm.mx;X-NUM-GUESTS=0:mailto:22guzman5905@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=sa
+ mantha.burbidge@asfm.edu.mx;X-NUM-GUESTS=0:mailto:samantha.burbidge@asfm.ed
+ u.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ villarreal5791@asfm.mx;X-NUM-GUESTS=0:mailto:22villarreal5791@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22lope
+ z5804@asfm.mx;X-NUM-GUESTS=0:mailto:22lopez5804@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21mart
+ inez6917@asfm.mx;X-NUM-GUESTS=0:mailto:21martinez6917@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=gharde
+ n@k12.com;X-NUM-GUESTS=0:mailto:gharden@k12.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=22vies
+ ca5777@asfm.mx;X-NUM-GUESTS=0:mailto:22viesca5777@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ garza5802@asfm.mx;X-NUM-GUESTS=0:mailto:22garza5802@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ mascarua6009@asfm.mx;X-NUM-GUESTS=0:mailto:23mascarua6009@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ fernandez5772@asfm.mx;X-NUM-GUESTS=0:mailto:22fernandez5772@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=22dela
+ garza5861@asfm.mx;X-NUM-GUESTS=0:mailto:22delagarza5861@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ becerra6112@asfm.mx;X-NUM-GUESTS=0:mailto:23becerra6112@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=br
+ ad.brandvold@asfm.edu.mx;X-NUM-GUESTS=0:mailto:brad.brandvold@asfm.edu.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ leal5863@asfm.mx;X-NUM-GUESTS=0:mailto:22leal5863@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=22gamb
+ oa6258@asfm.mx;X-NUM-GUESTS=0:mailto:22gamboa6258@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=jo
+ nathan.chenier@asfm.edu.mx;X-NUM-GUESTS=0:mailto:jonathan.chenier@asfm.edu.
+ mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=dh
+ uerta2002@gmail.com;X-NUM-GUESTS=0:mailto:dhuerta2002@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21garc
+ ia5555@asfm.mx;X-NUM-GUESTS=0:mailto:21garcia5555@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ka
+ therine.summers@asfm.edu.mx;X-NUM-GUESTS=0:mailto:katherine.summers@asfm.ed
+ u.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ aretos5758@asfm.mx;X-NUM-GUESTS=0:mailto:22aretos5758@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ ruiz5882@asfm.mx;X-NUM-GUESTS=0:mailto:22ruiz5882@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ montemayor7189@asfm.mx;X-NUM-GUESTS=0:mailto:22montemayor7189@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=22barr
+ era5761@asfm.mx;X-NUM-GUESTS=0:mailto:22barrera5761@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=21card
+ enas8390@asfm.mx;X-NUM-GUESTS=0:mailto:21cardenas8390@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ melendez5867@asfm.mx;X-NUM-GUESTS=0:mailto:22melendez5867@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ delagarza6035@asfm.mx;X-NUM-GUESTS=0:mailto:23delagarza6035@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=bycann
+ on@gmail.com;X-NUM-GUESTS=0:mailto:bycannon@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=22
+ cavazosarce5840@asfm.mx;X-NUM-GUESTS=0:mailto:22cavazosarce5840@asfm.mx
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=23
+ shin9266@asfm.com;X-NUM-GUESTS=0:mailto:23shin9266@asfm.com
+CREATED:20210415T161154Z
+DESCRIPTION:\nDear Students\nAs we prepare for AP exams there are a few thi
+ ngs you need to know before your administration window. \n\nI would like to
+  have this session with you in order to share basic information about testi
+ ng\, protocols\, security\, downloading the app (for digital exams) ....\nI
+  would also be available to answer any of your questions during this time. 
+LAST-MODIFIED:20211018T032335Z
+LOCATION:zoom.us/my/daniela.sedas.asfm
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Pre Admin session (option 1)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20211019T003000Z
+DTEND:20211019T020000Z
+DTSTAMP:20211111T034546Z
+UID:6pc0agajekv7gvs269hgsqk096@google.com
+CREATED:20211021T223135Z
+DESCRIPTION:
+LAST-MODIFIED:20211021T223135Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Agrivoltaics
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20211022T030000Z
+DTEND:20211022T040000Z
+DTSTAMP:20211111T034546Z
+UID:34qa6e4ucedlh0a6qouormqdhl@google.com
+CREATED:20211021T223153Z
+DESCRIPTION:
+LAST-MODIFIED:20211021T223153Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Agrivoltaics
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20211017T160000Z
+DTEND:20211017T170000Z
+DTSTAMP:20211111T034546Z
+UID:72r567a4uilt9jmtkk3hb3ibg8@google.com
+CREATED:20211021T223223Z
+DESCRIPTION:
+LAST-MODIFIED:20211021T223223Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Agrivoltaics
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20211023T160000Z
+DTEND:20211023T170000Z
+DTSTAMP:20211111T034546Z
+UID:1iii3kqpnosi8ff961eanb5l4m@google.com
+CREATED:20211021T223231Z
+DESCRIPTION:
+LAST-MODIFIED:20211021T223232Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Agrivoltaics
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20211029T142400Z
+DTEND:20211029T143600Z
+DTSTAMP:20211111T034546Z
+ORGANIZER;CN=vpeet@andrew.cmu.edu:mailto:vpeet@andrew.cmu.edu
+UID:v5ci06gp210iv1gn5aq64sdbj4@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=lgborl
+ etti@gmail.com;X-NUM-GUESTS=0:mailto:lgborletti@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=vpeet@
+ andrew.cmu.edu;X-NUM-GUESTS=0:mailto:vpeet@andrew.cmu.edu
+CREATED:20211027T024812Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the description.\n\nT
+ his event has a video call.\nJoin: https://meet.google.com/qyu-dxro-fyp\n(U
+ S) +1 321-312-2903 PIN: 365916167#\nView more phone numbers: https://tel.me
+ et/qyu-dxro-fyp?pin=9749121170254&hs=7\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20211027T024813Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Zoom Spring Registration Advising Meetings (Luca Borletti)
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

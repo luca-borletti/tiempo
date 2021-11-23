@@ -4,10 +4,9 @@ from random import *
 from ics_parsing import *
 from string import *
 from PIL import ImageFont
+from copy import *
 
 '''
-implement…
-
 event creation
 
 event description pop-up
@@ -88,15 +87,13 @@ def appStarted(app):
     app.editingName = None
 
     ###########################################################################
-    # 
+    # datetime variables
     ###########################################################################
 
     dateToday = datetime.now(tz = None) #NOT NEEDED
     app.today = dateToday.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
     numDay = dateToday.isoweekday()
     lastSunday = dateToday - timedelta(days = (numDay))
-
-    # app.midnight = app.today.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
 
     app.dayInSeconds = 86400
 
@@ -123,6 +120,12 @@ def appStarted(app):
 
     app.eventEditing = False
 
+    ###########################################################################
+    # interleaving
+    ###########################################################################
+
+    restartInterleaving(app)
+
 def openingMode_redrawAll(app, canvas):
     canvas.create_image(app.width//2, app.height//2, \
         image=ImageTk.PhotoImage(app.openingModeImage))
@@ -138,6 +141,8 @@ def datetimeToCalendar(app, event, day):
     event.day = day
 
     midnight = app.weekDays[day]
+
+    event.duration = (event.endTime - event.startTime)
 
     event.pixelTop = int(app.calendarTopMargin + (event.startTime - \
         midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight)
@@ -211,7 +216,7 @@ def calendarMode_mousePressed(app, event):
         - if on calendar and an event is selected, deselect the event.
     '''
     x, y = event.x, event.y
-    if mouseInCalendar(app, x, y):
+    if mouseInCalendar(app, x, y) and app.eventInterleaving == 0:
         if app.eventEditing and mouseInEditing(app, x, y):
             app.editingMode = mouseInMode(app, x, y)
         else: 
@@ -231,6 +236,11 @@ def calendarMode_mousePressed(app, event):
                     #     pass
                     # else: 
                     deselectEvent(app)
+    elif (app.eventInterleaving == 1):
+        if 
+        day = mouseOnDay(app, x, y)
+        if day != None:
+            app.daySelected = day
     else:
         deselectEvent(app)
 
@@ -356,6 +366,59 @@ def fixEventContents(app):
     dayNum = event.day
     dayDt = app.weekDays[dayNum]
 
+    bisectedStart = app.editingStart.strip().split(":")
+    if len(bisectedStart) != 2:
+        return
+    startHour = bisectedStart[0].strip()
+    startMinute = bisectedStart[1].strip()[:2]
+    startAMPM = app.editingStart[-2:].strip()
+
+    bisectedEnd = app.editingEnd.strip().split(":")
+    if len(bisectedEnd) != 2:
+        return
+    endHour = bisectedEnd[0].strip()
+    endMinute = bisectedEnd[1].strip()[:2]
+    endAMPM = app.editingEnd[-2:].strip()
+
+    startTime = deepcopy(app.weekDays[dayNum])
+    endTime = deepcopy(app.weekDays[dayNum])
+    
+    if startHour.isnumeric() and startMinute.isnumeric() and (startAMPM == "AM" \
+        or startAMPM == "PM"):
+        startHour = int(startHour)
+        startMinute = int(startMinute)
+        if (1 <= startHour <= 12) and (0 <= startMinute <= 59):
+            if startAMPM == "AM" and startHour == 12:
+                startTime = startTime.replace(hour = 0, minute = startMinute)
+            elif startAMPM == "AM":
+                startTime = startTime.replace(hour = startHour, minute = startMinute)
+            elif startAMPM == "PM" and startHour == 12:
+                startTime = startTime.replace(hour = 12, minute = startMinute)
+            elif startAMPM == "PM":
+                startTime = startTime.replace(hour = startHour + 12, minute = startMinute)
+
+    if endHour.isnumeric() and endMinute.isnumeric() and (endAMPM == "AM" \
+        or endAMPM == "PM"):
+        endHour = int(endHour)
+        endMinute = int(endMinute)
+        if (1 <= endHour <= 12) and (0 <= endMinute <= 59):
+            if endAMPM == "AM" and endHour == 12:
+                endTime = endTime.replace(hour = 0, minute = endMinute)
+            elif endAMPM == "AM":
+                endTime = endTime.replace(hour = endHour, minute = endMinute)
+            elif endAMPM == "PM" and endHour == 12:
+                endTime = endTime.replace(hour = 12, minute = endMinute)
+            elif endAMPM == "PM":
+                endTime = endTime.replace(hour = (endHour + 12), minute = endMinute)
+
+    if startTime != dayDt and endTime != dayDt:
+        if endTime > startTime:
+            event.startTime = startTime
+            event.endTime = endTime
+            datetimeToCalendar(app, app.selectedEvent, dayNum)
+            app.weekEvents[app.weekDays[event.day]].remove(event)
+            app.weekEvents[app.weekDays[event.day]].add(event)
+
 def fixEventPosition(app, event, x, y):
     '''
     changes the attributes of an event to match the given x, y coordinates
@@ -392,6 +455,9 @@ def fixEventPosition(app, event, x, y):
     event.startTime = app.weekDays[dayIndex] + timedelta(seconds = app.dayInSeconds*((event.pixelTop - app.calendarTopMargin)/app.calendarPixelHeight))
     event.endTime = app.weekDays[dayIndex] + timedelta(seconds = app.dayInSeconds*((event.pixelBot - app.calendarTopMargin)/app.calendarPixelHeight))
     
+    event.startTime = event.startTime.replace(microsecond = 0)
+    event.endTime = event.endTime.replace(microsecond = 0)
+    
     app.weekEvents[app.weekDays[event.day]].add(event)
 
 # def calendarMode_rightDragged(app, event):
@@ -411,7 +477,7 @@ def calendarMode_mouseDragged(app, event):
     '''
     x, y = event.x, event.y
 
-    if app.selectedEvent != None and not app.eventEditing:
+    if app.selectedEvent != None and not app.eventEditing and app.eventInterleaving == 0:
         app.draggedPosition = (x, y)
 
 # def calendarMode_rightReleased(app, event):
@@ -435,7 +501,7 @@ def calendarMode_mouseReleased(app, event):
     '''
     x, y = event.x, event.y
 
-    if app.selectedEvent != None and not app.eventEditing:
+    if app.selectedEvent != None and not app.eventEditing and app.eventInterleaving == 0:
         app.draggedPosition = (x, y)
 
         fixEventPosition(app, app.selectedEvent, x, y)
@@ -484,15 +550,37 @@ def calendarMode_keyPressed(app, event):
                     app.selectedEvent.summary += " "
                     truncateEditingName(app, app.selectedEvent)
             elif app.editingMode == 1.0:
-                pass
+                if event.key in "APM0123456789:":
+                    app.editingStart += event.key
+                elif event.key == "Delete":
+                    app.editingStart = app.editingStart[:-1]
+                elif event.key == "Space":
+                    app.editingStart += " "
             elif app.editingMode == 2.0:
-                pass
+                if event.key in "APM0123456789:":
+                    app.editingEnd += event.key
+                elif event.key == "Delete":
+                    app.editingEnd = app.editingEnd[:-1]
+                elif event.key == "Space":
+                    app.editingEnd += " "
         else:
             if event.key == "Delete":
                 deleteEvent(app)
             if event.key == "Space":
                 app.eventEditing = True
                 createEditingPanel(app)
+    elif not app.eventEditing:
+        if app.eventInterleaving == 1:
+            if event.key == "Escape":
+                app.eventInterleaving = 0
+                restartInterleaving(app)
+        elif event.key == "I":
+            app.eventInterleaving = 1
+
+def restartInterleaving(app):
+    app.eventInterleaving = 0
+    app.interDay = None
+    app.interEvents = None
 
 def createEditingPanel(app):
     event = app.selectedEvent
@@ -525,36 +613,43 @@ def createEditingPanel(app):
         app.editingy0 = app.editingy1 - app.editingPanelHeight
     
     truncateEditingName(app, event)
+
+    eventDay = event.startTime.day
     
-    # eventDay = event.startTime.day
-    # eventStartHr = event.startTime.hour
-    # eventStartMin = event.startTime.minute
-    # if eventStartHr < 12:
-    #     _M = "AM"
-    #     _hour = eventStartHr
-    # elif eventStartHr == 12:
-    #     _M = "PM"
-    #     _hour = eventStartHr
-    # else:
-    #     _M = "PM"
-    #     _hour = eventStartHr % 12
-    # _min = eventStartMin
-    # app.editingStart = "{_hour} : {_min} {_M}"
+    eventStartHr = event.startTime.hour
+    eventStartMin = event.startTime.minute
+    if eventStartHr == 0:
+        s_M = "AM"
+        s_hour = 12
+    elif eventStartHr < 12:
+        s_M = "AM"
+        s_hour = eventStartHr
+    elif eventStartHr == 12:
+        s_M = "PM"
+        s_hour = eventStartHr
+    else:
+        s_M = "PM"
+        s_hour = eventStartHr % 12
+    s_min = event.startTime.strftime("%M")
+    app.editingStart = f"{s_hour} : {s_min} {s_M}"
 
 
-    # eventEndHr = event.endTime.hour
-    # eventEndMin = event.endTime.minute
-    # if eventEndHr < 12:
-    #     _M = "AM"
-    #     _hour = eventEndHr
-    # elif eventEndHr == 12:
-    #     _M = "PM"
-    #     _hour = eventEndHr
-    # else:
-    #     _M = "PM"
-    #     _hour = eventEndHr % 12
-    # _min = eventEndMin
-    # app.editingEnd = "{_hour} : {_min} {_M}"
+    eventEndHr = event.endTime.hour
+    eventEndMin = event.endTime.minute
+    if eventEndHr == 0:
+        e_M = "AM"
+        e_hour = 12
+    elif eventEndHr < 12:
+        e_M = "AM"
+        e_hour = eventEndHr
+    elif eventEndHr == 12:
+        e_M = "PM"
+        e_hour = eventEndHr
+    else:
+        e_M = "PM"
+        e_hour = eventEndHr % 12
+    e_min = event.endTime.strftime("%M")
+    app.editingEnd = f"{e_hour} : {e_min} {e_M}"
 
 def truncateEditingName(app, calendarEvent):
     nameText = calendarEvent.summary
@@ -566,17 +661,6 @@ def truncateEditingName(app, calendarEvent):
         nameText += "…"
     
     app.editingName = nameText
-
-
-'''
-press space,
-cause new mode to happen where mouse is disabled
-make Delete map to app.selectedEvent.summary = app.selectedEvent.summary[:-1]
-make event.key 's that are in ASCII map to app.selectedEvent.summary += event.key
-make Enter map to closing new mode
-obviously make a screen that shows the startTime and endTime
-obviously case on numbers for startTime endTime
-'''
 
 def calendarMode_sizeChanged(app):
     pass
@@ -655,10 +739,17 @@ def drawEditingPanel(app, canvas):
         canvas.create_text(x0 + app.calendarEditMargin//2, y0 + app.calendarEditMargin//2, \
             text = "Name: ", anchor = "nw", fill = app.calendarOuterFont, font = "Arial 15")
         canvas.create_text(x0 + app.calendarEditMargin//2, y0 + 30 - app.calendarEditMargin//2, \
-            text = app.editingName, anchor = "nw", fill = app.calendarInnerFont, font = "Arial 15 bold underline")
+            text = app.editingName, anchor = "nw", fill = app.calendarInnerFont, font = "Arial 15 bold")
         
-        canvas.create_text(x0 + app.calendarEditMargin//2, y0 + app.calendarEditMargin//2, \
-            text = "Name: ", anchor = "nw", fill = app.calendarOuterFont, font = "Arial 15")
+        canvas.create_text(x0 + app.calendarEditMargin//2, y0 + app.calendarEditMargin//2 + app.editingPanelHeight/3, \
+            text = "Start time: ", anchor = "nw", fill = app.calendarOuterFont, font = "Arial 15")
+        canvas.create_text(x0 + app.calendarEditMargin//2, y0 + 30 - app.calendarEditMargin//2 + app.editingPanelHeight/3, \
+            text = app.editingStart, anchor = "nw", fill = app.calendarInnerFont, font = "Arial 15 bold")
+
+        canvas.create_text(x0 + app.calendarEditMargin//2, y0 + app.calendarEditMargin//2 + 2*app.editingPanelHeight/3, \
+            text = "End time: ", anchor = "nw", fill = app.calendarOuterFont, font = "Arial 15")
+        canvas.create_text(x0 + app.calendarEditMargin//2, y0 + 30 - app.calendarEditMargin//2 + 2*app.editingPanelHeight/3, \
+            text = app.editingEnd, anchor = "nw", fill = app.calendarInnerFont, font = "Arial 15 bold")
         
         for line in range(2):
             canvas.create_line(x0, (line + 1)*app.editingPanelHeight//3 + y0, \
@@ -668,9 +759,8 @@ def drawEditingPanel(app, canvas):
 
         # startTime = 
         # endTime = 
-
 # credit to https://stackoverflow.com/a/44100075
-def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=10, **kwargs):
+def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=8, **kwargs):
     points = [x1+radius, y1,
               x1+radius, y1,
               x2-radius, y1,
@@ -724,11 +814,15 @@ def drawDraggedEvent(app, canvas):
             dragPixelLeft = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7)
             dragPixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
                 + app.calendarPixelWidth*.95/7)
-            
-        canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
-                                dragPixelRight, dragPixelBot, 
-                                fill = fromRGBtoHex(event.color),
-                                width = 0)
+        
+        drawRoundRectangle(canvas, dragPixelLeft + .5, dragPixelTop, \
+                dragPixelRight, dragPixelBot, fill = fromRGBtoHex(event.color), \
+                    width = 0)
+
+        # canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
+        #                         dragPixelRight, dragPixelBot, 
+        #                         fill = fromRGBtoHex(event.color),
+        #                         width = 0)
         
         if len(event.summary) >= 19:
             eventText = event.summary[:18] + "…"
@@ -744,10 +838,13 @@ def drawWeekEvents(app, canvas):
     for index in range(7):
         weekDay = app.weekDays[index]
         for event in app.weekEvents[weekDay]:
-            canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
-                                event.pixelRight, event.pixelBot, 
-                                fill = fromRGBtoHex(event.color),
-                                width = 0)
+            drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
+                event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
+                    width = 0)
+            # canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
+            #                     event.pixelRight, event.pixelBot, 
+            #                     fill = fromRGBtoHex(event.color),
+            #                     width = 0)
 
             if len(event.summary) >= 19:
                 eventText = event.summary[:18] + "…"
@@ -817,8 +914,6 @@ def drawWeekBackground(app, canvas):
 
         canvas.create_text(app.calendarLeftMargin//4, hourPixel, \
             text = hourText, fill = app.calendarOuterFont, font = "Arial 11")
-
-
 
 if __name__ == "__main__":
     runApp(width=1400, height=800)
