@@ -246,6 +246,7 @@ def calendarMode_mousePressed(app, event):
             clickedEvent = mouseOnEvent(app, x, y)
             if clickedEvent != None:
                 app.interEvents.add(clickedEvent)
+                print(app.interEvents)
     else:
         deselectEvent(app)
 
@@ -587,7 +588,7 @@ def calendarMode_keyPressed(app, event):
 def restartInterleaving(app):
     app.eventInterleaving = 0
     app.interDay = None
-    app.interEvents = None
+    app.interEvents = set()
 
 def createEditingPanel(app):
     event = app.selectedEvent
@@ -683,6 +684,22 @@ def drawCalendar(app, canvas):
     drawWeekEvents(app, canvas)
     drawDraggedEvent(app, canvas)
     drawEditingPanel(app, canvas)
+    drawInterleaving(app, canvas)
+
+def drawInterleaving(app, canvas):
+    drawSelectedDay(app, canvas)
+    drawSelectedEvents(app, canvas)
+    drawInterleavingPanel(app, canvas)
+
+def drawInterleavingPanel(app, canvas):
+    pass
+
+def drawSelectedEvents(app, canvas):
+    pass
+
+def drawSelectedDay(app, canvas):
+    if app.eventInterleaving == 2:
+        canvas.create_rectangle
 
 # credit to https://stackoverflow.com/a/35772222
 def get_pil_text_size(text, font_size, font_name):
