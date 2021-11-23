@@ -179,7 +179,7 @@ def calendarMode_appStopped(app):
 def calendarMode_rightPressed(app, event):
     x, y = event.x, event.y
 
-    if mouseInCalendar(app, x, y):
+    if mouseInCalendar(app, x, y) and app.eventInterleaving == 0:
         if mouseOnEvent(app, x, y) == None and not app.eventEditing:
             createEvent(app, x, y)
 
@@ -237,10 +237,15 @@ def calendarMode_mousePressed(app, event):
                     # else: 
                     deselectEvent(app)
     elif (app.eventInterleaving == 1):
-        if 
         day = mouseOnDay(app, x, y)
         if day != None:
-            app.daySelected = day
+            app.interDay = day
+            app.eventInterleaving = 2
+    elif (app.eventInterleaving == 2):
+        if mouseOnDay(app, x, y) == app.interDay:
+            clickedEvent = mouseOnEvent(app, x, y)
+            if clickedEvent != None:
+                app.interEvents.add(clickedEvent)
     else:
         deselectEvent(app)
 
@@ -569,11 +574,13 @@ def calendarMode_keyPressed(app, event):
             if event.key == "Space":
                 app.eventEditing = True
                 createEditingPanel(app)
-    elif not app.eventEditing:
-        if app.eventInterleaving == 1:
+    elif app.selectedEvent == None:
+        if app.eventInterleaving != 0:
             if event.key == "Escape":
                 app.eventInterleaving = 0
                 restartInterleaving(app)
+            if app.eventInterleaving == 3:
+                pass
         elif event.key == "I":
             app.eventInterleaving = 1
 
