@@ -23,7 +23,7 @@ def icalendarLibraryTests():
     for i in vEvent:
         print(i)
 
-    # print(calendarInstance.walk("VEVENT")[50]["DTSTART"].dt)
+    print(calendarInstance.walk("VEVENT")[50]["DESCRIPTION"])
 
     # vRecur = calendarInstance.walk("VEVENT")[eventIndex]["RRULE"]
 
@@ -33,23 +33,26 @@ def icalendarLibraryTests():
     #     print("\n")
 
 
-def icalendarLibraryTests2():
-    class calendarEvent(object):
-        def __init__(self, summary, startTime, endTime):
-            self.summary = summary
-            self.startTime = startTime
-            self.endTime = endTime
-            self.duration = endTime - startTime
-            self.day = None
-            self.color = None
-            self.pixelTop = None
-            self.pixelBot = None
-            self.pixelLeft = None
-            self.pixelRight = None
+class calendarEvent(object):
+    def __init__(self, summary, startTime, endTime):
+        self.summary = summary
+        self.startTime = startTime
+        self.endTime = endTime
+        self.duration = endTime - startTime
+        self.day = None
+        self.color = None
+        self.pixelTop = None
+        self.pixelBot = None
+        self.pixelLeft = None
+        self.pixelRight = None
+        
+    def __repr__(self):
+        return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
 
-            
-        def __repr__(self):
-            return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
+# icalendarLibraryTests()
+
+def icalendarLibraryTests2():
+
 
 
     '''
@@ -147,10 +150,12 @@ def icalendarLibraryTests2():
                         eventObject.color = color
                         week[day].add(eventObject)
 
+                        test = eventObject
+
+
     # for i in week:
     #     print(week[i])
     #     print('\n')
-
 
     return week
                 
@@ -161,8 +166,6 @@ def icalendarLibraryTests2():
             # if "UNTIL" in event["RRULE"]:
             #     print(event["RRULE"]["UNTIL"])
             # print("\n")
-
-# icalendarLibraryTests()
 icalendarLibraryTests2()
 '''
 
