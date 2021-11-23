@@ -239,11 +239,6 @@ def mouseInEditing(app, x, y):
 
 def mouseInMode(app, x, y):
     return (y - app.editingy0) // (app.editingPanelHeight/3)
-    # if mode == 0.0 and (app.editingy0 + 30 - app.calendarEditMargin//2 <= y <= app.editingy1):
-    # elif mode == 1.0 and :
-    # elif mode == 2.0 and :
-    # else:
-    #     return None 
 
 def createEvent(app, x, y):
     if app.selectedEvent == None:
@@ -499,7 +494,7 @@ def createEditingPanel(app):
     
     dayNum = event.day
     dayDt = app.weekDays[dayNum]
-    z = (event.pixelBot - event.pixelTop)//2 + event.pixelTop
+    eventMiddlePixel = (event.pixelBot - event.pixelTop)//2 + event.pixelTop
     
     if dayNum >= 3:
         app.editingx1 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*dayNum)\
@@ -509,7 +504,7 @@ def createEditingPanel(app):
         # x0 = app.calendarLeftMargin + app.calendarEditMargin
         # y0 = app.calendarTopMargin + app.calendarEditMargin
         app.editingy0 = max(app.calendarTopMargin, \
-            z - app.editingPanelHeight//2)
+            eventMiddlePixel - app.editingPanelHeight//2)
         app.editingy1 = min(app.calendarHeight - app.calendarEditMargin, app.editingy0 + app.editingPanelHeight)
         app.editingy0 = app.editingy1 - app.editingPanelHeight
     else:
@@ -520,7 +515,7 @@ def createEditingPanel(app):
         # x1 = app.calendarWidth - app.calendarEditMargin
         # y1 = app.calendarHeight - app.calendarEditMargin
         app.editingy0 = max(app.calendarTopMargin, \
-            z - app.editingPanelHeight//2)
+            eventMiddlePixel - app.editingPanelHeight//2)
         app.editingy1 = min(app.calendarHeight - app.calendarEditMargin, app.editingy0 + app.editingPanelHeight)
         app.editingy0 = app.editingy1 - app.editingPanelHeight
     
@@ -606,7 +601,7 @@ def drawEditingPanel(app, canvas):
         dayNum = event.day
         dayDt = app.weekDays[dayNum]    
 
-
+        eventMiddlePixel = (event.pixelBot - event.pixelTop)//2 + event.pixelTop
         
         z = (event.pixelBot - event.pixelTop)//2 + event.pixelTop
         
@@ -618,7 +613,7 @@ def drawEditingPanel(app, canvas):
             # x0 = app.calendarLeftMargin + app.calendarEditMargin
             # y0 = app.calendarTopMargin + app.calendarEditMargin
             y0 = max(app.calendarTopMargin, \
-                z - app.editingPanelHeight//2)
+                eventMiddlePixel - app.editingPanelHeight//2)
             y1 = min(app.calendarHeight - app.calendarEditMargin, y0 + app.editingPanelHeight)
             y0 = y1 - app.editingPanelHeight
 
@@ -632,7 +627,7 @@ def drawEditingPanel(app, canvas):
             # x1 = app.calendarWidth - app.calendarEditMargin
             # y1 = app.calendarHeight - app.calendarEditMargin
             y0 = max(app.calendarTopMargin, \
-                z - app.editingPanelHeight//2)
+                eventMiddlePixel - app.editingPanelHeight//2)
             y1 = min(app.calendarHeight - app.calendarEditMargin, y0 + app.editingPanelHeight)
             y0 = y1 - app.editingPanelHeight
 
@@ -641,16 +636,6 @@ def drawEditingPanel(app, canvas):
 
         canvas.create_polygon(points, fill = app.calendarEditColor,
                               outline = app.calendarEditBorderColor)
-
-        if app.editingMode == 0.0:
-            canvas.create_rectangle(x0, y0, x1, y0 + app.editingPanelHeight/3,\
-                fill = app.calendarEditBorderColor, width = 0)
-        elif app.editingMode == 1.0:
-            canvas.create_rectangle(x0, y0 + app.editingPanelHeight/3, x1, y0 + app.editingPanelHeight/3*2,\
-                fill = app.calendarEditBorderColor, width = 0)
-        elif app.editingMode == 2.0:
-            canvas.create_rectangle(x0, y0 + app.editingPanelHeight/3*2, x1, y0 + app.editingPanelHeight, \
-                fill = app.calendarEditBorderColor, width = 0)
 
         canvas.create_text(x0 + app.calendarEditMargin//2, y0 + app.calendarEditMargin//2, \
             text = "Name: ", anchor = "nw", fill = app.calendarOuterFont, font = "Arial 15")
