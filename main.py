@@ -70,6 +70,9 @@ def appStarted(app):
     app.todayCircleColor = fromRGBtoHex((235,85,69))
     app.calendarEditColor = fromRGBtoHex((47,48,49))
     app.calendarEditBorderColor = fromRGBtoHex((88,88,88))
+    app.interDayColor = fromRGBtoHex((88,88,88))
+    app.interPanelColor = fromRGBtoHex((47,48,49))
+    app.interPanelBorderColor = fromRGBtoHex((88,88,88))
 
     app.calendarOuterFont = fromRGBtoHex((110,110,110))
     app.calendarInnerFont = fromRGBtoHex((255,255,255))
@@ -126,6 +129,8 @@ def appStarted(app):
 
     restartInterleaving(app)
 
+
+
 def openingMode_redrawAll(app, canvas):
     canvas.create_image(app.width//2, app.height//2, \
         image=ImageTk.PhotoImage(app.openingModeImage))
@@ -144,10 +149,10 @@ def datetimeToCalendar(app, event, day):
 
     event.duration = (event.endTime - event.startTime)
 
-    event.pixelTop = int(app.calendarTopMargin + (event.startTime - \
-        midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight)
-    event.pixelBot = int(event.pixelTop + \
-        event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight)
+    event.pixelTop = app.calendarTopMargin + (event.startTime - \
+        midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight
+    event.pixelBot = event.pixelTop + \
+        event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight
 
     event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
     event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
@@ -237,18 +242,34 @@ def calendarMode_mousePressed(app, event):
                     # else: 
                     deselectEvent(app)
     elif (app.eventInterleaving == 1):
-        day = mouseOnDay(app, x, y)
-        if day != None:
-            app.interDay = day
+        if mouseInCalendar:
+            app.interDayIndex = int((x - app.calendarLeftMargin) / (app.calendarPixelWidth/7))
+            app.interDay = app.weekDays[app.interDayIndex]
             app.eventInterleaving = 2
     elif (app.eventInterleaving == 2):
-        if mouseOnDay(app, x, y) == app.interDay:
-            clickedEvent = mouseOnEvent(app, x, y)
-            if clickedEvent != None:
-                app.interEvents.add(clickedEvent)
-                print(app.interEvents)
+        clickedEvent = mouseInInterEvents(app, x, y)
+        if clickedEvent != None:
+            app.immutableEvents.add(clickedEvent)
+    elif (app.eventInterleaving == 3):
+        clickedMode = mouseInInterPanel(app, x, y)
+        if clickedMode != None:
+            app.interMode = clickedMode
     else:
         deselectEvent(app)
+
+def mouseInInterPanel(app, x, y):
+    if (app.interx0 <= x <= app.interx1) and \
+        (app.intery0 <= y <= app.intery1):
+        return (y - app.calendarTopMargin) // (app.calendarPixelHeight/2)
+    return None
+
+def mouseInInterEvents(app, x, y):
+    interDayEvents = app.weekEvents[app.interDay]
+    for event in interDayEvents:
+        if (event.pixelLeft <= x <= event.pixelRight) and \
+            (event.pixelTop <= y <= event.pixelBot):
+            return event
+    return None
 
 def mouseInEditing(app, x, y):
     return (app.editingx0 <= x <= app.editingx1) and (app.editingy0 <= y <= app.editingy1)
@@ -580,15 +601,54 @@ def calendarMode_keyPressed(app, event):
             if event.key == "Escape":
                 app.eventInterleaving = 0
                 restartInterleaving(app)
-            if app.eventInterleaving == 3:
-                pass
+            if app.eventInterleaving == 2:
+                if event.key == "Enter":
+                    app.eventInterleaving = 3
+                    checkSelectionValidity(app)
+                    createInterPanel(app)
+            elif app.eventInterleaving == 3:
+                if app.interMode == 0.0:
+                    if event.key in "APM0123456789:":
+                        app.interWake += event.key
+                    elif event.key == "Delete":
+                        app.interWake = app.editingEnd[:-1]
+                    elif event.key == "Space":
+                        app.interWake += " "
+                elif app.interMode == 1.0:
+                    if event.key in "APM0123456789:":
+                        app.interSleep += event.key
+                    elif event.key == "Delete":
+                        app.interSleep = app.editingEnd[:-1]
+                    elif event.key == "Space":
+                        app.interSleep += " "
         elif event.key == "I":
             app.eventInterleaving = 1
+
+def generateTimeInterval(app):
+    midnight = deepcopy(app.interDay)
+    
+    pass
+
+def checkSelectionValidity(app):
+    for event in app.weekEvents[app.interDay]:
+        if event not in app.immutableEvents:
+            app.mutableEvents.add(event)
+    if len(app.mutableEvents) < 2:
+        restartInterleaving(app)
 
 def restartInterleaving(app):
     app.eventInterleaving = 0
     app.interDay = None
-    app.interEvents = set()
+    app.interDayIndex = None
+    app.immutableEvents = set()
+    app.mutableEvents = set()
+    app.interx0 = None
+    app.interx1 = None
+    app.intery0 = None
+    app.intery1 = None
+    app.interMode = None
+    app.interWake = "8 : 00 AM"
+    app.interSleep = "8 : 00 PM"
 
 def createEditingPanel(app):
     event = app.selectedEvent
@@ -670,6 +730,12 @@ def truncateEditingName(app, calendarEvent):
     
     app.editingName = nameText
 
+def createInterPanel(app):
+    app.interx0 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*app.interDayIndex)
+    app.interx1 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(app.interDayIndex+1))
+    app.intery0 = app.calendarTopMargin
+    app.intery1 = app.calendarHeight
+
 def calendarMode_sizeChanged(app):
     pass
 
@@ -692,14 +758,45 @@ def drawInterleaving(app, canvas):
     drawInterleavingPanel(app, canvas)
 
 def drawInterleavingPanel(app, canvas):
-    pass
+    if app.eventInterleaving == 3:
+        canvas.create_rectangle(app.interx0, app.intery0, app.interx1, app.intery1, fill = app.interPanelColor, 
+                                width = 0)
+
+        if app.interMode == 0.0:
+            canvas.create_rectangle(app.interx0, app.intery0, app.interx1, app.intery0 + app.calendarPixelHeight/2,\
+                fill = app.interPanelBorderColor, width = 0)
+        elif app.interMode == 1.0:
+            canvas.create_rectangle(app.interx0, app.intery0 + app.calendarPixelHeight/2, app.interx1, app.intery1,\
+                fill = app.interPanelBorderColor, width = 0)
 
 def drawSelectedEvents(app, canvas):
-    pass
+    if app.eventInterleaving == 2:
+        for event in app.immutableEvents:
+            # drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
+            #         event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
+            #             width = 0)
+            displayColor = tuple([event.color[i]//4*3 for i in range(3)])
+            canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
+                                    event.pixelRight, event.pixelBot, 
+                                    fill = fromRGBtoHex(displayColor),
+                                    width = 0)
+            if len(event.summary) >= 19:
+                    eventText = event.summary[:18] + "…"
+            else:
+                eventText = event.summary
+                
+            canvas.create_text(event.pixelLeft + 2, event.pixelTop, 
+                            text = eventText, anchor = "nw",
+                            fill = app.calendarInnerFont, font = "Arial 12")
 
 def drawSelectedDay(app, canvas):
     if app.eventInterleaving == 2:
-        canvas.create_rectangle
+        x0 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*app.interDayIndex)
+        x1 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(app.interDayIndex+1))
+        y0 = app.calendarTopMargin
+        y1 = app.calendarHeight
+        canvas.create_rectangle(x0, y0, x1, y1, fill = None, width = 3, 
+                                outline = app.interDayColor)
 
 # credit to https://stackoverflow.com/a/35772222
 def get_pil_text_size(text, font_size, font_name):
@@ -839,14 +936,14 @@ def drawDraggedEvent(app, canvas):
             dragPixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
                 + app.calendarPixelWidth*.95/7)
         
-        drawRoundRectangle(canvas, dragPixelLeft + .5, dragPixelTop, \
-                dragPixelRight, dragPixelBot, fill = fromRGBtoHex(event.color), \
-                    width = 0)
+        # drawRoundRectangle(canvas, dragPixelLeft + .5, dragPixelTop, \
+        #         dragPixelRight, dragPixelBot, fill = fromRGBtoHex(event.color), \
+        #             width = 0)
 
-        # canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
-        #                         dragPixelRight, dragPixelBot, 
-        #                         fill = fromRGBtoHex(event.color),
-        #                         width = 0)
+        canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
+                                dragPixelRight, dragPixelBot, 
+                                fill = fromRGBtoHex(event.color),
+                                width = 0)
         
         if len(event.summary) >= 19:
             eventText = event.summary[:18] + "…"
@@ -862,13 +959,13 @@ def drawWeekEvents(app, canvas):
     for index in range(7):
         weekDay = app.weekDays[index]
         for event in app.weekEvents[weekDay]:
-            drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
-                event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
-                    width = 0)
-            # canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
-            #                     event.pixelRight, event.pixelBot, 
-            #                     fill = fromRGBtoHex(event.color),
-            #                     width = 0)
+            # drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
+            #     event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
+            #         width = 0)
+            canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
+                                event.pixelRight, event.pixelBot, 
+                                fill = fromRGBtoHex(event.color),
+                                width = 0)
 
             if len(event.summary) >= 19:
                 eventText = event.summary[:18] + "…"
