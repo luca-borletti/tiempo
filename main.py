@@ -70,6 +70,9 @@ def appStarted(app):
     app.calendarPixelHeight = app.calendarHeight - app.calendarTopMargin
     app.calendarPixelWidth = app.calendarWidth - app.calendarLeftMargin
 
+    app.calendarMonthYearX = 175
+    app.calendarMonthYearY = 30
+
     app.calendarBgColor = fromRGBtoHex((30,32,35))
     app.calendarFgColor = fromRGBtoHex((70,70,70))
     app.calendarWkndColor = fromRGBtoHex((39,40,42))
@@ -83,7 +86,7 @@ def appStarted(app):
     app.calendarOuterFont = fromRGBtoHex((110,110,110))
     app.calendarInnerFont = fromRGBtoHex((255,255,255))
     app.calendarTopFont = fromRGBtoHex((110,110,110))
-    # app.calendarTopFont = fromRGBtoHex((255,255,255))
+    app.calendarTopFont = fromRGBtoHex((255,255,255))
 
     app.editingx0 = None
     app.editingx1 = None
@@ -108,17 +111,19 @@ def appStarted(app):
     app.tasksPixelWidth = app.width - app.tasksLeftMargin
     app.tasksPixelHeight = app.calendarHeight - app.tasksTopMargin
 
-    # app.tasksBgColor = fromRGBtoHex((51,51,51))
-    # app.tasksFgColor = fromRGBtoHex((0,0,0))
-    app.tasksBgColor = fromRGBtoHex((30,32,35))
-    app.tasksFgColor = fromRGBtoHex((70,70,70))
+    app.tasksBgColor = fromRGBtoHex((51,51,51))
+    app.tasksFgColor = fromRGBtoHex((0,0,0))
+    # app.tasksBgColor = fromRGBtoHex((30,32,35))
+    # app.tasksFgColor = fromRGBtoHex((70,70,70))
 
     ###########################################################################
     # datetime variables
     ###########################################################################
 
-    dateToday = datetime.now(tz = None) #NOT NEEDED
+    dateToday = datetime.now(tz = None) #LET USER INPUT
     app.today = dateToday.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
+    app.monthText = app.today.strftime("%B")
+    app.yearText = app.today.strftime("%Y")
     numDay = dateToday.isoweekday()
     lastSunday = dateToday - timedelta(days = (numDay))
 
@@ -1236,12 +1241,11 @@ def drawWeekBackground(app, canvas):
         dayPixel = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(day + 1/2))
         textWeekDay = dayDt.strftime('%A').upper()[:3]
         textMonthDay = dayDt.strftime('%d')
-        
         monthDayColor = app.calendarTopFont
 
         circleRadius = 24
 
-        monthDayBotYPos = app.calendarTopMargin - 35
+        monthDayBotYPos = app.calendarTopMargin - 30
 
         if dayDt == app.today:
             canvas.create_oval(dayPixel - circleRadius, monthDayBotYPos - circleRadius,
@@ -1249,7 +1253,7 @@ def drawWeekBackground(app, canvas):
                                fill = app.todayCircleColor, width = 0)
             monthDayColor = app.calendarBgColor
 
-        canvas.create_text(dayPixel, monthDayBotYPos - 36, text = textWeekDay,
+        canvas.create_text(dayPixel, monthDayBotYPos - 36.7, text = textWeekDay,
                            fill = app.calendarTopFont, font = "Arial 14")
 
         canvas.create_text(dayPixel, monthDayBotYPos, text = textMonthDay,
@@ -1277,6 +1281,19 @@ def drawWeekBackground(app, canvas):
         canvas.create_text(app.calendarLeftMargin/4*3, hourPixel, \
             text = hourText, fill = app.calendarOuterFont, font = "Arial 11",
             anchor = "e")
+    
+# app.monthText
+# app.yearText
+# app.calendarMonthYearX
+# app.calendarMonthYearY
+
+    canvas.create_text(app.calendarMonthYearX, app.calendarMonthYearY, 
+                       anchor = "e", text = app.monthText, font = "Arial 30 bold",
+                       fill = app.calendarTopFont)
+
+    canvas.create_text(app.calendarMonthYearX, app.calendarMonthYearY, 
+                       anchor = "w", text = f" {app.yearText}", font = "Arial 30",
+                       fill = app.calendarTopFont)
 
 if __name__ == "__main__":
     runApp(width=1400, height=800)
