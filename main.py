@@ -5,6 +5,7 @@ from ics_parsing import *
 from string import *
 from PIL import ImageFont
 from copy import *
+from math import *
 
 '''
 event creation
@@ -32,8 +33,18 @@ class calendarEvent(object):
     def __repr__(self):
         return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
 
-def main():
-    pass
+class calendarTask(object):
+    def __init__(self, summary, dueTime, dueDay):
+        self.summary = summary
+        self.dueTime = dueTime
+        self.color = None
+        self.pixelTop = None
+        self.pixelBot = None
+        self.pixelLeft = None
+        self.pixelRight = None
+        
+    def __repr__(self):
+        return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
 
 
 def appStarted(app):
@@ -58,7 +69,7 @@ def appStarted(app):
     
     app.calendarEditMargin = 10
 
-    app.calendarWidth = app.width
+    app.calendarWidth = app.width - 300
     app.calendarHeight = app.height
 
     app.calendarPixelHeight = app.calendarHeight - app.calendarTopMargin
@@ -299,7 +310,7 @@ def createEvent(app, x, y):
         # endTime = datetime(dayDt.year, dayDt.month, dayDt.day, y stuff hour + 1, y stuff, tzinfo=None)
 
         createdEvent = calendarEvent("(no title)", startTime, endTime) # placeholders
-        
+
         datetimeToCalendar(app, createdEvent, dayIndex)
 
         createdEvent.day = dayIndex
@@ -398,14 +409,14 @@ def fixEventContents(app):
         return
     startHour = bisectedStart[0].strip()
     startMinute = bisectedStart[1].strip()[:2]
-    startAMPM = app.editingStart[-2:].strip()
+    startAMPM = app.editingStart.strip()[-2:].strip()
 
     bisectedEnd = app.editingEnd.strip().split(":")
     if len(bisectedEnd) != 2:
         return
     endHour = bisectedEnd[0].strip()
     endMinute = bisectedEnd[1].strip()[:2]
-    endAMPM = app.editingEnd[-2:].strip()
+    endAMPM = app.editingEnd.strip()[-2:].strip()
 
     startTime = deepcopy(app.weekDays[dayNum])
     endTime = deepcopy(app.weekDays[dayNum])
@@ -445,6 +456,8 @@ def fixEventContents(app):
             datetimeToCalendar(app, app.selectedEvent, dayNum)
             app.weekEvents[app.weekDays[event.day]].remove(event)
             app.weekEvents[app.weekDays[event.day]].add(event)
+        
+    ''' else PUT IN A MESSAGE HERE THAT MATTERS WITH TIMER '''
 
 def fixEventPosition(app, event, x, y):
     '''
@@ -563,7 +576,7 @@ def deleteEvent(app):
 def calendarMode_keyPressed(app, event):
     if app.selectedEvent != None and app.draggedPosition == None:
         if app.eventEditing == True:
-            if event.key == "Enter":
+            if event.key == "Enter" or event.key == "Escape":
                 fixEventContents(app)
                 app.eventEditing = False
             if app.editingMode == 0.0:
@@ -611,23 +624,186 @@ def calendarMode_keyPressed(app, event):
                     if event.key in "APM0123456789:":
                         app.interWake += event.key
                     elif event.key == "Delete":
-                        app.interWake = app.editingEnd[:-1]
+                        app.interWake = app.interWake[:-1]
                     elif event.key == "Space":
                         app.interWake += " "
                 elif app.interMode == 1.0:
                     if event.key in "APM0123456789:":
                         app.interSleep += event.key
                     elif event.key == "Delete":
-                        app.interSleep = app.editingEnd[:-1]
+                        app.interSleep = app.interSleep[:-1]
                     elif event.key == "Space":
                         app.interSleep += " "
+                if event.key == "Enter":
+                    app.eventInterleaving = 4
+                    generateSleepTimes(app)
+                    generateTimeInterval(app)
+                    sliceMutableEvents(app)
+                    interleaveEventsRecursively(app)
+                    interleave(app)
         elif event.key == "I":
             app.eventInterleaving = 1
 
+def interleave(app):
+    # for event in app.interleavedSlices:
+    intervalList = copy(app.intervalList)
+    intervalIndex = 0
+    eventIndex = 0
+    maxIntervalIndex = len(app.intervalList)
+    maxEventIndex = len(app.interleavedSlices)
+    while(intervalIndex < maxIntervalIndex and eventIndex < maxEventIndex):
+        interval = app.intervalList[intervalIndex]
+        if (interval[1] - interval[0]).total_seconds() >= 60*65:
+            eventName = app.interleavedSlices[eventIndex][0]
+            startTime = interval[0] + timedelta(minutes = 5)
+            endTime = interval[0] + timedelta(minutes = 65)
+            newEventSlice = calendarEvent(eventName, startTime, endTime)
+            datetimeToCalendar(app, newEventSlice, app.interDayIndex)
+            newEventSlice.day = app.interDayIndex
+            newEventSlice.color = app.interleavedSlices[eventIndex][1]
+            app.interleavedEvents.add(newEventSlice)
+            app.intervalList[intervalIndex][0] += timedelta(minutes = 65)
+            eventIndex += 1
+        else:
+            intervalIndex += 1
+    if len(app.interleavedSlices) == len(app.interleavedEvents):
+        ''' success! '''
+        for event in app.interleavedEvents:
+            app.weekEvents[app.interDay].add(event)
+        for event in app.mutableEvents:
+            app.weekEvents[app.weekDays[event.day]].remove(event)
+        restartInterleaving(app)
+    else:
+        restartInterleaving(app)
+        ''' PUT IN A MESSAGE HERE THAT MATTERS WITH TIMER '''
+
+#     interleavedSlices = copy(app.interleavedSlices)
+#     intervalList = copy(app.intervalList)
+#     interleaveHelper(app, interleavedSlices, intervalList)
+
+# def interleaveHelper(app, eventsLeft, intervalLeft):
+#     if len(eventsLeft) == 0:
+#         return solution
+#     else:
+#         for interval in intervalLeft:
+#             if (interval[1] - interval[0]).total_seconds() >= 60*65:
+
+
+def interleaveEventsRecursively(app):
+    app.interleavedSlices = interleaveEventsHelper(app.slicedEvents)
+
+def interleaveEventsHelper(dictOfLists):
+    someEmpty = False
+    emptyLists = {}
+    for l in dictOfLists:
+        if len(dictOfLists[l]) == 0:
+            someEmpty = True
+            emptyLists[l] = dictOfLists[l]
+    nonEmptyDict = {n:l for n,l in dictOfLists.items() if n not in emptyLists}
+    if someEmpty:
+        return interleaveEventsHelper(nonEmptyDict)
+    elif len(nonEmptyDict) == 1:
+        for key in nonEmptyDict:
+            return nonEmptyDict[key]
+    elif len(nonEmptyDict) == 0:
+        return []
+    else:
+        interleavingList = []
+        newDictOfLists = dict()
+        for l in dictOfLists:
+            interleavingList.append(dictOfLists[l][0])
+            newDictOfLists[l] = dictOfLists[l][1:]
+        interleavingList += interleaveEventsHelper(newDictOfLists)
+        return interleavingList
+
+def sliceMutableEvents(app):
+    for event in app.mutableEvents:
+        totalSeconds = (event.endTime - event.startTime).total_seconds()
+        totalHours = totalSeconds/60/60
+        ceilingHours = ceil(totalHours)
+        slicedEventList = []
+        for slice in range(ceilingHours):
+            slicedEventList.append((f"{event.summary} #{slice}", event.color))
+        app.slicedEvents[event] = slicedEventList
+
 def generateTimeInterval(app):
     midnight = deepcopy(app.interDay)
+
+    prevConflicts = True
+    prevTime = None
+    currConflicts = False
+    firstOut = None
+    for fiveMins in range(12*24):
+        currTime = midnight + timedelta(minutes = fiveMins*5)
+        for event in app.immutableEvents:
+            if event.startTime <= currTime <= event.endTime:
+                currConflicts = True
+                break
+        
+        if not currConflicts and prevConflicts:
+            firstOut = currTime
+        elif not currConflicts and not prevConflicts:
+            if firstOut != prevTime:
+                app.intervalList[-1][-1] = currTime
+            else:
+                app.intervalList.append([firstOut, currTime])
+        prevTime = currTime
+        prevConflicts = currConflicts
+        currConflicts = False
+
+def generateSleepTimes(app):
+    bisectedWake = app.interWake.strip().split(":")
+    if len(bisectedWake) != 2:
+        restartInterleaving(app)
+    wakeHour = bisectedWake[0].strip()
+    wakeMinute = bisectedWake[1].strip()[:2]
+    wakeAMPM = app.interWake.strip()[-2:].strip()
+
+    bisectedSleep = app.interSleep.strip().split(":")
+    if len(bisectedSleep) != 2:
+        restartInterleaving(app)
+    sleepHour = bisectedSleep[0].strip()
+    sleepMinute = bisectedSleep[1].strip()[:2]
+    sleepAMPM = app.interSleep.strip()[-2:].strip()
     
-    pass
+    wakeTime = deepcopy(app.interDay)
+    sleepTime = deepcopy(app.interDay)
+    
+    if wakeHour.isnumeric() and wakeMinute.isnumeric() and (wakeAMPM == "AM" \
+        or wakeAMPM == "PM"):
+        wakeHour = int(wakeHour)
+        wakeMinute = int(wakeMinute)
+        if (1 <= wakeHour <= 12) and (0 <= wakeMinute <= 59):
+            if wakeAMPM == "AM" and wakeHour == 12:
+                wakeTime = wakeTime.replace(hour = 0, minute = wakeMinute)
+            elif wakeAMPM == "AM":
+                wakeTime = wakeTime.replace(hour = wakeHour, minute = wakeMinute)
+            elif wakeAMPM == "PM" and wakeHour == 12:
+                wakeTime = wakeTime.replace(hour = 12, minute = wakeMinute)
+            elif wakeAMPM == "PM":
+                wakeTime = wakeTime.replace(hour = wakeHour + 12, minute = wakeMinute)
+
+    if sleepHour.isnumeric() and sleepMinute.isnumeric() and (sleepAMPM == "AM" \
+        or sleepAMPM == "PM"):
+        sleepHour = int(sleepHour)
+        sleepMinute = int(sleepMinute)
+        if (1 <= sleepHour <= 12) and (0 <= sleepMinute <= 59):
+            if sleepAMPM == "AM" and sleepHour == 12:
+                sleepTime = sleepTime.replace(hour = 0, minute = sleepMinute)
+            elif sleepAMPM == "AM":
+                sleepTime = sleepTime.replace(hour = sleepHour, minute = sleepMinute)
+            elif sleepAMPM == "PM" and sleepHour == 12:
+                sleepTime = sleepTime.replace(hour = 12, minute = sleepMinute)
+            elif sleepAMPM == "PM":
+                sleepTime = sleepTime.replace(hour = (sleepHour + 12), minute = sleepMinute)
+
+    if wakeTime != app.interDay and sleepTime != app.interDay:
+        if sleepTime > wakeTime:
+            sleep1 = calendarEvent("sleep", app.interDay, wakeTime)
+            sleep2 = calendarEvent("sleep", sleepTime, app.interDay.replace(hour = 23, minute = 59))
+
+            app.immutableEvents.add(sleep1)
+            app.immutableEvents.add(sleep2)
 
 def checkSelectionValidity(app):
     for event in app.weekEvents[app.interDay]:
@@ -647,8 +823,12 @@ def restartInterleaving(app):
     app.intery0 = None
     app.intery1 = None
     app.interMode = None
-    app.interWake = "8 : 00 AM"
-    app.interSleep = "8 : 00 PM"
+    app.interWake = "6 : 00 AM"
+    app.interSleep = "11 : 59 PM"
+    app.intervalList = []
+    app.slicedEvents = dict()
+    app.interleavedSlices = []
+    app.interleavedEvents = set()
 
 def createEditingPanel(app):
     event = app.selectedEvent
@@ -768,6 +948,19 @@ def drawInterleavingPanel(app, canvas):
         elif app.interMode == 1.0:
             canvas.create_rectangle(app.interx0, app.intery0 + app.calendarPixelHeight/2, app.interx1, app.intery1,\
                 fill = app.interPanelBorderColor, width = 0)
+        
+        canvas.create_text(app.interx0 + app.calendarEditMargin//2, app.intery0 + app.calendarEditMargin//2, \
+            text = "Wake up time: ", anchor = "nw", fill = app.calendarOuterFont, font = "Arial 15")
+        canvas.create_text(app.interx0 + app.calendarEditMargin//2, app.intery0 + app.calendarEditMargin//2 + 20, \
+            text = app.interWake, anchor = "nw", fill = app.calendarInnerFont, font = "Arial 15 bold")
+
+        canvas.create_text(app.interx0 + app.calendarEditMargin//2, app.intery0 + app.calendarPixelHeight/2 + app.calendarEditMargin//2, \
+            text = "Sleep time: ", anchor = "nw", fill = app.calendarOuterFont, font = "Arial 15")
+        canvas.create_text(app.interx0 + app.calendarEditMargin//2, app.intery0 + app.calendarPixelHeight/2 + app.calendarEditMargin//2 + 20, \
+            text = app.interSleep, anchor = "nw", fill = app.calendarInnerFont, font = "Arial 15 bold")
+        
+        canvas.create_line(app.interx0, app.intery0+ app.calendarPixelHeight/2, \
+                app.interx1, app.intery0+ app.calendarPixelHeight/2, fill = app.interPanelBorderColor)
 
 def drawSelectedEvents(app, canvas):
     if app.eventInterleaving == 2:
@@ -1012,7 +1205,7 @@ def drawWeekBackground(app, canvas):
                            fill = app.calendarOuterFont, font = "Arial 14")
 
         canvas.create_text(dayPixel, app.calendarTopMargin*2//3, text = textMonthDay,
-                           fill = monthDayColor, font = "Arial 28")
+                           fill = monthDayColor, font = "Arial 26")
 
         canvas.create_line(int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
             app.calendarTopMargin*7//9, int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
