@@ -9,8 +9,26 @@ from icalendar import *
 from pytz import *
 
 '''
-somehow store max recursive columns for each event
-use that value to change the max 
+    somehow store max recursive columns for each event
+    use that value to change the max 
+
+    do toggling of visuals to ask Asad
+
+    optimize fixEvent to only change prevDay if event.day != index
+
+optimize selection/dragging storage of x,y pos
+
+do tasks by just store task's day in object
+
+figure out SLOWNESS
+
+make deletion change coloring graph
+
+(?) put all in same dict
+
+deal with interleaving & overlap
+
+DO TASKS ! DO TASKS ! DO TASKS
 '''
 
 class calendarEvent(object):
@@ -25,6 +43,7 @@ class calendarEvent(object):
         self.pixelBot = None
         self.pixelLeft = None
         self.pixelRight = None
+        self.totalCols = 1
         
     def __repr__(self):
         return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
@@ -281,10 +300,11 @@ def datetimeToCalendar(app, event, day):
         event.pixelBot = event.pixelTop + \
             event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight
 
-        if app.eventsGraph[midnight][event] == set():
+        if event not in app.eventsGraph[midnight] or app.eventsGraph[midnight][event] == set():
             event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
             event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
                 + app.calendarPixelWidth*.95/7)
+            event.totalCols = 1
             '''coloring'''
         else:
             farRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
@@ -298,6 +318,7 @@ def datetimeToCalendar(app, event, day):
             for node in app.eventsGraph[midnight][event]:
                 nearbyColumns += [app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][node]] + [app.columnColoring[midnight][node]]
             totalColumns = max(nearbyColumns) + 1
+            event.totalCols = totalColumns
             cellSize = app.calendarPixelWidth*.95/7/totalColumns
             column = app.columnColoring[midnight][event]
             event.pixelLeft = farRight + column*cellSize
@@ -305,8 +326,6 @@ def datetimeToCalendar(app, event, day):
             # print(event, totalColumns, column, event.pixelLeft, event.pixelRight)
             # print("\n")
         ''''''
-        
-
     elif isinstance(event, calendarTask):
         pass
 
@@ -397,10 +416,6 @@ def calendarMode_mousePressed(app, event):
                     selectEvent(app, clickedEvent, dayClicked, y)
                     app.draggedPosition = (x, y)
                 else:
-                    # if app.eventEditing:
-
-                    #     pass
-                    # else: 
                     deselectEvent(app)
     elif (app.eventInterleaving == 1):
         if mouseInCalendar:
@@ -486,10 +501,8 @@ def mouseOnDay(app, x, y):
     '''
     
     '''
-    if mouseInCalendar(app, x, y):
-        dayIndex = int((x - app.calendarLeftMargin) / (app.calendarPixelWidth/7))
-        return app.weekDays[dayIndex]
-    return None
+    dayIndex = int((x - app.calendarLeftMargin) / (app.calendarPixelWidth/7))
+    return app.weekDays[dayIndex]
 
 def mouseInCalendar(app, x, y):
     '''
@@ -759,9 +772,17 @@ def deleteEvent(app):
     '''
     event = app.selectedEvent
 
+    dayDt = app.weekDays[event.day]
+
     if event != None:
-        app.weekEvents[app.weekDays[event.day]].remove(event)
-    
+        app.weekEvents[dayDt].remove(event)
+        for other in app.eventsGraph[dayDt][event]:
+            app.eventsGraph[dayDt][other].remove(event)
+        app.eventsGraph[dayDt].pop(event)
+        app.columnColoring[dayDt] = greedyEventColumnColoring(app.eventsGraph[dayDt])
+        for other in app.weekEvents[dayDt]:
+            datetimeToCalendar(app, other, event.day)
+
     app.selectedEvent = None
     app.deselectedColor = None
     app.selectedColor = None
@@ -771,7 +792,13 @@ def deleteEvent(app):
 
 def calendarMode_keyPressed(app, event):
     if app.selectedEvent != None and app.draggedPosition == None:
-        if app.eventEditing == True:
+        if not app.eventEditing:
+            if event.key == "Delete":
+                deleteEvent(app)
+            if event.key == "Space":
+                app.eventEditing = True
+                createEditingPanel(app)
+        else:
             if event.key == "Enter" or event.key == "Escape":
                 fixEventContents(app)
                 app.eventEditing = False
@@ -799,12 +826,6 @@ def calendarMode_keyPressed(app, event):
                     app.editingEnd = app.editingEnd[:-1]
                 elif event.key == "Space":
                     app.editingEnd += " "
-        else:
-            if event.key == "Delete":
-                deleteEvent(app)
-            if event.key == "Space":
-                app.eventEditing = True
-                createEditingPanel(app)
     elif app.selectedEvent == None:
         if app.eventInterleaving != 0:
             if event.key == "Escape":
@@ -1242,7 +1263,13 @@ def drawEditingPanel(app, canvas):
         
         z = (event.pixelBot - event.pixelTop)//2 + event.pixelTop
         
+        x0 = app.editingx0
+        x1 = app.editingx1
+        y0 = app.editingy0
+        y1 = app.editingy1
+        
         if dayNum >= 3:
+            '''
             x1 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*dayNum)\
                  - app.calendarEditMargin
             # y1 = app.calendarHeight - app.calendarEditMargin
@@ -1253,10 +1280,13 @@ def drawEditingPanel(app, canvas):
                 z - app.editingPanelHeight//2)
             y1 = min(app.calendarHeight - app.calendarEditMargin, y0 + app.editingPanelHeight)
             y0 = y1 - app.editingPanelHeight
+            '''
 
             points = [x0, y0, x1, y0, x1, z - 10, x1 + app.calendarEditMargin, z, \
             x1, z + 10, x1, y1, x0, y1]
+            
         else:
+            '''
             x0 = app.calendarLeftMargin + int(app.calendarPixelWidth/7*(dayNum+1)\
                 + app.calendarEditMargin)
             # y0 = app.calendarTopMargin + app.calendarEditMargin
@@ -1267,6 +1297,7 @@ def drawEditingPanel(app, canvas):
                 z - app.editingPanelHeight//2)
             y1 = min(app.calendarHeight - app.calendarEditMargin, y0 + app.editingPanelHeight)
             y0 = y1 - app.editingPanelHeight
+            '''
 
             points = [x0, y0, x1, y0, x1, y1, x0, y1, x0, z + 10, \
                 x0 - app.calendarEditMargin, z, x0, z - 10]
@@ -1379,9 +1410,9 @@ def drawWeekEvents(app, canvas):
             #                     event.pixelRight, event.pixelBot, 
             #                     fill = fromRGBtoHex(event.color),
             #                     width = 0)
-
-            if len(event.summary) >= 19:
-                eventText = event.summary[:18] + "…"
+            maxLength = 19//(event.totalCols)
+            if len(event.summary) >= maxLength:
+                eventText = event.summary[:(maxLength-1)] + "…"
             else:
                 eventText = event.summary
 
