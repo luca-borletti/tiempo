@@ -1,20 +1,16 @@
 from cmu_112_graphics import *
 from datetime import *
 from random import *
-from ics_parsing import *
 from string import *
 from PIL import ImageFont
 from copy import *
 from math import *
+from icalendar import *
+from pytz import *
 
 '''
-event creation
-
-event description pop-up
-
-interleaving algorithm plan
-
-scrolling
+somehow store max recursive columns for each event
+use that value to change the max 
 '''
 
 class calendarEvent(object):
@@ -42,6 +38,57 @@ class calendarTask(object):
         
     def __repr__(self):
         return f"{self.summary}. At {str(self.dueTime)}"
+
+def icsParsing():
+    tz = timezone("America/New_York")
+    dateToday = datetime.now(tz = tz)
+
+    numDay = dateToday.isoweekday()%7
+    lastSunday = dateToday - timedelta(days = (numDay))
+    nextSunday = lastSunday + timedelta(days = 7)
+
+    week = {}
+    for weekDay in range(7):
+        currDate = lastSunday + timedelta(days = weekDay)
+        currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
+        week[currDate] = set()
+
+    calendarFile = open("lgborletti@gmail.com.ics", "r")
+    calendarInstance = Calendar.from_ical(calendarFile.read())
+    
+    events = {}
+    eventIndex = 40
+    vEvent = calendarInstance.walk("VEVENT")[eventIndex]
+    startTime = vEvent["DTSTART"].dt.replace(tzinfo=None)
+    endTime =  vEvent["DTEND"].dt.replace(tzinfo=None)
+    time = startTime.time()
+
+    daysToNums = vWeekday.week_days
+    colorIndex = 0
+    colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207)]
+
+    for event in calendarInstance.walk("VEVENT"):
+        if "RRULE" in event and "BYDAY" in event["RRULE"]:
+            recurrenceList = event["RRULE"]
+            if not "UNTIL" in recurrenceList or \
+                recurrenceList["UNTIL"][0] > lastSunday:
+                colorIndex += 1
+
+                repeatingDays = set()
+                for byDay in recurrenceList["BYDAY"]:
+                    repeatingDays.add(daysToNums[byDay])
+                color = colorList[colorIndex%len(colorList)]
+                for day in week:
+                    if day.isoweekday()%7 in repeatingDays:
+                        startTime = event["DTSTART"].dt
+                        endTime =  event["DTEND"].dt
+                        startTime = startTime.replace(day = day.day, month = day.month, year = day.year, tzinfo = None)
+                        endTime = endTime.replace(day = day.day, month = day.month, year = day.year, tzinfo = None)
+                        eventObject = calendarEvent(str(event["SUMMARY"]), startTime, endTime)
+                        eventObject.color = color
+                        week[day].add(eventObject)
+                        test = eventObject
+    return week
 
 def appStarted(app):
     '''
@@ -85,7 +132,9 @@ def appStarted(app):
 
     app.calendarOuterFont = fromRGBtoHex((110,110,110))
     app.calendarInnerFont = fromRGBtoHex((255,255,255))
+    
     app.calendarTopFont = fromRGBtoHex((110,110,110))
+    "toggle"
     app.calendarTopFont = fromRGBtoHex((255,255,255))
 
     app.editingx0 = None
@@ -113,8 +162,9 @@ def appStarted(app):
 
     app.tasksBgColor = fromRGBtoHex((51,51,51))
     app.tasksFgColor = fromRGBtoHex((0,0,0))
-    # app.tasksBgColor = fromRGBtoHex((30,32,35))
-    # app.tasksFgColor = fromRGBtoHex((70,70,70))
+    "toggle"
+    app.tasksBgColor = fromRGBtoHex((30,32,35))
+    app.tasksFgColor = fromRGBtoHex((70,70,70))
 
     ###########################################################################
     # datetime variables
@@ -124,24 +174,33 @@ def appStarted(app):
     app.today = dateToday.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
     app.monthText = app.today.strftime("%B")
     app.yearText = app.today.strftime("%Y")
-    numDay = dateToday.isoweekday()
+    numDay = dateToday.isoweekday()%7
     lastSunday = dateToday - timedelta(days = (numDay))
 
     app.dayInSeconds = 86400
 
     app.weekDays = []
     app.weekTasks = dict()
-    app.weekEvents = icalendarLibraryTests2()
+    app.weekEvents = icsParsing()
+    
+    '''coloring'''
+    app.eventsGraph = initializeEventsGraph(app.weekEvents)
+    app.columnColoring = dict()
+    for day in app.eventsGraph:
+        app.columnColoring[day] = greedyEventColumnColoring(app.eventsGraph[day])
+    # print(app.columnColoring[])
+    ''''''
+
     for day in range(7):
         currDate = lastSunday + timedelta(days = day)
         currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
         app.weekDays.append(currDate)
-        
+
         for event in app.weekEvents[currDate]:
             datetimeToCalendar(app, event, day)
 
         app.weekTasks[currDate] = set()
-            
+
     app.colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207)]
     
     ###########################################################################
@@ -162,6 +221,42 @@ def appStarted(app):
 
     restartInterleaving(app)
 
+# algorithm adapted from https://en.wikipedia.org/wiki/Greedy_coloring
+
+def greedyHelper(repeatedColorsList):
+    repeatedColorsSet = set(repeatedColorsList)
+    c = 0
+    while True:
+        if c not in repeatedColorsSet:
+            return c
+        c += 1
+
+def greedyEventColumnColoring(graph):
+    eventColumns = dict()
+    for event in graph:
+        overlappingEvents = graph[event]
+        othersColors = []
+        for other in overlappingEvents:
+            if other in eventColumns:
+                othersColors.append(eventColumns[other])
+        eventColumns[event] = greedyHelper(othersColors)
+    return eventColumns
+
+def initializeEventsGraph(weekEvents):
+    graph = dict()
+    for day in weekEvents:
+        dayGraph = dict()
+        events = weekEvents[day]
+        for event in events:
+            dayGraph[event] = dayGraph.get(event, set())
+            for other in events-{event}-dayGraph[event]:
+                if (event.startTime < other.startTime < event.endTime) or \
+                    (event.startTime < other.endTime < event.endTime):
+                    dayGraph[event].add(other)
+                    dayGraph[other] = dayGraph.get(other, set()).add(event)
+        graph[day] = dayGraph
+    return graph
+
 def openingMode_redrawAll(app, canvas):
     canvas.create_image(app.width//2, app.height//2, \
         image=ImageTk.PhotoImage(app.openingModeImage))
@@ -174,20 +269,58 @@ def datetimeToCalendar(app, event, day):
     convert an event's startTime and stopTime into pixelTop and pixelBot 
     for use by the "view"
     '''
-    event.day = day
+    if isinstance(event, calendarEvent):
+        event.day = day
 
-    midnight = app.weekDays[day]
+        midnight = app.weekDays[day]
 
-    event.duration = (event.endTime - event.startTime)
+        event.duration = (event.endTime - event.startTime)
 
-    event.pixelTop = app.calendarTopMargin + (event.startTime - \
-        midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight
-    event.pixelBot = event.pixelTop + \
-        event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight
+        event.pixelTop = app.calendarTopMargin + (event.startTime - \
+            midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight
+        event.pixelBot = event.pixelTop + \
+            event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight
 
-    event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
-    event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
-        + app.calendarPixelWidth*.95/7)
+        if app.eventsGraph[midnight][event] == set():
+            event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
+            event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
+                + app.calendarPixelWidth*.95/7)
+            '''coloring'''
+        else:
+            farRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
+            # farLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
+            #     + app.calendarPixelWidth*.95/7)
+            # connectedColumns = connectedComponents(app, event, app.eventsGraph[midnight])
+            # for event in connectedColumns:
+
+            # totalColumns = max(connectedColumns + [app.columnColoring[midnight][event]])
+            nearbyColumns = [max([app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][event]] + [app.columnColoring[midnight][event]])]
+            for node in app.eventsGraph[midnight][event]:
+                nearbyColumns += [app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][node]] + [app.columnColoring[midnight][node]]
+            totalColumns = max(nearbyColumns) + 1
+            cellSize = app.calendarPixelWidth*.95/7/totalColumns
+            column = app.columnColoring[midnight][event]
+            event.pixelLeft = farRight + column*cellSize
+            event.pixelRight = farRight + (column+1)*cellSize
+            # print(event, totalColumns, column, event.pixelLeft, event.pixelRight)
+            # print("\n")
+        ''''''
+        
+
+    elif isinstance(event, calendarTask):
+        pass
+
+'''delete'''
+def connectedComponents(app, node, graph):
+    seen = {}
+    return recursiveConnectedComponentsHelper(node, graph, seen)
+    
+def recursiveConnectedComponentsHelper(node, graph, seenSet):
+    for other in graph[node]-seenSet:
+        seenSet.add(other)
+        components = [other] + recursiveConnectedComponentsHelper(other, graph, seenSet)
+    return components
+''''''
 
 def fromHextoRGB(hexString):
     '''
@@ -515,7 +648,6 @@ def fixEventPosition(app, event, x, y):
         event.pixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
             + app.calendarPixelWidth*.95/7)
     
-    event.day = dayIndex
 
     event.startTime = app.weekDays[dayIndex] + timedelta(seconds = app.dayInSeconds*((event.pixelTop - app.calendarTopMargin)/app.calendarPixelHeight))
     event.endTime = app.weekDays[dayIndex] + timedelta(seconds = app.dayInSeconds*((event.pixelBot - app.calendarTopMargin)/app.calendarPixelHeight))
@@ -523,7 +655,46 @@ def fixEventPosition(app, event, x, y):
     event.startTime = event.startTime.replace(microsecond = 0)
     event.endTime = event.endTime.replace(microsecond = 0)
     
+
+    '''coloring'''
+    prevDayDt = app.weekDays[event.day]
+    currDayDt = app.weekDays[dayIndex]
+
+    prevGraph = app.eventsGraph[prevDayDt]
+
+    if prevGraph[event] != set():
+        for other in prevGraph[event]:
+            prevGraph[other].remove(event)
+        prevGraph.pop(event)
+
+    todayGraph = app.eventsGraph[currDayDt]
+    todayGraph[event] = set()
+
+    for other in app.weekEvents[currDayDt] - {event}:
+        if (event.startTime < other.startTime < event.endTime) or \
+            (event.startTime < other.endTime < event.endTime):
+            todayGraph[event].add(other)
+            todayGraph[other].add(event)
+    
+    app.columnColoring[prevDayDt] = greedyEventColumnColoring(prevGraph)
+    app.columnColoring[currDayDt] = greedyEventColumnColoring(todayGraph)
+
+    app.eventsGraph[currDayDt] = todayGraph
+    app.eventsGraph[prevDayDt] = prevGraph
+
+    #idk optimize by choosing changed + multi-element graph events
+    
+    for eventObject in app.weekEvents[prevDayDt]:
+        datetimeToCalendar(app, eventObject, event.day)
+
+    ''''''
+
+    event.day = dayIndex
+
     app.weekEvents[app.weekDays[event.day]].add(event)
+
+    for eventObject in app.weekEvents[currDayDt]:
+        datetimeToCalendar(app, eventObject, dayIndex)
 
 # def calendarMode_rightDragged(app, event):
 #     '''
@@ -712,7 +883,6 @@ def interleave(app):
 #     else:
 #         for interval in intervalLeft:
 #             if (interval[1] - interval[0]).total_seconds() >= 60*65:
-
 
 def interleaveEventsRecursively(app):
     app.interleavedSlices = interleaveEventsHelper(app.slicedEvents)
@@ -956,6 +1126,21 @@ def drawTasks(app, canvas):
     drawTasksWindow(app, canvas)
 
 def drawTasksOnCalendar(app, canvas):
+    ypos = 400
+    for y in range(5):
+        color = fromRGBtoHex(app.colorList[y])
+        color = "white"
+        # color = fromRGBtoHex((202, 171, 106))
+        ypos += 50*y
+        radius = 10
+
+        # canvas.create_line(app.calendarLeftMargin + app.calendarPixelWidth/7*3,
+        #                 ypos, app.calendarLeftMargin + app.calendarPixelWidth/7*4 - 5, ypos,
+        #                 fill = color, width = 4)
+        cx = app.calendarLeftMargin + app.calendarPixelWidth/7*4 - radius
+        cy = ypos
+        # canvas.create_oval(cx - radius, cy - radius, cx + radius, cy + radius, fill = color, width = 0)
+
     for task in app.weekTasks:
         pass
 
@@ -1014,14 +1199,14 @@ def drawInterleavingPanel(app, canvas):
 def drawSelectedEvents(app, canvas):
     if app.eventInterleaving == 2:
         for event in app.immutableEvents:
-            # drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
-            #         event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
-            #             width = 0)
             displayColor = tuple([event.color[i]//4*3 for i in range(3)])
-            canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
-                                    event.pixelRight, event.pixelBot, 
-                                    fill = fromRGBtoHex(displayColor),
-                                    width = 0)
+            # canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
+            #                         event.pixelRight, event.pixelBot, 
+            #                         fill = fromRGBtoHex(displayColor),
+                                    # width = 0)
+            drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
+                    event.pixelRight, event.pixelBot, fill = fromRGBtoHex(displayColor), \
+                        width = 0)
             if len(event.summary) >= 19:
                     eventText = event.summary[:18] + "…"
             else:
@@ -1117,35 +1302,16 @@ def drawEditingPanel(app, canvas):
         for line in range(2):
             canvas.create_line(x0, (line + 1)*app.editingPanelHeight//3 + y0, \
                 x1, (line + 1)*app.editingPanelHeight//3 + y0, fill = app.calendarEditBorderColor)
-        
-        # eventName = event.summary
 
-        # startTime = 
-        # endTime = 
-# credit to https://stackoverflow.com/a/44100075
-def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=8, **kwargs):
-    points = [x1+radius, y1,
-              x1+radius, y1,
-              x2-radius, y1,
-              x2-radius, y1,
-              x2, y1,
-              x2, y1+radius,
-              x2, y1+radius,
-              x2, y2-radius,
-              x2, y2-radius,
-              x2, y2,
-              x2-radius, y2,
-              x2-radius, y2,
-              x1+radius, y2,
-              x1+radius, y2,
-              x1, y2,
-              x1, y2-radius,
-              x1, y2-radius,
-              x1, y1+radius,
-              x1, y1+radius,
-              x1, y1]
-    return canvas.create_polygon(points, **kwargs, smooth=True)
 
+def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=2, **kwargs):
+    canvas.create_rectangle(x1 + radius, y1, x2 - radius, y2, **kwargs)
+    canvas.create_rectangle(x1, y1 + radius, x2, y2 - radius, **kwargs)
+    canvas.create_oval(x1, y1, x1 + radius*2, y1 + radius*2, **kwargs)
+    canvas.create_oval(x2 - radius*2, y1, x2, y1 + radius*2, **kwargs)
+    canvas.create_oval(x2 - radius*2, y2 - radius*2, x2, y2, **kwargs)
+    canvas.create_oval(x1, y2 - radius*2, x1 + radius*2, y2, **kwargs)
+    
 def drawDraggedEvent(app, canvas):
     event = app.selectedEvent
 
@@ -1178,20 +1344,25 @@ def drawDraggedEvent(app, canvas):
             dragPixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
                 + app.calendarPixelWidth*.95/7)
         
-        # drawRoundRectangle(canvas, dragPixelLeft + .5, dragPixelTop, \
-        #         dragPixelRight, dragPixelBot, fill = fromRGBtoHex(event.color), \
-        #             width = 0)
+        drawRoundRectangle(canvas, dragPixelLeft + .5, dragPixelTop, \
+                dragPixelRight, dragPixelBot, fill = fromRGBtoHex(event.color), \
+                    width = 0)
 
-        canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
-                                dragPixelRight, dragPixelBot, 
-                                fill = fromRGBtoHex(event.color),
-                                width = 0)
+        # canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
+        #                         dragPixelRight, dragPixelBot, 
+        #                         fill = fromRGBtoHex(event.color),
+        #                         width = 0)
         
         if len(event.summary) >= 19:
             eventText = event.summary[:18] + "…"
         else:
             eventText = event.summary
             
+
+        canvas.create_text(dragPixelLeft + 3, dragPixelTop + 1, 
+                            text = eventText, anchor = "nw",
+                            fill = app.calendarOuterFont, font = "Arial 12")
+
         canvas.create_text(dragPixelLeft + 2, dragPixelTop, 
                         text = eventText, anchor = "nw",
                         fill = app.calendarInnerFont, font = "Arial 12")
@@ -1201,19 +1372,25 @@ def drawWeekEvents(app, canvas):
     for index in range(7):
         weekDay = app.weekDays[index]
         for event in app.weekEvents[weekDay]:
-            # drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
-            #     event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
-            #         width = 0)
-            canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
-                                event.pixelRight, event.pixelBot, 
-                                fill = fromRGBtoHex(event.color),
-                                width = 0)
+            drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
+                event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
+                    width = 0)
+            # canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
+            #                     event.pixelRight, event.pixelBot, 
+            #                     fill = fromRGBtoHex(event.color),
+            #                     width = 0)
 
             if len(event.summary) >= 19:
                 eventText = event.summary[:18] + "…"
             else:
                 eventText = event.summary
-                
+
+
+            "toggle"
+            canvas.create_text(event.pixelLeft + 3, event.pixelTop + 1, 
+                            text = eventText, anchor = "nw",
+                            fill = app.calendarOuterFont, font = "Arial 12")
+
             canvas.create_text(event.pixelLeft + 2, event.pixelTop, 
                             text = eventText, anchor = "nw",
                             fill = app.calendarInnerFont, font = "Arial 12")

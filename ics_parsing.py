@@ -75,7 +75,7 @@ def icalendarLibraryTests2():
     tz = timezone("America/New_York")
     dateToday = datetime.now(tz = tz)
 
-    numDay = dateToday.isoweekday()
+    numDay = dateToday.isoweekday()%7
     lastSunday = dateToday - timedelta(days = (numDay))
     nextSunday = lastSunday + timedelta(days = 7)
 
@@ -85,7 +85,7 @@ def icalendarLibraryTests2():
         currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
         week[currDate] = set()
 
-    calendarFile = open("/Users/lucaborletti/Desktop/tiempo/ics_files/lgborletti@gmail.com.ics", "r")
+    calendarFile = open("lgborletti@gmail.com.ics", "r")
     calendarInstance = Calendar.from_ical(calendarFile.read())
     
     events = {}
@@ -149,7 +149,6 @@ def icalendarLibraryTests2():
                         eventObject = calendarEvent(str(event["SUMMARY"]), startTime, endTime)
                         eventObject.color = color
                         week[day].add(eventObject)
-
                         test = eventObject
 
 
@@ -166,7 +165,7 @@ def icalendarLibraryTests2():
             # if "UNTIL" in event["RRULE"]:
             #     print(event["RRULE"]["UNTIL"])
             # print("\n")
-icalendarLibraryTests2()
+# icalendarLibraryTests2()
 '''
 
 
