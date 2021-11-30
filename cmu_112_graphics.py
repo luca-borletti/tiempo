@@ -637,7 +637,8 @@ class App(object):
                 appLabel = app._title
             else:
                 appLabel += f" '{app._title}'"
-        return f"*** Closing {appLabel}.  Bye! ***\n"
+        return ""
+        f"*** Closing {appLabel}.  Bye! ***\n"
 
     def _showRootWindow(app):
         root = app._root
@@ -793,7 +794,7 @@ def showGraphics(drawFn, **kwargs):
 '''
 runApp = TopLevelApp
 
-print(f'Loaded cmu_112_graphics version {App.version} (last updated {App.lastUpdated})')
+# print(f'Loaded cmu_112_graphics version {App.version} (last updated {App.lastUpdated})')
 
 if (__name__ == '__main__'):
     try: import cmu_112_graphics_tests

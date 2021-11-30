@@ -7,14 +7,17 @@ from copy import *
 from math import *
 from icalendar import *
 from pytz import *
+from json import *
 
 '''
-    somehow store max recursive columns for each event
-    use that value to change the max 
+        ◊ somehow store max recursive columns for each event
+        use that value to change the max 
 
     do toggling of visuals to ask Asad
 
     optimize fixEvent to only change prevDay if event.day != index
+
+    make events repr different to check for equality (or make __eq__???)
 
 optimize selection/dragging storage of x,y pos
 
@@ -22,11 +25,11 @@ do tasks by just store task's day in object
 
 figure out SLOWNESS
 
-make deletion change coloring graph
+        ◊ make deletion change coloring graph
 
 (?) put all in same dict
 
-deal with interleaving & overlap
+        ◊ deal with interleaving & overlap
 
 DO TASKS ! DO TASKS ! DO TASKS
 '''
@@ -44,7 +47,7 @@ class calendarEvent(object):
         self.pixelLeft = None
         self.pixelRight = None
         self.totalCols = 1
-        
+
     def __repr__(self):
         return f"{self.summary}. From {str(self.startTime)} to {str(self.endTime)}"
 
@@ -110,24 +113,23 @@ def icsParsing():
     return week
 
 def appStarted(app):
-    '''
-    for week mode
-    '''
-
+    toggleTopFontLightDark = True
+    toggleTasksLightDark = True
+    
     # openingMode, calendarMode, eventCreationMode, taskCreationMode, pomodoroMode
 
     app.mode = "calendarMode"
     # url = "https://lh3.googleusercontent.com/proxy/XFVcPr1-SZFLA58dSI5X3dSQhZLELv9CtgkU6Xo3ufSy4CVXu8vd2mY5sZphzvjhkoV4wguChnjWj2DADDcytPesoWkUl6vQk7uRZm_nzUp7I25qhtC_s338fdjB4LYCdntsRDM6zjY5PU-GiV0kcliZ8Y2nhSR3TwYJFEi_zlEbH2TRs7xnjaLNeOIEcbJqQqq1xkU"
     # app.openingModeImage = app.loadImage(url)
 
-
+    app.writeToSaveFile = False
     ###########################################################################
-    # calendar background
+    # calendar backgrou
+    # printnd
     ###########################################################################
 
     app.calendarLeftMargin = 100
     app.calendarTopMargin = 135
-    
     app.calendarEditMargin = 10
 
     app.calendarWidth = app.width - 300
@@ -142,9 +144,12 @@ def appStarted(app):
     app.calendarBgColor = fromRGBtoHex((30,32,35))
     app.calendarFgColor = fromRGBtoHex((70,70,70))
     app.calendarWkndColor = fromRGBtoHex((39,40,42))
+
     app.todayCircleColor = fromRGBtoHex((235,85,69))
+
     app.calendarEditColor = fromRGBtoHex((47,48,49))
     app.calendarEditBorderColor = fromRGBtoHex((88,88,88))
+
     app.interDayColor = fromRGBtoHex((88,88,88))
     app.interPanelColor = fromRGBtoHex((47,48,49))
     app.interPanelBorderColor = fromRGBtoHex((88,88,88))
@@ -152,9 +157,10 @@ def appStarted(app):
     app.calendarOuterFont = fromRGBtoHex((110,110,110))
     app.calendarInnerFont = fromRGBtoHex((255,255,255))
     
-    app.calendarTopFont = fromRGBtoHex((110,110,110))
-    "toggle"
-    app.calendarTopFont = fromRGBtoHex((255,255,255))
+    if toggleTopFontLightDark:
+        app.calendarTopFont = fromRGBtoHex((255,255,255))
+    else:
+        app.calendarTopFont = fromRGBtoHex((110,110,110))
 
     app.editingx0 = None
     app.editingx1 = None
@@ -179,57 +185,74 @@ def appStarted(app):
     app.tasksPixelWidth = app.width - app.tasksLeftMargin
     app.tasksPixelHeight = app.calendarHeight - app.tasksTopMargin
 
-    app.tasksBgColor = fromRGBtoHex((51,51,51))
-    app.tasksFgColor = fromRGBtoHex((0,0,0))
-    "toggle"
-    app.tasksBgColor = fromRGBtoHex((30,32,35))
-    app.tasksFgColor = fromRGBtoHex((70,70,70))
+    if toggleTasksLightDark:
+        app.tasksBgColor = fromRGBtoHex((51,51,51))
+        app.tasksFgColor = fromRGBtoHex((0,0,0))
+    else:
+        app.tasksBgColor = fromRGBtoHex((30,32,35))
+        app.tasksFgColor = fromRGBtoHex((70,70,70))
 
     ###########################################################################
     # datetime variables
     ###########################################################################
-
-    dateToday = datetime.now(tz = None) #LET USER INPUT
+    
+    ''' >>> bundle into function that assigns all these values iff the user
+    selects the *create new calendar from ics file* choice and not *use last save*'''
+    
+    ''' >>> could bundle following lines into function that changes dateToday
+    depending on the input from the user (arrows left and right) to change weeks'''
+    
+    ### initial setup (today & sundays)
+    dateToday = datetime.now(tz = None)
+    
     app.today = dateToday.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
+    
+    app.dayInSeconds = 86400
+    numDay = app.today.isoweekday()%7
+    lastSunday = app.today - timedelta(days = (numDay))
+
+    # miscellaneous time-related attributes used in model
     app.monthText = app.today.strftime("%B")
     app.yearText = app.today.strftime("%Y")
-    numDay = dateToday.isoweekday()%7
-    lastSunday = dateToday - timedelta(days = (numDay))
+    app.colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207)]
 
-    app.dayInSeconds = 86400
+    ###########################################################################
+    # events & task setup
+    ###########################################################################
 
-    app.weekDays = []
     app.weekTasks = dict()
+    app.weekDays = []
     app.weekEvents = icsParsing()
     
-    '''coloring'''
+    ### initial graph column coloring
     app.eventsGraph = initializeEventsGraph(app.weekEvents)
     app.columnColoring = dict()
     for day in app.eventsGraph:
         app.columnColoring[day] = greedyEventColumnColoring(app.eventsGraph[day])
-    # print(app.columnColoring[])
-    ''''''
 
     for day in range(7):
+        ### setting up useful weekDays list
         currDate = lastSunday + timedelta(days = day)
         currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
         app.weekDays.append(currDate)
 
+        ### converting datetime values to pixel values usable by view (w/ coloring)
         for event in app.weekEvents[currDate]:
             datetimeToCalendar(app, event, day)
 
+        ### tasks bare setup 
         app.weekTasks[currDate] = set()
 
-    app.colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207)]
-    
     ###########################################################################
     # calendar event selection
     ###########################################################################
     
     app.selectedEvent = None
     app.selectedProportion = None
+
     app.deselectedColor = None
     app.selectedColor = None
+
     app.draggedPosition = None
 
     app.eventEditing = False
@@ -238,11 +261,30 @@ def appStarted(app):
     # interleaving
     ###########################################################################
 
+    ### useful function that resets process
     restartInterleaving(app)
 
-# algorithm adapted from https://en.wikipedia.org/wiki/Greedy_coloring
+
+################################################################################
+# opening mode
+################################################################################
+
+''' >>> allow for selection of parsing method (***create new calendar from ics 
+file*** choice or ***use last save***)'''
+
+def openingMode_keyPressed(app, event):
+    app.mode = "calendarMode"
+
+def openingMode_redrawAll(app, canvas):
+    canvas.create_image(app.width//2, app.height//2, \
+        image=ImageTk.PhotoImage(app.openingModeImage))
+
 
 def greedyHelper(repeatedColorsList):
+    '''
+    tries to "color" a node with an int given the colors of its neighbors
+    '''
+    # algorithm adapted from https://en.wikipedia.org/wiki/Greedy_coloring
     repeatedColorsSet = set(repeatedColorsList)
     c = 0
     while True:
@@ -251,6 +293,9 @@ def greedyHelper(repeatedColorsList):
         c += 1
 
 def greedyEventColumnColoring(graph):
+    '''
+    "colors" a graph with approx as few int's as possible (int's being cols)
+    '''
     eventColumns = dict()
     for event in graph:
         overlappingEvents = graph[event]
@@ -262,6 +307,11 @@ def greedyEventColumnColoring(graph):
     return eventColumns
 
 def initializeEventsGraph(weekEvents):
+    '''
+    creates dictionary of nodes keying to connected vertices 
+    which represents the interval graph of the events (with real number line
+    being replaced with time)
+    '''
     graph = dict()
     for day in weekEvents:
         dayGraph = dict()
@@ -270,75 +320,91 @@ def initializeEventsGraph(weekEvents):
             dayGraph[event] = dayGraph.get(event, set())
             for other in events-{event}-dayGraph[event]:
                 if (event.startTime < other.startTime < event.endTime) or \
-                    (event.startTime < other.endTime < event.endTime):
+                    (event.startTime < other.endTime < event.endTime) or \
+                        (other.startTime < event.startTime < event.endTime < other.endTime):
                     dayGraph[event].add(other)
                     dayGraph[other] = dayGraph.get(other, set()).add(event)
         graph[day] = dayGraph
     return graph
 
-def openingMode_redrawAll(app, canvas):
-    canvas.create_image(app.width//2, app.height//2, \
-        image=ImageTk.PhotoImage(app.openingModeImage))
-
-def openingMode_keyPressed(app, event):
-    app.mode = "calendarMode"
-
 def datetimeToCalendar(app, event, day):
     '''
-    convert an event's startTime and stopTime into pixelTop and pixelBot 
-    for use by the "view"
+
     '''
-    if isinstance(event, calendarEvent):
-        event.day = day
+    event.day = day
 
-        midnight = app.weekDays[day]
+    midnight = app.weekDays[day]
+    event.duration = (event.endTime - event.startTime)
 
-        event.duration = (event.endTime - event.startTime)
+    event.pixelTop = app.calendarTopMargin + (event.startTime - \
+        midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight
+    event.pixelBot = event.pixelTop + event.duration.total_seconds()\
+        /app.dayInSeconds*app.calendarPixelHeight
 
-        event.pixelTop = app.calendarTopMargin + (event.startTime - \
-            midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight
-        event.pixelBot = event.pixelTop + \
-            event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight
+    if app.eventsGraph[midnight][event] == set():
+        event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
+        event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
+            + app.calendarPixelWidth*.95/7)
+        event.totalCols = 1
+    else:
+        farRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
+        nearbyColumns = [max([app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][event]] + [app.columnColoring[midnight][event]])]
+        for node in app.eventsGraph[midnight][event]:
+            nearbyColumns += [app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][node]] + [app.columnColoring[midnight][node]]
+        totalColumns = max(nearbyColumns) + 1
+        event.totalCols = totalColumns
+        cellSize = app.calendarPixelWidth*.95/7/totalColumns
+        column = app.columnColoring[midnight][event]
+        event.pixelLeft = farRight + column*cellSize 
+        event.pixelRight = farRight + (column+1)*cellSize
 
-        if event not in app.eventsGraph[midnight] or app.eventsGraph[midnight][event] == set():
-            event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
-            event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
-                + app.calendarPixelWidth*.95/7)
-            event.totalCols = 1
-            '''coloring'''
-        else:
-            farRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
-            # farLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
-            #     + app.calendarPixelWidth*.95/7)
-            # connectedColumns = connectedComponents(app, event, app.eventsGraph[midnight])
-            # for event in connectedColumns:
 
-            # totalColumns = max(connectedColumns + [app.columnColoring[midnight][event]])
-            nearbyColumns = [max([app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][event]] + [app.columnColoring[midnight][event]])]
-            for node in app.eventsGraph[midnight][event]:
-                nearbyColumns += [app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][node]] + [app.columnColoring[midnight][node]]
-            totalColumns = max(nearbyColumns) + 1
-            event.totalCols = totalColumns
-            cellSize = app.calendarPixelWidth*.95/7/totalColumns
-            column = app.columnColoring[midnight][event]
-            event.pixelLeft = farRight + column*cellSize
-            event.pixelRight = farRight + (column+1)*cellSize
-            # print(event, totalColumns, column, event.pixelLeft, event.pixelRight)
-            # print("\n")
-        ''''''
-    elif isinstance(event, calendarTask):
-        pass
+'''>>> datetimeToCalendar assuming tasks are stored in weekEvents'''
+# def datetimeToCalendar(app, event, day):
+#     if isinstance(event, calendarEvent):
+#         event.day = day
+'''also this is probably not needed anymore
+event not in app.eventsGraph[midnight]
+'''
+#         midnight = app.weekDays[day]
+
+#         event.duration = (event.endTime - event.startTime)
+
+#         event.pixelTop = app.calendarTopMargin + (event.startTime - \
+#             midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight
+#         event.pixelBot = event.pixelTop + \
+#             event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight
+
+#         if event not in app.eventsGraph[midnight] or app.eventsGraph[midnight][event] == set():
+#             event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
+#             event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
+#                 + app.calendarPixelWidth*.95/7)
+#             event.totalCols = 1
+#         else:
+#             farRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
+#             nearbyColumns = [max([app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][event]] + [app.columnColoring[midnight][event]])]
+#             for node in app.eventsGraph[midnight][event]:
+#                 nearbyColumns += [app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][node]] + [app.columnColoring[midnight][node]]
+#             totalColumns = max(nearbyColumns) + 1
+#             event.totalCols = totalColumns
+#             cellSize = app.calendarPixelWidth*.95/7/totalColumns
+#             column = app.columnColoring[midnight][event]
+#             event.pixelLeft = farRight + column*cellSize 
+#             event.pixelRight = farRight + (column+1)*cellSize
+
+#     elif isinstance(event, calendarTask):
+#         pass
 
 '''delete'''
-def connectedComponents(app, node, graph):
-    seen = {}
-    return recursiveConnectedComponentsHelper(node, graph, seen)
+# def connectedComponents(app, node, graph):
+#     seen = {}
+#     return recursiveConnectedComponentsHelper(node, graph, seen)
     
-def recursiveConnectedComponentsHelper(node, graph, seenSet):
-    for other in graph[node]-seenSet:
-        seenSet.add(other)
-        components = [other] + recursiveConnectedComponentsHelper(other, graph, seenSet)
-    return components
+# def recursiveConnectedComponentsHelper(node, graph, seenSet):
+#     for other in graph[node]-seenSet:
+#         seenSet.add(other)
+#         components = [other] + recursiveConnectedComponentsHelper(other, graph, seenSet)
+#     return components
 ''''''
 
 def fromHextoRGB(hexString):
@@ -361,9 +427,19 @@ def calendarMode_timerFired(app):
     pass
 
 def calendarMode_appStopped(app):
+    if app.writeToSaveFile:
+        print("Exiting... \n Saving...")
+        writeToSaveFile(app)
+    else:
+        print("Exiting Xylo Calendar...")
+
+def writeToSaveFile(app):
     pass
 
 def calendarMode_rightPressed(app, event):
+    '''
+    create new event if mouse in calendar
+    '''
     x, y = event.x, event.y
 
     if mouseInCalendar(app, x, y) and app.eventInterleaving == 0:
@@ -481,6 +557,24 @@ def createEvent(app, x, y):
 
         createdEvent = calendarEvent("(no title)", startTime, endTime) # placeholders
 
+        app.eventsGraph[dayClicked][createdEvent] = set()
+
+        redoColoring = False
+
+        for other in app.weekEvents[dayClicked]:
+            if (createdEvent.startTime < other.startTime < createdEvent.endTime) or \
+                (createdEvent.startTime < other.endTime < createdEvent.endTime) or \
+                    (other.startTime < createdEvent.startTime < createdEvent.endTime < other.endTime):
+                app.eventsGraph[dayClicked][other].add(createdEvent)
+                app.eventsGraph[dayClicked][createdEvent].add(other)
+                redoColoring = True
+        
+        if redoColoring:
+            app.columnColoring[dayClicked] = greedyEventColumnColoring(app.eventsGraph[dayClicked])
+            for eventObject in app.weekEvents[dayClicked]:
+                datetimeToCalendar(app, eventObject, dayIndex)
+        else:
+            app.columnColoring[dayClicked][createdEvent] = 0
         datetimeToCalendar(app, createdEvent, dayIndex)
 
         createdEvent.day = dayIndex
@@ -685,7 +779,8 @@ def fixEventPosition(app, event, x, y):
 
     for other in app.weekEvents[currDayDt] - {event}:
         if (event.startTime < other.startTime < event.endTime) or \
-            (event.startTime < other.endTime < event.endTime):
+            (event.startTime < other.endTime < event.endTime) or \
+                (other.startTime < event.startTime < event.endTime < other.endTime):
             todayGraph[event].add(other)
             todayGraph[other].add(event)
     
@@ -835,7 +930,6 @@ def calendarMode_keyPressed(app, event):
                 if event.key == "Enter":
                     app.eventInterleaving = 3
                     checkSelectionValidity(app)
-                    createInterPanel(app)
             elif app.eventInterleaving == 3:
                 if app.interMode == 0.0:
                     if event.key in "APM0123456789:":
@@ -875,6 +969,7 @@ def interleave(app):
             startTime = interval[0] + timedelta(minutes = 5)
             endTime = interval[0] + timedelta(minutes = 65)
             newEventSlice = calendarEvent(eventName, startTime, endTime)
+            app.eventsGraph[app.interDay][newEventSlice] = set()
             datetimeToCalendar(app, newEventSlice, app.interDayIndex)
             newEventSlice.day = app.interDayIndex
             newEventSlice.color = app.interleavedSlices[eventIndex][1]
@@ -1027,6 +1122,8 @@ def checkSelectionValidity(app):
             app.mutableEvents.add(event)
     if len(app.mutableEvents) < 2:
         restartInterleaving(app)
+    else:
+        createInterPanel(app)
 
 def restartInterleaving(app):
     app.eventInterleaving = 0
@@ -1148,19 +1245,22 @@ def drawTasks(app, canvas):
 
 def drawTasksOnCalendar(app, canvas):
     ypos = 400
-    for y in range(5):
+    for y in range(1,2):
         color = fromRGBtoHex(app.colorList[y])
         color = "white"
-        # color = fromRGBtoHex((202, 171, 106))
-        ypos += 50*y
-        radius = 10
+        color = fromRGBtoHex((202, 171, 106))
+        color = fromRGBtoHex((83, 131, 236))
+        # color = app.todayCircleColor
+        # color = app.calendarOuterFont
+        ypos += 360*y
+        radius = 8
 
-        # canvas.create_line(app.calendarLeftMargin + app.calendarPixelWidth/7*3,
-        #                 ypos, app.calendarLeftMargin + app.calendarPixelWidth/7*4 - 5, ypos,
-        #                 fill = color, width = 4)
+        canvas.create_line(app.calendarLeftMargin + app.calendarPixelWidth/7*3,
+                        ypos, app.calendarLeftMargin + app.calendarPixelWidth/7*4 - 5, ypos,
+                        fill = color, width = 4)
         cx = app.calendarLeftMargin + app.calendarPixelWidth/7*4 - radius
         cy = ypos
-        # canvas.create_oval(cx - radius, cy - radius, cx + radius, cy + radius, fill = color, width = 0)
+        canvas.create_oval(cx - radius, cy - radius, cx + radius, cy + radius, fill = color, width = 0)
 
     for task in app.weekTasks:
         pass
@@ -1335,7 +1435,7 @@ def drawEditingPanel(app, canvas):
                 x1, (line + 1)*app.editingPanelHeight//3 + y0, fill = app.calendarEditBorderColor)
 
 
-def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=2, **kwargs):
+def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=3, **kwargs):
     canvas.create_rectangle(x1 + radius, y1, x2 - radius, y2, **kwargs)
     canvas.create_rectangle(x1, y1 + radius, x2, y2 - radius, **kwargs)
     canvas.create_oval(x1, y1, x1 + radius*2, y1 + radius*2, **kwargs)
