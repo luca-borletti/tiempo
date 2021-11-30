@@ -21,7 +21,7 @@ from json import *
 
 optimize selection/dragging storage of x,y pos
 
-do tasks by just store task's day in object
+>>> do tasks by just storing tasks inside week object and casing for EVERYTHING
 
 figure out SLOWNESS
 
@@ -88,6 +88,11 @@ def icsParsing():
     daysToNums = vWeekday.week_days
     colorIndex = 0
     colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207)]
+    # dark blue (74, 92, 205)
+
+    # colorList = [(247, 218, 73), (239, 157, 58), (235, 110, 45), (232, 51, 36), (219, 50, 235), (143, 27, 245), (16, 0, 243), (69, 153, 240), (117, 251, 245), (117, 251, 133), (117, 251, 81), (254, 254, 85)]
+    # colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), (242, 171, 207), (143, 27, 245), (3*69//4, 3*153//4, 3*240//4)]
+    # colorList = [(253, 249, 82), (247, 209, 71), (228, 161, 57), (237, 133, 51), (225, 59, 35), (223, 61, 146), (128, 42, 180), (11, 36, 179), (53, 120, 194), (80, 175, 208), (83, 181, 53), (148, 206, 63)]
 
     for event in calendarInstance.walk("VEVENT"):
         if "RRULE" in event and "BYDAY" in event["RRULE"]:
@@ -132,7 +137,7 @@ def appStarted(app):
     app.calendarTopMargin = 135
     app.calendarEditMargin = 10
 
-    app.calendarWidth = app.width - 300
+    app.calendarWidth = app.width
     app.calendarHeight = app.height
 
     app.calendarPixelHeight = app.calendarHeight - app.calendarTopMargin
@@ -442,9 +447,9 @@ def calendarMode_rightPressed(app, event):
     '''
     x, y = event.x, event.y
 
-    if mouseInCalendar(app, x, y) and app.eventInterleaving == 0:
-        if mouseOnEvent(app, x, y) == None and not app.eventEditing:
-            createEvent(app, x, y)
+    if mouseOnEvent(app, x, y) == None and not app.eventEditing and \
+        app.eventInterleaving == 0:
+        createEvent(app, x, y)
 
 # def calendarMode_rightPressed(app, event):
 #     '''
@@ -538,6 +543,20 @@ def mouseInMode(app, x, y):
     # elif mode == 2.0 and :
     # else:
     #     return None 
+
+def createTask(app, x, y):
+    # assuming that no event is selected… 
+    # if app.taskMode (preface all parts of tasks)
+        # dayIndex = int((x - app.calendarLeftMargin) / (app.calendarPixelWidth/7))
+        # dayClicked = app.weekDays[dayIndex]
+        # create list of all tasks (so popping can happen), but also store them inside
+        
+        # just check to see if mouse is on tasks before events… so that if it is
+        # on both, you override and select task, and also implement deselectTask
+        # to be in every place that 
+        
+        # the events dictionary
+    pass
 
 def createEvent(app, x, y):
     if app.selectedEvent == None:
@@ -1248,8 +1267,8 @@ def drawTasksOnCalendar(app, canvas):
     for y in range(1,2):
         color = fromRGBtoHex(app.colorList[y])
         color = "white"
-        color = fromRGBtoHex((202, 171, 106))
-        color = fromRGBtoHex((83, 131, 236))
+        # color = fromRGBtoHex((202, 171, 106))
+        # color = fromRGBtoHex((83, 131, 236))
         # color = app.todayCircleColor
         # color = app.calendarOuterFont
         ypos += 360*y
