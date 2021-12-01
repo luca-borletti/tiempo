@@ -9,6 +9,8 @@ from icalendar import *
 from pytz import *
 from json import *
 from decimal import *
+from pygame import *
+mixer.init()
 
 '''
         ◊ somehow store max recursive columns for each event
@@ -36,6 +38,23 @@ figure out SLOWNESS
 
 DO TASKS ! DO TASKS ! DO TASKS
 '''
+
+#credit to https://www.cs.cmu.edu/~112/notes/notes-animations-part4.html#playingSounds
+class Sound(object):
+    def __init__(self, path):
+        self.path = path
+        self.loops = 1
+        mixer.music.load(path)
+
+    def isPlaying(self):
+        return bool(mixer.music.get_busy())
+
+    def start(self, loops=1):
+        self.loops = loops
+        mixer.music.play(loops=loops)
+
+    def stop(self):
+        mixer.music.stop()
 
 class calendarEvent(object):
     def __init__(self, summary, startTime, endTime):
@@ -70,6 +89,11 @@ def roundHalfUp(d):
     return int(Decimal(d).to_integral_value(rounding=rounding))
 
 def icsParsing():
+    ###########################################################################
+    # ics parsing
+    ###########################################################################
+    # took literally years to figure this stuff out
+
     tz = timezone("America/New_York")
     dateToday = datetime.now(tz = tz)
 
@@ -120,7 +144,6 @@ def icsParsing():
             if not "UNTIL" in recurrenceList or \
                 recurrenceList["UNTIL"][0] > lastSunday:
                 colorIndex += 1
-
                 repeatingDays = set()
                 for byDay in recurrenceList["BYDAY"]:
                     repeatingDays.add(daysToNums[byDay])
@@ -137,19 +160,44 @@ def icsParsing():
                         test = eventObject
     return week
 
+
+
 def appStarted(app):
+    ###########################################################################
+    # ADMIN CHEATS
+    ###########################################################################
+
     toggleTopFontLightDark = True
     toggleTasksLightDark = True
-    
-    # openingMode, calendarMode, eventCreationMode, taskCreationMode, pomodoroMode
 
-    app.mode = "calendarMode"
-    # url = "https://lh3.googleusercontent.com/proxy/XFVcPr1-SZFLA58dSI5X3dSQhZLELv9CtgkU6Xo3ufSy4CVXu8vd2mY5sZphzvjhkoV4wguChnjWj2DADDcytPesoWkUl6vQk7uRZm_nzUp7I25qhtC_s338fdjB4LYCdntsRDM6zjY5PU-GiV0kcliZ8Y2nhSR3TwYJFEi_zlEbH2TRs7xnjaLNeOIEcbJqQqq1xkU"
-    # app.openingModeImage = app.loadImage(url)
+    #MODES: openingMode, calendarMode
+
+    ###########################################################################
+    # opening mode
+    ###########################################################################
+
+    app.mode = "openingMode"
+    url = "https://lh3.googleusercontent.com/proxy/XFVcPr1-SZFLA58dSI5X3dSQhZLELv9CtgkU6Xo3ufSy4CVXu8vd2mY5sZphzvjhkoV4wguChnjWj2DADDcytPesoWkUl6vQk7uRZm_nzUp7I25qhtC_s338fdjB4LYCdntsRDM6zjY5PU-GiV0kcliZ8Y2nhSR3TwYJFEi_zlEbH2TRs7xnjaLNeOIEcbJqQqq1xkU"
+    url = "openingModeImage.jpg"
+    app.openingModeImage = app.loadImage(url)
+    app.widthIntroImage, app.heightIntroImage = app.openingModeImage.size
+    app.cxIntroImage = app.width//2
+    app.cyIntroImage = app.height//2
 
     app.writeToSaveFile = False
+
     ###########################################################################
-    # calendar background
+    # sounds
+    ###########################################################################
+
+    mixer.init()
+    #credit to https://www.videvo.net/sound-effect/xylophone-comedy-21/452096/
+    app.introSound = Sound("introSound.ogg")
+
+
+
+    ###########################################################################
+    # calendar mode initial variables
     ###########################################################################
 
     app.calendarLeftMargin = 100
@@ -301,11 +349,15 @@ def appStarted(app):
 ''' >>> allow for selection of parsing method (***create new calendar from ics 
 file*** choice or ***use last save***)'''
 
-def openingMode_keyPressed(app, event):
-    app.mode = "calendarMode"
+def openingMode_mousePressed(app, event):
+    x, y = event.x, event.y
+    if app.cxIntroImage - (app.widthIntroImage/2) < x < app.cxIntroImage + (app.widthIntroImage/2)\
+        and app.cyIntroImage - (app.heightIntroImage/2) < y < app.cyIntroImage + (app.heightIntroImage/2):
+        app.introSound.start(loops=1)
+        app.mode = "calendarMode"
 
 def openingMode_redrawAll(app, canvas):
-    canvas.create_image(app.width//2, app.height//2, \
+    canvas.create_image(app.cxIntroImage, app.cyIntroImage, \
         image=ImageTk.PhotoImage(app.openingModeImage))
 
 def greedyHelper(repeatedColorsList):
@@ -470,6 +522,8 @@ def calendarMode_appStopped(app):
     '''
     prints string when app is stopped
     '''
+    app.sound.stop()
+
     if app.writeToSaveFile:
         print("Exiting... \n Saving...")
         # writeToSaveFile(app)
