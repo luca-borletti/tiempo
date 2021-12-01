@@ -76,21 +76,21 @@ class calendarTask(object):
         return f"{self.summary}. At {str(self.dueTime)}"
 
 #credit to https://www.cs.cmu.edu/~112/notes/notes-animations-part4.html#playingSounds
-class Sound(object):
-    def __init__(self, path):
-        self.path = path
-        self.loops = 1
-        mixer.music.load(path)
+# class Sound(object):
+#     def __init__(self, path):
+#         self.path = path
+#         self.loops = 1
+#         mixer.music.load(path)
 
-    def isPlaying(self):
-        return bool(mixer.music.get_busy())
+#     def isPlaying(self):
+#         return bool(mixer.music.get_busy())
 
-    def start(self, loops=1):
-        self.loops = loops
-        mixer.music.play(loops=loops)
+#     def start(self, loops=1):
+#         self.loops = loops
+#         mixer.music.play(loops=loops)
 
-    def stop(self):
-        mixer.music.stop()
+#     def stop(self):
+#         mixer.music.stop()
 
 # credit to https://www.cs.cmu.edu/~112/syllabus.html
 def roundHalfUp(d): 
@@ -205,9 +205,24 @@ def appStarted(app):
 
     mixer.init()
     #credit to https://www.videvo.net/sound-effect/xylophone-comedy-21/452096/
-    app.introSound = Sound("sounds/introSound.ogg")
+    app.introSound = mixer.Sound("sounds/introSound.ogg")
+    app.moveEventSound = mixer.Sound("sounds/moveEventSound.ogg")
+    app.exitSound = mixer.Sound("sounds/exitSound2.ogg")
+    app.createEventSound = mixer.Sound("sounds/createEventSound.ogg")
+    app.interleavingSound = mixer.Sound("sounds/interleavingSound.ogg")
 
+    # mixer.Sound.play(app.moveEventSound)
 
+    mixer.Sound.play(app.exitSound)
+    
+    # app.introSound = Sound("sounds/introSound.ogg")
+    # app.moveEventSound = Sound("sounds/moveEventSound.ogg")
+    # app.exitSound = Sound("sounds/exitSound3.ogg")
+    #     # app.exitSound2 = Sound("sounds/exitSound.ogg")
+    #     # app.exitSound3 = Sound("sounds/exitSound3.ogg")
+    # app.createEventSound = Sound("sounds/createEventSound.ogg")
+    #     # app.createEventSound2 = Sound("sounds/createEventSound2.ogg")
+    # app.interleavingSound = Sound("sounds/interleavingSound.ogg")
 
     ###########################################################################
     # calendar mode initial variables
@@ -376,7 +391,7 @@ def openingMode_mousePressed(app, event):
     x, y = event.x, event.y
     if app.cxIntroImage - (app.widthIntroImage/2) < x < app.cxIntroImage + (app.widthIntroImage/2)\
         and app.cyIntroImage - (app.heightIntroImage/2) < y < app.cyIntroImage + (app.heightIntroImage/2):
-        app.introSound.start(loops=1)
+        # app.introSound.start(loops=1)
         app.mode = "calendarMode"
 
 def openingMode_redrawAll(app, canvas):
@@ -546,7 +561,7 @@ def calendarMode_appStopped(app):
     '''
     prints string when app is stopped
     '''
-    app.introSound.stop()
+    # app.exitSound.start(loops = 1)
 
     if app.writeToSaveFile:
         print("Exiting... \n Saving...")
