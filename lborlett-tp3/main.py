@@ -1,3 +1,7 @@
+### XYLO CALENDAR ###
+# made by Luca Borletti
+# a 15-112 F21 term project
+
 from cmu_112_graphics import *
 from datetime import *
 from random import *
@@ -10,6 +14,8 @@ from pytz import *
 from json import *
 from decimal import *
 from pygame import *
+
+import os
 
 '''
 •••••• fix sound
@@ -92,16 +98,25 @@ class Sound(object):
     def stop(self):
         mixer.music.stop()
 
-# credit to https://www.cs.cmu.edu/~112/syllabus.html
+#credit to https://www.cs.cmu.edu/~112/syllabus.html
 def roundHalfUp(d): 
     rounding = ROUND_HALF_UP
     return int(Decimal(d).to_integral_value(rounding=rounding))
+
+#credit to https://www.cs.cmu.edu/~112/notes/notes-recursion-part2.html#listFiles
+def removeTempFiles(path, suffix='.DS_Store'):
+    if path.endswith(suffix):
+        print(f'Removing file: {path}')
+        os.remove(path)
+    elif os.path.isdir(path):
+        for filename in os.listdir(path):
+            removeTempFiles(path + '/' + filename, suffix)
 
 def icsParsing():
     ###########################################################################
     # ics parsing
     ###########################################################################
-    # took literally years to figure this stuff out
+                                # took literally years to figure this stuff out
 
     tz = timezone("America/New_York")
     dateToday = datetime.now(tz = tz)
@@ -115,45 +130,21 @@ def icsParsing():
         currDate = lastSunday + timedelta(days = weekDay)
         currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
         week[currDate] = set()
-
+        
     calendarFile = open("icsFiles/lgborletti@gmail.com.ics", "r")
+    # calendarFile = open("icsFiles/apourkav@andrew.cmu.edu.ics", "r")
     calendarInstance = Calendar.from_ical(calendarFile.read())
     
-    events = {}
-    eventIndex = 40
-    vEvent = calendarInstance.walk("VEVENT")[eventIndex]
-    startTime = vEvent["DTSTART"].dt.replace(tzinfo=None)
-    endTime =  vEvent["DTEND"].dt.replace(tzinfo=None)
-    time = startTime.time()
-
-    daysToNums = vWeekday.week_days
-    colorIndex = 0
     colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108),
                  (107, 212, 95), (248, 215, 74), (240, 154, 55), 
                  (234, 66, 106), (242, 171, 207)]
-    
-    # other color schemes
-    
-    # dark blue (74, 92, 205)
-
-    # colorList = [(247, 218, 73), (239, 157, 58), (235, 110, 45), 
-    #              (232, 51, 36), (219, 50, 235), (143, 27, 245), (16, 0, 243), 
-    #              (69, 153, 240), (117, 251, 245), (117, 251, 133), 
-    #              (117, 251, 81), (254, 254, 85)]
-
-    # colorList = [(81, 171, 242), (191, 120, 218), (167, 143, 108), 
-    #              (107, 212, 95), (248, 215, 74), (240, 154, 55), (234, 66, 106), 
-    #              (242, 171, 207), (143, 27, 245), (3*69//4, 3*153//4, 3*240//4)]
-
-    # colorList = [(253, 249, 82), (247, 209, 71), (228, 161, 57), (237, 133, 51), 
-    #              (225, 59, 35), (223, 61, 146), (128, 42, 180), (11, 36, 179), 
-    #              (53, 120, 194), (80, 175, 208), (83, 181, 53), (148, 206, 63)]
-
+    daysToNums = vWeekday.week_days
+    colorIndex = 0
     for event in calendarInstance.walk("VEVENT"):
         if "RRULE" in event and "BYDAY" in event["RRULE"]:
             recurrenceList = event["RRULE"]
             if not "UNTIL" in recurrenceList or \
-                recurrenceList["UNTIL"][0] > lastSunday:
+                recurrenceList["UNTIL"][0].date() > lastSunday.date():
                 colorIndex += 1
                 repeatingDays = set()
                 for byDay in recurrenceList["BYDAY"]:
@@ -175,14 +166,14 @@ def icsParsing():
 
 def appStarted(app):
     ###########################################################################
-    # ADMIN CHEATS
+    # ADMIN TOGGLES & CHEATS
     ###########################################################################
 
     app.toggleTopFontLightDark = True
     app.toggleTasksLightDark = True
     app.toggleRoundedRectangle = True
 
-    #MODES: openingMode, calendarMode
+    #MODES: openingMode, fileSelectionMode, calendarMode
 
     ###########################################################################
     # opening mode
@@ -191,6 +182,7 @@ def appStarted(app):
     app.mode = "openingMode"
     path = "images/openingModeImage.jpg"
     app.openingModeImage = app.scaleImage(app.loadImage(path), 1/3)
+    app.calendarModeImage = app.scaleImage(app.loadImage(path), 1/25)
     app.widthIntroImage, app.heightIntroImage = app.openingModeImage.size
     app.cxIntroImage = app.width//2
     app.cyIntroImage = app.height//2
@@ -198,6 +190,18 @@ def appStarted(app):
     app.openingModeBgColor = fromRGBtoHex((31,32,37))
 
     app.writeToSaveFile = False
+
+    ###########################################################################
+    # file selection mode
+    ###########################################################################
+
+    removeTempFiles('icsFiles')
+    app.icsFiles = os.listdir("icsFiles")
+    app.fileSelectMargin = 100
+    app.fileSelectButtons = []
+    # for file in app.icsFiles:
+    #     x0 = 
+    #     y0 = 
 
     ###########################################################################
     # sound variables
@@ -209,32 +213,21 @@ def appStarted(app):
     app.moveEventSound = mixer.Sound("sounds/moveEventSound.ogg")
     app.exitSound = mixer.Sound("sounds/exitSound2.ogg")
     app.createEventSound = mixer.Sound("sounds/createEventSound.ogg")
-    app.interleavingSound = mixer.Sound("sounds/interleavingSound.ogg")
-    
+    app.editEventSound = mixer.Sound("sounds/interleavingSound.ogg")
+    app.editEventSound = mixer.Sound("sounds/createEventSound2.ogg")
 
-    
-    # app.introSound = Sound("sounds/introSound.ogg")
-    # app.moveEventSound = Sound("sounds/moveEventSound.ogg")
-    # app.exitSound = Sound("sounds/exitSound3.ogg")
-    #     # app.exitSound2 = Sound("sounds/exitSound.ogg")
-    #     # app.exitSound3 = Sound("sounds/exitSound3.ogg")
-    # app.createEventSound = Sound("sounds/createEventSound.ogg")
-    #     # app.createEventSound2 = Sound("sounds/createEventSound2.ogg")
-    # app.interleavingSound = Sound("sounds/interleavingSound.ogg")
+    path = "images/volumeOffImage.png"
+    app.volumeOffImage = app.scaleImage(app.loadImage(path), 1/30)
+
+    path = "images/volumeOnImage.png"
+    app.volumeOnImage = app.scaleImage(app.loadImage(path), 1/30)
+    app.widthVolumeImage, app.heightVolumeImage = app.volumeOnImage.size
 
     ###########################################################################
     # calendar mode initial variables
     ###########################################################################
 
-    # path = "images/volumeOffImage.png"
-    # app.volumeOffImage = app.scaleImage(app.loadImage(path), 0)
-
-    # path = "images/volumeOnImage.png"
-    # app.volumeOnImage = app.scaleImage(app.loadImage(path), 0)
-    # app.widthVolumeImage, app.heightVolumeImage = app.volumeOnImage.size
-    # app.cxVolumeImage = 0
-    # app.cyVolumeImage = 0
-
+    app.volumeOn = True
 
     app.calendarLeftMargin = 100
     app.calendarTopMargin = 135
@@ -242,6 +235,9 @@ def appStarted(app):
 
     app.calendarWidth = app.width
     app.calendarHeight = app.height
+    
+    app.cxVolumeImage = app.calendarWidth - 40
+    app.cyVolumeImage = 25
 
     app.calendarPixelHeight = app.calendarHeight - app.calendarTopMargin
     app.calendarPixelWidth = app.calendarWidth - app.calendarLeftMargin
@@ -249,7 +245,8 @@ def appStarted(app):
     app.calendarMonthYearX = 175
     app.calendarMonthYearY = 30
 
-    app.calendarBgColor = fromRGBtoHex((30,32,35))
+    # app.calendarBgColor = fromRGBtoHex((30,32,35)) last minute change
+    app.calendarBgColor = fromRGBtoHex((31,32,37))
     app.calendarFgColor = fromRGBtoHex((70,70,70))
     app.calendarWkndColor = fromRGBtoHex((39,40,42))
 
@@ -376,6 +373,7 @@ def appStarted(app):
 
     ### useful function that resets process
     restartInterleaving(app)
+    updateTimeTracker(app)
 
 
 ################################################################################
@@ -389,7 +387,7 @@ def openingMode_mousePressed(app, event):
     x, y = event.x, event.y
     if app.cxIntroImage - (app.widthIntroImage/2) < x < app.cxIntroImage + (app.widthIntroImage/2)\
         and app.cyIntroImage - (app.heightIntroImage/2) < y < app.cyIntroImage + (app.heightIntroImage/2):
-        # app.introSound.start(loops=1)
+        mixer.Sound.play(app.introSound)
         app.mode = "calendarMode"
 
 def openingMode_redrawAll(app, canvas):
@@ -478,43 +476,6 @@ def datetimeToCalendar(app, event, day):
         event.pixelLeft = farRight + column*cellSize 
         event.pixelRight = farRight + (column+1)*cellSize
 
-
-'''>>> datetimeToCalendar assuming tasks are stored in weekEvents'''
-# def datetimeToCalendar(app, event, day):
-#     if isinstance(event, calendarEvent):
-#         event.day = day
-'''also this is probably not needed anymore
-event not in app.eventsGraph[midnight]
-'''
-#         midnight = app.weekDays[day]
-
-#         event.duration = (event.endTime - event.startTime)
-
-#         event.pixelTop = app.calendarTopMargin + (event.startTime - \
-#             midnight).total_seconds()/app.dayInSeconds*app.calendarPixelHeight
-#         event.pixelBot = event.pixelTop + \
-#             event.duration.total_seconds()/app.dayInSeconds*app.calendarPixelHeight
-
-#         if event not in app.eventsGraph[midnight] or app.eventsGraph[midnight][event] == set():
-#             event.pixelLeft = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
-#             event.pixelRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7 \
-#                 + app.calendarPixelWidth*.95/7)
-#             event.totalCols = 1
-#         else:
-#             farRight = int(app.calendarLeftMargin + day * app.calendarPixelWidth/7)
-#             nearbyColumns = [max([app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][event]] + [app.columnColoring[midnight][event]])]
-#             for node in app.eventsGraph[midnight][event]:
-#                 nearbyColumns += [app.columnColoring[midnight][other] for other in app.eventsGraph[midnight][node]] + [app.columnColoring[midnight][node]]
-#             totalColumns = max(nearbyColumns) + 1
-#             event.totalCols = totalColumns
-#             cellSize = app.calendarPixelWidth*.95/7/totalColumns
-#             column = app.columnColoring[midnight][event]
-#             event.pixelLeft = farRight + column*cellSize 
-#             event.pixelRight = farRight + (column+1)*cellSize
-
-#     elif isinstance(event, calendarTask):
-#         pass
-
 def fromHextoRGB(hexString):
     '''
     convert a hex string to an rgb tuple using indexing and base conversion
@@ -559,7 +520,8 @@ def calendarMode_appStopped(app):
     '''
     prints string when app is stopped
     '''
-    # app.exitSound.start(loops = 1)
+    if app.volumeOn:
+        mixer.Sound.play(app.exitSound)
 
     if app.writeToSaveFile:
         print("Exiting... \n Saving...")
@@ -580,30 +542,6 @@ def calendarMode_rightPressed(app, event):
         app.eventInterleaving == None:
         createEvent(app, x, y)
 
-# def calendarMode_rightPressed(app, event):
-#     '''
-#     check where mouse is on view
-#         - if on event, select event
-#         - if on calendar and an event is selected, deselect the event.
-#     '''
-#     x, y = event.x, event.y
-#     if mouseInCalendar(app, x, y):
-#         if mouseOnButtons(app, x, y):
-#             deselectEvent(app)
-#             pass
-#         else:
-#             dayClicked = mouseOnDay(app, x, y)
-#             clickedEvent = mouseOnEvent(app, x, y)
-#             if clickedEvent != None:
-#                 deselectEvent(app)
-#                 selectEvent(app, clickedEvent, dayClicked, y)
-#                 app.draggedPosition = (x, y)
-#             else:
-#                 # createEvent(app, x, y)
-#                 deselectEvent(app)
-#     else:
-#         deselectEvent(app)
-
 def calendarMode_mousePressed(app, event):
     '''
     check where mouse is on view
@@ -615,18 +553,14 @@ def calendarMode_mousePressed(app, event):
         if app.eventEditing and mouseInEditing(app, x, y):
             app.editingMode = mouseInMode(app, x, y)
         else: 
-            if mouseOnButtons(app, x, y):
+            dayClicked = mouseOnDay(app, x, y)
+            clickedEvent = mouseOnEventForDay(app, x, y, dayClicked)
+            if clickedEvent != None:
                 deselectEvent(app)
-                pass
+                selectEvent(app, clickedEvent, dayClicked, y)
+                app.draggedPosition = (x, y)
             else:
-                dayClicked = mouseOnDay(app, x, y)
-                clickedEvent = mouseOnEventForDay(app, x, y, dayClicked)
-                if clickedEvent != None:
-                    deselectEvent(app)
-                    selectEvent(app, clickedEvent, dayClicked, y)
-                    app.draggedPosition = (x, y)
-                else:
-                    deselectEvent(app)
+                deselectEvent(app)
     elif app.eventInterleaving != None:
         if (app.eventInterleaving == 1):
             if mouseInCalendar:
@@ -643,8 +577,9 @@ def calendarMode_mousePressed(app, event):
                 app.interMode = clickedMode
     else:
         deselectEvent(app)
-        if mouseInTasks(app, x, y):
-            pass
+        if mouseOnVolume(app, x, y):
+            deselectEvent(app)
+            app.volumeOn = not app.volumeOn
 
 def mouseInTasks(app, x, y):
     pass
@@ -668,25 +603,6 @@ def mouseInEditing(app, x, y):
 
 def mouseInMode(app, x, y):
     return (y - app.editingy0) // (app.editingPanelHeight/3)
-    # if mode == 0.0 and (app.editingy0 + 30 - app.calendarEditMargin//2 <= y <= app.editingy1):
-    # elif mode == 1.0 and :
-    # elif mode == 2.0 and :
-    # else:
-    #     return None 
-
-def createTask(app, x, y):
-    # assuming that no event is selected… 
-    # if app.taskMode (preface all parts of tasks)
-        # dayIndex = int((x - app.calendarLeftMargin) / (app.calendarPixelWidth/7))
-        # dayClicked = app.weekDays[dayIndex]
-        # create list of all tasks (so popping can happen), but also store them inside
-        
-        # just check to see if mouse is on tasks before events… so that if it is
-        # on both, you override and select task, and also implement deselectTask
-        # to be in every place that 
-        
-        # the events dictionary
-    pass
 
 def createEvent(app, x, y):
     if app.selectedEvent == None:
@@ -700,11 +616,7 @@ def createEvent(app, x, y):
         startTime = dayClicked + timedelta(seconds = startInSeconds)
         endTime = startTime + timedelta(seconds = 60*60)
 
-        
-        # datetime(dayDt.year, dayDt.month, dayDt.day, y stuff hour, y stuff, tzinfo=None)
-        # endTime = datetime(dayDt.year, dayDt.month, dayDt.day, y stuff hour + 1, y stuff, tzinfo=None)
-
-        createdEvent = calendarEvent("(no title)", startTime, endTime) # placeholders
+        createdEvent = calendarEvent("(no title)", startTime, endTime)
 
         app.eventsGraph[dayClicked][createdEvent] = set()
 
@@ -734,7 +646,12 @@ def createEvent(app, x, y):
         app.selectedColor = tuple([app.deselectedColor[i]//4*3 for i in range(3)])
         createdEvent.color = app.selectedColor
         app.selectedEvent = createdEvent
+
+        if app.volumeOn:
+            mixer.Sound.play(app.createEventSound)
+
         app.weekEvents[dayClicked].add(createdEvent)
+        
 
 def mouseOnDay(app, x, y):
     '''
@@ -751,12 +668,13 @@ def mouseInCalendar(app, x, y):
     return (app.calendarLeftMargin <= x <= app.calendarWidth) and \
         (app.calendarTopMargin <= y <= app.calendarHeight)
 
-def mouseOnButtons(app, x, y):
+def mouseOnVolume(app, x, y):
     '''
     return True if mouse is on a button in view
     return False otherwise
     '''
-    return False
+    return (app.cxVolumeImage - 22.5 < x < app.cxVolumeImage + 22.5) and \
+        (app.cyVolumeImage - 15 < y < app.cyVolumeImage + 15)
 
 def mouseOnEventForDay(app, x, y, dayClicked):
     '''
@@ -792,7 +710,6 @@ def selectEvent(app, event, day, y):
     event.color = app.selectedColor
     app.selectedEvent = event
 
-    # app.selectedProportion = (event.pixelBot - event.pixelTop) / (y - event.pixelTop)
     app.selectedProportion = y - event.pixelTop
 
     app.weekEvents[day].remove(event)
@@ -877,8 +794,6 @@ def fixEventContents(app):
             datetimeToCalendar(app, app.selectedEvent, dayNum)
             app.weekEvents[app.weekDays[event.day]].remove(event)
             app.weekEvents[app.weekDays[event.day]].add(event)
-        
-    ''' else PUT IN A MESSAGE HERE THAT MATTERS WITH TIMER '''
 
 def fixEventPosition(app, event, x, y):
     '''
@@ -918,8 +833,6 @@ def fixEventPosition(app, event, x, y):
     event.startTime = event.startTime.replace(microsecond = 0)
     event.endTime = event.endTime.replace(microsecond = 0)
     
-
-    '''coloring'''
     prevDayDt = app.weekDays[event.day]
     currDayDt = app.weekDays[dayIndex]
 
@@ -945,13 +858,9 @@ def fixEventPosition(app, event, x, y):
 
     app.eventsGraph[currDayDt] = todayGraph
     app.eventsGraph[prevDayDt] = prevGraph
-
-    #idk optimize by choosing changed + multi-element graph events
     
     for eventObject in app.weekEvents[prevDayDt]:
         datetimeToCalendar(app, eventObject, event.day)
-
-    ''''''
 
     event.day = dayIndex
 
@@ -959,16 +868,6 @@ def fixEventPosition(app, event, x, y):
 
     for eventObject in app.weekEvents[currDayDt]:
         datetimeToCalendar(app, eventObject, dayIndex)
-
-# def calendarMode_rightDragged(app, event):
-#     '''
-#     if an event is selected, then change dragged position (where dragged event
-#     will be drawn)
-#     '''
-#     x, y = event.x, event.y
-
-#     if app.selectedEvent != None:
-#         app.draggedPosition = (x, y)
 
 def calendarMode_mouseDragged(app, event):
     '''
@@ -980,20 +879,6 @@ def calendarMode_mouseDragged(app, event):
     if app.selectedEvent != None and not app.eventEditing and app.eventInterleaving == None:
         app.draggedPosition = (x, y)
 
-# def calendarMode_rightReleased(app, event):
-#     '''
-#     if an event is selected, then the selected event is fixed at the x, y 
-#     position
-#     '''
-#     x, y = event.x, event.y
-
-#     if app.selectedEvent != None:
-#         app.draggedPosition = (x, y)
-
-#         fixEventPosition(app, app.selectedEvent, x, y)
-
-#         app.draggedPosition = None
-
 def calendarMode_mouseReleased(app, event):
     '''
     if an event is selected, then the selected event is fixed at the x, y 
@@ -1004,17 +889,12 @@ def calendarMode_mouseReleased(app, event):
     if app.selectedEvent != None and not app.eventEditing and app.eventInterleaving == None:
         app.draggedPosition = (x, y)
 
+        if app.volumeOn:
+            mixer.Sound.play(app.moveEventSound)
+
         fixEventPosition(app, app.selectedEvent, x, y)
 
         app.draggedPosition = None
-
-def calendarMode_keyReleased(app, event):
-    # if app.selectedEvent != None:
-    #     if event.key == "Delete":
-    #         deleteEvent(app)
-    #     if event.key == "Space":
-    #         pass
-    pass
 
 def deleteEvent(app):
     '''
@@ -1051,6 +931,8 @@ def calendarMode_keyPressed(app, event):
                 createEditingPanel(app)
         else:
             if event.key == "Enter" or event.key == "Escape":
+                if app.volumeOn:
+                    mixer.Sound.play(app.editEventSound)
                 fixEventContents(app)
                 app.eventEditing = False
             if app.editingMode == 0.0:
@@ -1112,7 +994,10 @@ def calendarMode_keyPressed(app, event):
             app.eventInterleaving = 1
 
 def interleave(app):
-    # for event in app.interleavedSlices:
+    '''
+    function that goes events and tries to fit them into real number / time
+    intervals using datetime methods
+    '''
     intervalList = copy(app.intervalList)
     intervalIndex = 0
     eventIndex = 0
@@ -1135,26 +1020,17 @@ def interleave(app):
         else:
             intervalIndex += 1
     if len(app.interleavedSlices) == len(app.interleavedEvents):
-        ''' success! '''
         for event in app.interleavedEvents:
             app.weekEvents[app.interDay].add(event)
         for event in app.mutableEvents:
             app.weekEvents[app.weekDays[event.day]].remove(event)
+        
+        if app.volumeOn:
+            mixer.Sound.play(app.interleaveSound)
+        
         restartInterleaving(app)
     else:
         restartInterleaving(app)
-        ''' PUT IN A MESSAGE HERE THAT MATTERS WITH TIMER '''
-
-#     interleavedSlices = copy(app.interleavedSlices)
-#     intervalList = copy(app.intervalList)
-#     interleaveHelper(app, interleavedSlices, intervalList)
-
-# def interleaveHelper(app, eventsLeft, intervalLeft):
-#     if len(eventsLeft) == 0:
-#         return solution
-#     else:
-#         for interval in intervalLeft:
-#             if (interval[1] - interval[0]).total_seconds() >= 60*65:
 
 def interleaveEventsRecursively(app):
     app.interleavedSlices = interleaveEventsHelper(app.slicedEvents)
@@ -1190,7 +1066,7 @@ def sliceMutableEvents(app):
         ceilingHours = ceil(totalHours)
         slicedEventList = []
         for slice in range(ceilingHours):
-            slicedEventList.append((f"{event.summary} #{slice}", event.color))
+            slicedEventList.append((f"{event.summary} #{slice+1}", event.color))
         app.slicedEvents[event] = slicedEventList
 
 def generateTimeInterval(app):
@@ -1393,53 +1269,7 @@ def calendarMode_mouseMoved(app, event):
 
 def calendarMode_redrawAll(app, canvas):
     drawCalendar(app, canvas)
-    drawTasks(app, canvas)
-
-def drawTasks(app, canvas):
-    drawTasksOnCalendar(app, canvas)
-    drawTasksWindow(app, canvas)
-
-def drawTasksOnCalendar(app, canvas):
-    '''
-    task experimentation……… will be implemented post-tp3 on my own time
-    '''
-    ypos = 400
-    for y in range(1,2):
-        # color = fromRGBtoHex(app.colorList[y])
-        # color = fromRGBtoHex((202, 171, 106))
-        # color = fromRGBtoHex((83, 131, 236))
-        # color = app.calendarOuterFont
-        # color = "white"
-        color = app.todayTrackersColor
-        ypos += 360*y
-        radius = 8
-
-        # canvas.create_line(app.calendarLeftMargin + app.calendarPixelWidth/7*3,
-        #                 ypos, app.calendarLeftMargin + app.calendarPixelWidth/7*4 - 5, ypos,
-        #                 fill = "white", width = 4)
-        cx = app.calendarLeftMargin + app.calendarPixelWidth/7*4 - radius
-        cy = ypos
-        # canvas.create_oval(cx - radius, cy - radius, cx + radius, cy + radius, fill = color, width = 0)
-        # canvas.create_text(cx + 1, cy + 1, text = "1", fill = app.calendarOuterFont, font = "Arial 12", anchor = "center")
-        # canvas.create_text(cx, cy, text = "1", fill = "white", font = "Arial 12", anchor = "center")
-
-    for task in app.weekTasks:
-        pass
-
-def drawTasksWindow(app, canvas):
-    drawTasksBackground(app, canvas)
-    drawTasksOnList(app, canvas)
-
-def drawTasksBackground(app, canvas):
-    canvas.create_rectangle(app.tasksLeftMargin, 0,
-                            app.tasksWidth, app.tasksHeight, 
-                            fill = app.tasksBgColor, width = 0)
-    canvas.create_line(app.tasksLeftMargin, 0,
-                       app.tasksLeftMargin, app.tasksHeight, 
-                       fill = app.tasksFgColor, width = 2)
-
-def drawTasksOnList(app, canvas):
-    pass
+    # drawTasks(app, canvas)
 
 def drawCalendar(app, canvas):
     drawWeekBackground(app, canvas)
@@ -1447,6 +1277,15 @@ def drawCalendar(app, canvas):
     drawDraggedEvent(app, canvas)
     drawEditingPanel(app, canvas)
     drawInterleaving(app, canvas)
+    drawVolumeButton(app, canvas)
+
+def drawVolumeButton(app, canvas):
+    if app.volumeOn:
+        canvas.create_image(app.cxVolumeImage, app.cyVolumeImage, \
+            image=ImageTk.PhotoImage(app.volumeOnImage))
+    else:
+        canvas.create_image(app.cxVolumeImage, app.cyVolumeImage, \
+            image=ImageTk.PhotoImage(app.volumeOffImage))
 
 def drawInterleaving(app, canvas):
     drawSelectedDay(app, canvas)
@@ -1739,14 +1578,11 @@ def drawWeekBackground(app, canvas):
             app.calendarTopMargin*7//9, int(app.calendarLeftMargin + app.calendarPixelWidth/7*day), 
             app.calendarHeight, fill = app.calendarFgColor, width = .5)
 
-    # if app.today in app.weekEvents:
-
-
     for hour in range(1, 25, 2):
+        hourPixel = int(app.calendarPixelHeight/24*hour + app.calendarTopMargin)
+        canvas.create_line(app.calendarLeftMargin/7*6, hourPixel, \
+            app.calendarWidth, hourPixel, fill = app.calendarFgColor, width = .5)
         if hour != app.hourObstructing:
-            hourPixel = int(app.calendarPixelHeight/24*hour + app.calendarTopMargin)
-            canvas.create_line(app.calendarLeftMargin/7*6, hourPixel, \
-                app.calendarWidth, hourPixel, fill = app.calendarFgColor, width = .5)
             
             if hour < 12: 
                 hourText = f"{hour}  AM"
@@ -1774,6 +1610,71 @@ def drawWeekBackground(app, canvas):
     canvas.create_text(app.calendarLeftMargin/4*3, app.currentTimePixel, \
         text = app.currentTimeString, fill = app.todayTrackersColor, font = "Arial 11",
         anchor = "e")
+
+################################################################################
+# post-tp3 task experimentation
+################################################################################
+
+def createTask(app, x, y):
+    # assuming that no event is selected… 
+    # if app.taskMode (preface all parts of tasks)
+        # dayIndex = int((x - app.calendarLeftMargin) / (app.calendarPixelWidth/7))
+        # dayClicked = app.weekDays[dayIndex]
+        # create list of all tasks (so popping can happen), but also store them inside
+        
+        # just check to see if mouse is on tasks before events… so that if it is
+        # on both, you override and select task, and also implement deselectTask
+        # to be in every place that 
+        
+        # the events dictionary
+    pass
+
+
+def drawTasks(app, canvas):
+    drawTasksOnCalendar(app, canvas)
+    drawTasksWindow(app, canvas)
+
+def drawTasksOnCalendar(app, canvas):
+    '''
+    task experimentation……… will be implemented post-tp3 on my own time
+    '''
+    ypos = 400
+    for y in range(1,2):
+        # color = fromRGBtoHex(app.colorList[y])
+        # color = fromRGBtoHex((202, 171, 106))
+        # color = fromRGBtoHex((83, 131, 236))
+        # color = app.calendarOuterFont
+        # color = "white"
+        color = app.todayTrackersColor
+        ypos += 360*y
+        radius = 8
+
+        # canvas.create_line(app.calendarLeftMargin + app.calendarPixelWidth/7*3,
+        #                 ypos, app.calendarLeftMargin + app.calendarPixelWidth/7*4 - 5, ypos,
+        #                 fill = "white", width = 4)
+        cx = app.calendarLeftMargin + app.calendarPixelWidth/7*4 - radius
+        cy = ypos
+        # canvas.create_oval(cx - radius, cy - radius, cx + radius, cy + radius, fill = color, width = 0)
+        # canvas.create_text(cx + 1, cy + 1, text = "1", fill = app.calendarOuterFont, font = "Arial 12", anchor = "center")
+        # canvas.create_text(cx, cy, text = "1", fill = "white", font = "Arial 12", anchor = "center")
+
+    for task in app.weekTasks:
+        pass
+
+def drawTasksWindow(app, canvas):
+    drawTasksBackground(app, canvas)
+    drawTasksOnList(app, canvas)
+
+def drawTasksBackground(app, canvas):
+    canvas.create_rectangle(app.tasksLeftMargin, 0,
+                            app.tasksWidth, app.tasksHeight, 
+                            fill = app.tasksBgColor, width = 0)
+    canvas.create_line(app.tasksLeftMargin, 0,
+                       app.tasksLeftMargin, app.tasksHeight, 
+                       fill = app.tasksFgColor, width = 2)
+
+def drawTasksOnList(app, canvas):
+    pass
 
 if __name__ == "__main__":
     runApp(width=1400, height=800)
