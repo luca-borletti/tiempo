@@ -10,7 +10,6 @@ from pytz import *
 from json import *
 from decimal import *
 from pygame import *
-mixer.init()
 
 '''
 •••••• fix sound
@@ -117,7 +116,7 @@ def icsParsing():
         currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
         week[currDate] = set()
 
-    calendarFile = open("lgborletti@gmail.com.ics", "r")
+    calendarFile = open("icsFiles/lgborletti@gmail.com.ics", "r")
     calendarInstance = Calendar.from_ical(calendarFile.read())
     
     events = {}
@@ -179,8 +178,9 @@ def appStarted(app):
     # ADMIN CHEATS
     ###########################################################################
 
-    toggleTopFontLightDark = True
-    toggleTasksLightDark = True
+    app.toggleTopFontLightDark = True
+    app.toggleTasksLightDark = True
+    app.toggleRoundedRectangle = True
 
     #MODES: openingMode, calendarMode
 
@@ -189,9 +189,8 @@ def appStarted(app):
     ###########################################################################
 
     app.mode = "openingMode"
-    url = "https://lh3.googleusercontent.com/proxy/XFVcPr1-SZFLA58dSI5X3dSQhZLELv9CtgkU6Xo3ufSy4CVXu8vd2mY5sZphzvjhkoV4wguChnjWj2DADDcytPesoWkUl6vQk7uRZm_nzUp7I25qhtC_s338fdjB4LYCdntsRDM6zjY5PU-GiV0kcliZ8Y2nhSR3TwYJFEi_zlEbH2TRs7xnjaLNeOIEcbJqQqq1xkU"
-    url = "openingModeImage.jpg"
-    app.openingModeImage = app.scaleImage(app.loadImage(url), 1/3)
+    path = "images/openingModeImage.jpg"
+    app.openingModeImage = app.scaleImage(app.loadImage(path), 1/3)
     app.widthIntroImage, app.heightIntroImage = app.openingModeImage.size
     app.cxIntroImage = app.width//2
     app.cyIntroImage = app.height//2
@@ -206,13 +205,23 @@ def appStarted(app):
 
     mixer.init()
     #credit to https://www.videvo.net/sound-effect/xylophone-comedy-21/452096/
-    app.introSound = Sound("introSound.ogg")
+    app.introSound = Sound("sounds/introSound.ogg")
 
 
 
     ###########################################################################
     # calendar mode initial variables
     ###########################################################################
+
+    # path = "images/volumeOffImage.png"
+    # app.volumeOffImage = app.scaleImage(app.loadImage(path), 0)
+
+    # path = "images/volumeOnImage.png"
+    # app.volumeOnImage = app.scaleImage(app.loadImage(path), 0)
+    # app.widthVolumeImage, app.heightVolumeImage = app.volumeOnImage.size
+    # app.cxVolumeImage = 0
+    # app.cyVolumeImage = 0
+
 
     app.calendarLeftMargin = 100
     app.calendarTopMargin = 135
@@ -243,7 +252,7 @@ def appStarted(app):
     app.calendarOuterFont = fromRGBtoHex((110,110,110))
     app.calendarInnerFont = fromRGBtoHex((255,255,255))
     
-    if toggleTopFontLightDark:
+    if app.toggleTopFontLightDark:
         app.calendarTopFont = fromRGBtoHex((255,255,255))
     else:
         app.calendarTopFont = fromRGBtoHex((110,110,110))
@@ -271,7 +280,7 @@ def appStarted(app):
     app.tasksPixelWidth = app.width - app.tasksLeftMargin
     app.tasksPixelHeight = app.calendarHeight - app.tasksTopMargin
 
-    if toggleTasksLightDark:
+    if app.toggleTasksLightDark:
         app.tasksBgColor = fromRGBtoHex((51,51,51))
         app.tasksFgColor = fromRGBtoHex((0,0,0))
     else:
@@ -1349,7 +1358,7 @@ def createEditingPanel(app):
 def truncateEditingName(app, calendarEvent):
     nameText = calendarEvent.summary
 
-    while(get_pil_text_size(nameText, 15, "arial.ttf")[0] > (app.calendarPixelWidth/7*2 - 55)):
+    while(get_pil_text_size(nameText, 15, "fonts/arial.ttf")[0] > (app.calendarPixelWidth/7*2 - 55)):
             nameText = nameText[:-1]
 
     if nameText != calendarEvent.summary:
@@ -1378,8 +1387,9 @@ def drawTasks(app, canvas):
     drawTasksWindow(app, canvas)
 
 def drawTasksOnCalendar(app, canvas):
-    
-
+    '''
+    task experimentation……… will be implemented post-tp3 on my own time
+    '''
     ypos = 400
     for y in range(1,2):
         # color = fromRGBtoHex(app.colorList[y])
@@ -1391,14 +1401,14 @@ def drawTasksOnCalendar(app, canvas):
         ypos += 360*y
         radius = 8
 
-        canvas.create_line(app.calendarLeftMargin + app.calendarPixelWidth/7*3,
-                        ypos, app.calendarLeftMargin + app.calendarPixelWidth/7*4 - 5, ypos,
-                        fill = "white", width = 4)
+        # canvas.create_line(app.calendarLeftMargin + app.calendarPixelWidth/7*3,
+        #                 ypos, app.calendarLeftMargin + app.calendarPixelWidth/7*4 - 5, ypos,
+        #                 fill = "white", width = 4)
         cx = app.calendarLeftMargin + app.calendarPixelWidth/7*4 - radius
         cy = ypos
-        canvas.create_oval(cx - radius, cy - radius, cx + radius, cy + radius, fill = color, width = 0)
-        canvas.create_text(cx + 1, cy + 1, text = "1", fill = app.calendarOuterFont, font = "Arial 12", anchor = "center")
-        canvas.create_text(cx, cy, text = "1", fill = "white", font = "Arial 12", anchor = "center")
+        # canvas.create_oval(cx - radius, cy - radius, cx + radius, cy + radius, fill = color, width = 0)
+        # canvas.create_text(cx + 1, cy + 1, text = "1", fill = app.calendarOuterFont, font = "Arial 12", anchor = "center")
+        # canvas.create_text(cx, cy, text = "1", fill = "white", font = "Arial 12", anchor = "center")
 
     for task in app.weekTasks:
         pass
@@ -1459,13 +1469,15 @@ def drawSelectedEvents(app, canvas):
     if app.eventInterleaving == 2:
         for event in app.immutableEvents:
             displayColor = tuple([event.color[i]//4*3 for i in range(3)])
-            # canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
-            #                         event.pixelRight, event.pixelBot, 
-            #                         fill = fromRGBtoHex(displayColor),
-                                    # width = 0)
-            drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
-                    event.pixelRight, event.pixelBot, fill = fromRGBtoHex(displayColor), \
-                        width = 0)
+            if app.toggleRoundedRectangle:
+                drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
+                        event.pixelRight, event.pixelBot, fill = fromRGBtoHex(displayColor), \
+                            width = 0)
+            else:
+                canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
+                                        event.pixelRight, event.pixelBot, 
+                                        fill = fromRGBtoHex(displayColor),
+                                        width = 0)
             if len(event.summary) >= 19:
                     eventText = event.summary[:18] + "…"
             else:
@@ -1574,6 +1586,10 @@ def drawEditingPanel(app, canvas):
 
 
 def drawRoundRectangle(canvas, x1, y1, x2, y2, radius=3, **kwargs):
+    '''
+    my own rounded rectangle drawing function (draws 4 circles and 2 rectangles
+    for each rounded rectangle)
+    '''
     canvas.create_rectangle(x1 + radius, y1, x2 - radius, y2, **kwargs)
     canvas.create_rectangle(x1, y1 + radius, x2, y2 - radius, **kwargs)
     canvas.create_oval(x1, y1, x1 + radius*2, y1 + radius*2, **kwargs)
@@ -1612,15 +1628,16 @@ def drawDraggedEvent(app, canvas):
             dragPixelLeft = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7)
             dragPixelRight = int(app.calendarLeftMargin + dayIndex * app.calendarPixelWidth/7 \
                 + app.calendarPixelWidth*.95/7)
-        
-        drawRoundRectangle(canvas, dragPixelLeft + .5, dragPixelTop, \
-                dragPixelRight, dragPixelBot, fill = fromRGBtoHex(event.color), \
-                    width = 0)
 
-        # canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
-        #                         dragPixelRight, dragPixelBot, 
-        #                         fill = fromRGBtoHex(event.color),
-        #                         width = 0)
+        if app.toggleRoundedRectangle:
+            drawRoundRectangle(canvas, dragPixelLeft + .5, dragPixelTop, \
+                    dragPixelRight, dragPixelBot, fill = fromRGBtoHex(event.color), \
+                        width = 0)
+        else:
+            canvas.create_rectangle(dragPixelLeft + .5, dragPixelTop, 
+                                    dragPixelRight, dragPixelBot, 
+                                    fill = fromRGBtoHex(event.color),
+                                    width = 0)
         
         if len(event.summary) >= 19:
             eventText = event.summary[:18] + "…"
@@ -1641,21 +1658,21 @@ def drawWeekEvents(app, canvas):
     for index in range(7):
         weekDay = app.weekDays[index]
         for event in app.weekEvents[weekDay]:
-            drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
-                event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
-                    width = 0)
-            # canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
-            #                     event.pixelRight, event.pixelBot, 
-            #                     fill = fromRGBtoHex(event.color),
-            #                     width = 0)
+            if app.toggleRoundedRectangle:
+                drawRoundRectangle(canvas, event.pixelLeft + .5, event.pixelTop, \
+                    event.pixelRight, event.pixelBot, fill = fromRGBtoHex(event.color), \
+                        width = 0)
+            else:
+                canvas.create_rectangle(event.pixelLeft + .5, event.pixelTop, 
+                                    event.pixelRight, event.pixelBot, 
+                                    fill = fromRGBtoHex(event.color),
+                                    width = 0)
             maxLength = 19//(event.totalCols)
             if len(event.summary) >= maxLength:
                 eventText = event.summary[:(maxLength-1)] + "…"
             else:
                 eventText = event.summary
 
-
-            "toggle"
             canvas.create_text(event.pixelLeft + 3, event.pixelTop + 1, 
                             text = eventText, anchor = "nw",
                             fill = app.calendarOuterFont, font = "Arial 12")
