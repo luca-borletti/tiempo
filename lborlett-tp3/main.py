@@ -76,21 +76,21 @@ class calendarTask(object):
         return f"{self.summary}. At {str(self.dueTime)}"
 
 #credit to https://www.cs.cmu.edu/~112/notes/notes-animations-part4.html#playingSounds
-# class Sound(object):
-#     def __init__(self, path):
-#         self.path = path
-#         self.loops = 1
-#         mixer.music.load(path)
+class Sound(object):
+    def __init__(self, path):
+        self.path = path
+        self.loops = 1
+        mixer.music.load(path)
 
-#     def isPlaying(self):
-#         return bool(mixer.music.get_busy())
+    def isPlaying(self):
+        return bool(mixer.music.get_busy())
 
-#     def start(self, loops=1):
-#         self.loops = loops
-#         mixer.music.play(loops=loops)
+    def start(self, loops=1):
+        self.loops = loops
+        mixer.music.play(loops=loops)
 
-#     def stop(self):
-#         mixer.music.stop()
+    def stop(self):
+        mixer.music.stop()
 
 # credit to https://www.cs.cmu.edu/~112/syllabus.html
 def roundHalfUp(d): 
@@ -210,10 +210,8 @@ def appStarted(app):
     app.exitSound = mixer.Sound("sounds/exitSound2.ogg")
     app.createEventSound = mixer.Sound("sounds/createEventSound.ogg")
     app.interleavingSound = mixer.Sound("sounds/interleavingSound.ogg")
+    
 
-    # mixer.Sound.play(app.moveEventSound)
-
-    mixer.Sound.play(app.exitSound)
     
     # app.introSound = Sound("sounds/introSound.ogg")
     # app.moveEventSound = Sound("sounds/moveEventSound.ogg")
