@@ -14,7 +14,6 @@ from pytz import *
 from json import *
 from decimal import *
 from pygame import *
-
 import os
 
 '''
@@ -131,7 +130,8 @@ def icsParsing():
         currDate = currDate.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo = None)
         week[currDate] = set()
         
-    calendarFile = open("icsFiles/lgborletti@gmail.com.ics", "r")
+    # calendarFile = open("icsFiles/lucagborletti@gmail.com.ics", "r")
+    calendarFile = open("icsFiles/lgborletti@gmail.com2.ics", "r")
     # calendarFile = open("icsFiles/apourkav@andrew.cmu.edu.ics", "r")
     calendarInstance = Calendar.from_ical(calendarFile.read())
     
