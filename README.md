@@ -1,6 +1,6 @@
 15-112 F21 Term Project by Luca Borletti
 
-# tiempo
+# xylo
 ### calendar and productivity app 
 
 ## Built With
